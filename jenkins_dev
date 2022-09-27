@@ -1,0 +1,39 @@
+node('buildagent'){
+    stage('pull from git'){
+        git branch:'dev' , url:'git@github.com:Svayamtech/New-ERP-UI.git'
+    }
+    stage('install node module'){
+        sh '''
+            cid=$(git rev-parse HEAD)
+            echo 'Building for commit id =' $cid
+            dts=$(date "+%d-%m-%y %H:%M:%S")
+            echo 'Built on' $dts
+            bid=$cid-$dts
+            echo 'Build id =' $bid
+            npm i
+            npm i socket.io
+            sed -i "s/erpbuild/$bid/" src/app/portal/portal-layouts/portal-footer/portal-footer.component.html
+            sed -i "s/erpbuild/$bid/" src/app/portal/portal-layouts/portal-layouts.component.html
+            sed -i "s/erp.upda.co.in/erpdev.upda.co.in/" src/app/authentication.service.ts
+            sed -i "s/preprod.upda.co.in/erpdev.upda.co.in/" src/app/authentication.service.ts
+            sed -i "s/erpuat.upda.co.in/erpdev.upda.co.in/" src/app/authentication.service.ts   
+        '''
+    }
+    stage('build'){
+     sh 'node --max_old_space_size=12288 node_modules/@angular/cli/bin/ng build --prod --base-href="/"'
+         
+    }
+    dir('/home/jenkins/buildagents/workspace/ci_cd_dev_ui/dist') {
+        stash 'build'
+    }
+} 
+node('erpdev') {
+    sh '''
+        rm -fr /var/tmp/erp_emp_portal/dist_last/*
+        cp -r /var/www/erpdev.upda.co.in/html /var/tmp/erp_emp_portal/dist_last
+        
+    '''
+    dir('/var/www/erpdev.upda.co.in/html/') {
+        unstash 'build'
+    }
+ }

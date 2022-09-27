@@ -1,0 +1,388 @@
+<div class="page-content fade-in-up">
+    <br>
+
+    <div class="row">
+        <button style="margin-left:1%;" class="btn btn-link" (click)="back()"><i class="fa fa-arrow-left"
+                aria-hidden="true"></i>{{mainService.allLableShowObj[mainService.language_cd+'PROFILE34']}}</button>
+    </div>
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <br>
+                <div class="ibox-head">
+                    <div class="ibox-title">{{mainService.allLableShowObj[mainService.language_cd+'PROFILE2']}}</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                {{mainService.allLableShowObj[mainService.language_cd+'PROFILE3']}}</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#tab-5" data-toggle="tab"><i class="fa fa-users"></i> Establishment Info</a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i class="ti-settings"></i>
+                                {{mainService.allLableShowObj[mainService.language_cd+'PROFILE4']}}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-announcement"></i> 
+                                {{mainService.allLableShowObj[mainService.language_cd+'PROFILE5']}} </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-4" data-toggle="tab"><i class="ti-announcement"></i>
+                                {{mainService.allLableShowObj[mainService.language_cd+'PROFILE6']}} </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <img [src]="imgURL" class="img-circle" width="100px" height="100px" />
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <h5 class="font-strong m-b-10 m-t-10">{{userInfoObj['party_name']}}</h5>
+                                    <div class="m-b-20 text-muted">({{roles}})</div>
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-3">
+                                    <h6>Party Id:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <label>{{userInfoObj['le_id']}}</label>
+                                </div>
+                                <div class="col-2"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-3">
+                                    <h6>Emp Id:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <label>{{userInfoObj['emp_id']}}</label>
+                                </div>
+                                <div class="col-2"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-3">
+                                    <h6>{{mainService.allLableShowObj[mainService.language_cd+'PROFILE7']}}:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <label>{{userInfoObj['contact_email']}}</label>
+                                </div>
+                                <div class="col-2"></div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-3">
+                                    <h6>{{mainService.allLableShowObj[mainService.language_cd+'PROFILE8']}}:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <label>{{userInfoObj['phone_no']}}</label>
+                                </div>
+                                <div class="col-2"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-3">
+                                    <h6>Date Of Birth:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <label>{{userInfoObj['party_dob']}}</label>
+                                </div>
+                                <div class="col-2"></div>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-3"></div>
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2% ;">{{mainService.allLableShowObj[mainService.language_cd+'PROFILE14']}} :</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <input class="form-control" [(ngModel)]="updateObj['party_name']">
+                                    </div>
+                                    <div class="col-3"></div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-3"></div>
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2% ;">{{mainService.allLableShowObj[mainService.language_cd+'PROFILE15']}} :</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <input class="form-control" [(ngModel)]="updateObj['contact_email']">
+                                    </div>
+                                    <div class="col-3"></div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-3"></div>
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2% ;">{{mainService.allLableShowObj[mainService.language_cd+'PROFILE16']}} :</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <input class="form-control" [(ngModel)]="updateObj['phone_no']">
+                                    </div>
+                                    <div class="col-3"></div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-3"></div>
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2% ;">Date Of Birth :</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <input class="form-control" type="date" [(ngModel)]="updateObj['party_dob']">
+                                    </div>
+                                    <div class="col-3"></div>
+                                </div>
+                                <br>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" type="button" (click)="updateEmpInfo()">{{mainService.allLableShowObj[mainService.language_cd+'PROFILE17']}}</button>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3 ">
+                                    <h6 style="margin-left:2% ;">{{mainService.allLableShowObj[mainService.language_cd+'PROFILE18']}}:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="password" placeholder="{{mainService.allLableShowObj[mainService.language_cd+'PROFILE22']}}" class="form-control" [(ngModel)]="pass['oldident_verify_secret']">
+                                </div>
+                                <div class="col-3"></div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3 ">
+                                    <h6 style="margin-left:2% ;">{{mainService.allLableShowObj[mainService.language_cd+'PROFILE19']}}:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="password" placeholder="{{mainService.allLableShowObj[mainService.language_cd+'PROFILE19']}}" class="form-control" [(ngModel)]="pass['ident_verify_secret']">
+                                </div>
+                                <div class="col-3"></div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+
+                                <div class="col-3 ">
+                                    <h6 style="margin-left:2% ;">{{mainService.allLableShowObj[mainService.language_cd+'PROFILE20']}}:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="password" placeholder="{{mainService.allLableShowObj[mainService.language_cd+'PROFILE20']}}" class="form-control" [(ngModel)]="pass['c_ident_verify_secret']">
+                                </div>
+                                <div class="col-3"></div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="updatePassword()">{{mainService.allLableShowObj[mainService.language_cd+'PROFILE17']}}</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-4">
+                            <br>
+                            <div class="row">
+                                <div class="col-12  text-center">
+                                    <img [src]="imgURL" class="img-circle" width="150" height="150">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-6" style="margin-left: 20%">
+                                    <input #file type="file" accept=".png, .jpg, .jpeg" name="pimage" ng2FileSelect [uploader]="uploader" class="form-control" style="border-color: black" (change)="onFileUpload($event,file.files)">
+                                </div>
+                                <div class="col-3">
+                                    <button type="button" [disabled]="!uploader.getNotUploadedItems().length" class="btn btn-info" (click)='Upload()'><i class="fa fa-upload"
+                                            aria-hidden="true">&nbsp;</i>{{mainService.allLableShowObj[mainService.language_cd+'PROFILE21']}}</button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-5">
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-primary" (click)="print1()">PRINT</button>
+                                </div>
+                            </div>
+
+                            <div id="p">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">Legal Name :</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['emp_name']}}
+                                    </div>
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">Employee ID</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        VDA{{getNumberFormat(personalInfoObj['emp_id'])}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">Bank Account No:</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['acct_no']}}
+                                    </div>
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">Adhar No:</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['emp_adhar_no']}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">DOB:</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['emp_dob']}}
+                                    </div>
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">Email:</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['emp_email']}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">Father/Husband Name:</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['emp_father_name']}}
+                                    </div>
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">Identification Mark:</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['identification_mark']}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">Joining Date:</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['joining_date']}}
+                                    </div>
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;"> Joining Of Service Date:</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['joining_service_date']}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">Marital Status:</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['marital_status']}}
+                                    </div>
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">PF Account No:</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['pf_status_no']}}
+                                    </div>
+                                </div>
+                                <br>
+                                <br>
+                                <table class="table" style="border: black;">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>DESIGNATION</th>
+
+                                            <th>CLASS
+                                            </th>
+                                            <th>GRADE PAY
+                                            </th>
+                                            <th>PAY BAND
+                                            </th>
+                                            <th>LEVEL
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let ob of estabInfo">
+                                            <td>
+                                                <h6>{{ob['designation_code']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['class_code']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['grade_pay_code']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['pay_scale_code']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['level_code']}}</h6>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style type="text/css">
+        .profile-social a {
+            font-size: 16px;
+            margin: 0 10px;
+            color: #999;
+        }
+        
+        .profile-social a:hover {
+            color: #485b6f;
+        }
+        
+        .profile-stat-count {
+            font-size: 22px
+        }
+    </style>
+</div>
+<ngx-spinner>Loading...</ngx-spinner>

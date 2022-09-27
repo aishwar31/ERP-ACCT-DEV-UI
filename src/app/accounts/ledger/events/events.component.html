@@ -1,0 +1,988 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title"  href="#tab-1" data-toggle="tab" >{{mainService.allLableShowObj[mainService.language_cd+'Business_Event1']}}
+                        <!-- MANAGE Business Event -->
+                    </div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item" *ngIf="list_flag==true">
+                            <a class="nav-link"  (click)="refressadd()" ><i
+                                    class="ti-bar-chart"></i>{{mainService.allLableShowObj[mainService.language_cd+'Business_Event3']}}
+                                <!--  All Business Event List -->
+                            </a>
+                        </li>
+                        <li class="nav-item"  *ngIf="create_flag==true">
+                            <a class="nav-link "(click)="refressadd()"><i
+                                    class="fa fa-plus-circle"></i>
+                                {{mainService.allLableShowObj[mainService.language_cd+'Business_Event4']}}
+                                <!-- Create Business Event -->
+                            </a>
+                        </li>
+                        <li class="nav-item"  *ngIf="update_flag==true">
+                            <a class="nav-link " (click)="refressadd()"><i
+                                    class="ti-settings"></i>
+                                {{mainService.allLableShowObj[mainService.language_cd+'Business_Event5']}}
+                                <!-- Update
+                                Business Event -->
+                            </a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1"  *ngIf="list_flag==true">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    <h6>{{mainService.allLableShowObj[mainService.language_cd+'Business_Event6']}}
+                                        <!-- Select Project -->:
+                                    </h6>
+                                </div>
+                                <div class="col-3">
+                                    <!-- <ng-select [items]="allProjectHier" bindLabel="desc"  bindValue="leaf_cd" (change)="changeHier('project')"
+                                    [multiple]="false" placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Business_Event6']}}" [(ngModel)]="selectObj['proj_cd']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="proj_cd"> 
+
+                                    </ng-select> -->
+                                    {{projectObj[selectObj['proj_cd']]}}
+                                </div>
+                                <div class="col-1">
+                                    <button type="button" class="btn btn-outline-primary"
+                                        (click)="Select('project')">Select</button>
+
+                                </div>
+                                <div class="col-2 text-right">
+                                    <h6>{{mainService.allLableShowObj[mainService.language_cd+'Business_Event7']}}
+                                        <!-- Select Product -->:
+                                    </h6>
+                                </div>
+                                <div class="col-3">
+                                  
+                                    <!-- Select Product -->
+                                    <!-- <ng-select [items]="allProductHier" bindLabel="desc"  bindValue="leaf_cd" (change)="changeHier('product')"
+                                    [multiple]="false" placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Business_Event7']}}" [(ngModel)]="selectObj['prod_cd']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="prod_cd"> 
+
+                                    </ng-select> -->
+                                    {{productObj[selectObj['prod_cd']]}}
+
+                                </div>
+                                <div class="col-1">
+                                    <button type="button" class="btn btn-outline-primary"
+                                        (click)="Select('product')">Select</button>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    <h6>{{mainService.allLableShowObj[mainService.language_cd+'Business_Event8']}}
+                                        <!-- Select Activity -->:
+                                    </h6>
+                                </div>
+                                <div class="col-3">
+                                 
+                                    <!-- Select Activity -->
+                                    {{activityObj[selectObj['act_cd']]}}
+                                    <!-- <ng-select [items]="allActivityHier" bindLabel="desc"  bindValue="leaf_cd" (change)="changeHier('activity')"
+                                    [multiple]="false" placeholder="Select Activity" [(ngModel)]="selectObj['act_cd']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="act_cd"> 
+
+                                    </ng-select> -->
+
+                                </div>
+                                <div class="col-1">
+                                    <button type="button" class="btn btn-outline-primary"
+                                        (click)="Select('activity')">Select</button>
+
+                                </div>
+                                <div class="col-2 text-right">
+                                    <h6>{{mainService.allLableShowObj[mainService.language_cd+'Business_Event9']}}
+                                        <!-- Select Budget -->:
+                                    </h6>
+                                </div>
+                                <div class="col-3">
+                                 
+                                    <!-- Select Budget -->
+                                    {{budgetObj[selectObj['bud_cd']]}}
+                                    <!-- <ng-select [items]="allBudgetHier" bindLabel="desc"  bindValue="leaf_cd" (change)="changeHier('budget')"
+                                    [multiple]="false" placeholder="Select Budget" [(ngModel)]="selectObj['bud_cd']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="bud_cd"> 
+
+                                    </ng-select> -->
+                                </div>
+                                <div class="col-1">
+                                    <button type="button" class="btn btn-outline-primary"
+                                        (click)="Select('budget')">Select</button>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button type="button" class="btn btn-info"
+                                        (click)="getevents()">List  
+                                        <!-- Submit -->
+                                    </button>      
+
+                                </div>
+
+                            </div>
+                            <div class=" table-container ">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <mat-form-field style="margin-left: 2%">
+                                            <input matInput (keyup)="applyFilter($event.target.value)"
+                                                placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Business_Event11']}}">
+                                            <!-- Filter -->
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        </div>
+                                    <div class="col-4 text-right">
+                                    <button type="button" class="btn btn-primary"  href="#tab-2" data-toggle="tab"
+                                        (click)="createNew()">Create New
+                                        <!-- Submit -->
+                                    </button>
+                                    </div>
+
+                                </div>
+
+                                <div class="example-container">
+                                    <table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+
+                                        <ng-container matColumnDef="event_code">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <b>{{mainService.allLableShowObj[mainService.language_cd+'Business_Event12']}}
+                                                    <!-- Event Code -->
+                                                </b>
+                                            </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.event_code}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="event_desc">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                                <b>{{mainService.allLableShowObj[mainService.language_cd+'Business_Event13']}}
+                                                    <!-- Event Description -->
+                                                </b>
+                                            </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.event_desc }} </td>
+                                        </ng-container>
+
+
+
+                                        <ng-container matColumnDef="action">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                                {{mainService.allLableShowObj[mainService.language_cd+'Business_Event14']}}
+                                                <!-- Action -->
+                                            </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                                <button class="btn btn-outline-primary"
+                                                    (click)="edit(element,i)"  href="#tab-3" data-toggle="tab">{{mainService.allLableShowObj[mainService.language_cd+'Business_Event15']}}
+                                                    <!-- Update -->
+                                                </button>
+                                                <button class="btn btn-outline-danger"
+                                                    (click)="deleteevent(element,i)">{{mainService.allLableShowObj[mainService.language_cd+'Business_Event16']}}
+                                                    <!-- Delete -->
+                                                </button>
+
+                                            </td>
+
+                                        </ng-container>
+
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true">
+                                        </tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                        </tr>
+                                    </table>
+                                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade"  *ngIf="create_flag==true" id="tab-2">
+                            <br>
+                            <div class="col-12 text-right">
+
+                                <button class="btn btn-primary"
+                                            (click)="listfunc()">Back to list</button>
+
+                             </div>
+                            <!-- <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Select Record :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="data" bindLabel="record_business_name" bindValue="record_code" [multiple]="false" placeholder="" [(ngModel)]="obj['event_record_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+        
+                                </div>
+        
+                            </div>
+                            <br> -->
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>{{mainService.allLableShowObj[mainService.language_cd+'Business_Event9']}}
+                                        <!-- Select Budget --> :
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <!-- <ng-select [items]="allBudgetHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['bud_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="bud_cd">
+                                    </ng-select> -->
+                                    {{budgetObj[obj['bud_cd']]}}
+
+
+                                </div>
+                                <div  class="col-1">
+                                    <button type="button" class="btn btn-primary"
+                                    (click)="selectCreate('budget')">Select</button>
+                                </div>
+                            </div>
+                            <br>
+
+
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> {{mainService.allLableShowObj[mainService.language_cd+'Business_Event6']}}
+                                        <!-- Select Project --> :
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <!-- <ng-select [items]="allProjectHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['proj_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="proj_cd">
+                                    </ng-select> -->
+                                    {{projectObj[obj['proj_cd']]}}
+
+                                </div>
+                                <div  class="col-1">
+                                    <button type="button" class="btn btn-primary"
+                                    (click)="selectCreate('project')">Select</button>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> {{mainService.allLableShowObj[mainService.language_cd+'Business_Event7']}}
+                                        <!-- Select Product --> :
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <!-- <ng-select [items]="allProductHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['prod_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="prod_cd">
+                                    </ng-select> -->
+                                    {{productObj[obj['prod_cd']]}}
+
+                                </div>
+                                <div  class="col-1">
+                                    <button type="button" class="btn btn-primary"
+                                    (click)="selectCreate('product')">Select</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>{{mainService.allLableShowObj[mainService.language_cd+'Business_Event8']}}
+                                        <!--  Select Activity --> :
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <!-- <ng-select [items]="allActivityHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['act_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="act_cd">
+                                    </ng-select> -->
+                                    {{activityObj[obj['act_cd']]}}
+
+                                </div>
+                                <div  class="col-1">
+                                    <button type="button" class="btn btn-primary"
+                                    (click)="selectCreate('activity')">Select</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>{{mainService.allLableShowObj[mainService.language_cd+'Business_Event12']}}
+                                        <!--  Event Code --> :
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="obj['event_code']"
+                                        name="event_code"
+                                        placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Business_Event12']}}">
+                                    <!-- Event Code -->
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>{{mainService.allLableShowObj[mainService.language_cd+'Business_Event13']}}
+                                        <!--  Event Description --> :
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <textarea class="form-control" name="scheme_name" [(ngModel)]="obj['event_desc']"
+                                        placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Business_Event13']}}"><!-- Event Desc -->
+                                    </textarea>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-primary"
+                                        (click)="addNewRow()">{{mainService.allLableShowObj[mainService.language_cd+'Business_Event17']}}
+                                        <!-- Save -->
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-3" *ngIf="update_flag==true">
+                            <br>
+                            <div class="col-12 text-right">
+                                <button class="btn btn-primary"
+                                            (click)="listfunc()">Back to list</button>
+                            </div>
+                            <!-- <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>Select Record :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="data" bindLabel="record_business_name" bindValue="record_code" [multiple]="false" placeholder="" [(ngModel)]="obj['event_record_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br> -->
+                            
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>{{mainService.allLableShowObj[mainService.language_cd+'Business_Event9']}}
+                                        <!-- Select Budget --> :
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <!-- <ng-select [items]="allBudgetHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['bud_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="bud_cd">
+                                    </ng-select> -->
+                                    {{budgetObj[obj['bud_cd']]}}
+
+
+                                </div>
+                                <div  class="col-1">
+                                    <button type="button" class="btn btn-primary"
+                                    (click)="selectCreate('budget')">Select</button>
+                                </div>
+                            </div>
+                            <br>
+
+
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> {{mainService.allLableShowObj[mainService.language_cd+'Business_Event6']}}
+                                        <!-- Select Project --> :
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <!-- <ng-select [items]="allProjectHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['proj_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="proj_cd">
+                                    </ng-select> -->
+                                    {{projectObj[obj['proj_cd']]}}
+
+                                </div>
+                                <div  class="col-1">
+                                    <button type="button" class="btn btn-primary"
+                                    (click)="selectCreate('project')">Select</button>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> {{mainService.allLableShowObj[mainService.language_cd+'Business_Event7']}}
+                                        <!-- Select Product --> :
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <!-- <ng-select [items]="allProductHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['prod_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="prod_cd">
+                                    </ng-select> -->
+                                    {{productObj[obj['prod_cd']]}}
+
+                                </div>
+                                <div  class="col-1">
+                                    <button type="button" class="btn btn-primary"
+                                    (click)="selectCreate('product')">Select</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>{{mainService.allLableShowObj[mainService.language_cd+'Business_Event8']}}
+                                        <!--  Select Activity --> :
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <!-- <ng-select [items]="allActivityHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['act_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="act_cd">
+                                    </ng-select> -->
+                                    {{activityObj[obj['act_cd']]}}
+
+                                </div>
+                                <div  class="col-1">
+                                    <button type="button" class="btn btn-primary"
+                                    (click)="selectCreate('activity')">Select</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> {{mainService.allLableShowObj[mainService.language_cd+'Business_Event12']}}
+                                        <!-- Event Code --> :
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="obj['event_code']"
+                                        name="event_code"
+                                        placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Business_Event12']}}" disabled>
+                                    <!-- Event Code -->
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> {{mainService.allLableShowObj[mainService.language_cd+'Business_Event13']}}
+                                        <!-- Event Description --> :
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <textarea class="form-control" name="scheme_name" [(ngModel)]="obj['event_desc']"
+                                        placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Business_Event13']}}"><!-- Event Desc -->
+                                    </textarea>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-primary"
+                                        (click)="update()">{{mainService.allLableShowObj[mainService.language_cd+'Business_Event5']}}
+                                        <!-- Update -->
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal" id="select">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> Select Event :</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <br>
+                <div class="row">
+                    <div class="col-3 text-center">
+
+
+                    </div>
+                    <div class="col-3 text-center"
+                        style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                        <h6><b>Code</b></h6>
+
+
+                    </div>
+                    <div class="col-3 text-center"
+                        style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                        <h6><b> Value</b></h6>
+
+
+                    </div>
+
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Level 1:
+                    </div>
+                    <div class="col-3">
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['lvl1_cd']" disabled>
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select [items]="level1" bindLabel="lvl1_value" bindValue="lvl1_cd" (change)="onChangeLvl1()"
+                            [multiple]="false" placeholder="Select Level 1 " [(ngModel)]="HierSelectObj['lvl1_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl1_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Level 2 :
+                    </div>
+                    <div class="col-3">
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['lvl2_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select [items]="level2" bindLabel="lvl2_value" bindValue="lvl2_cd" (change)="onChangeLvl2()"
+                            [multiple]="false" placeholder="Select Level 2" [(ngModel)]="HierSelectObj['lvl2_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl2_value">
+                        </ng-select>
+                    </div>
+
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 3 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['lvl3_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select [items]="level3" bindLabel="lvl3_value" bindValue="lvl3_cd" (change)="onChangeLvl3()"
+                            [multiple]="false" placeholder="Select Level 3" [(ngModel)]="HierSelectObj['lvl3_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl3_value">
+                        </ng-select>
+                    </div>
+
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 4 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['lvl4_cd']" disabled>
+
+                    </div>
+
+
+                    <div class="col-3">
+                        <ng-select [items]="level4" bindLabel="lvl4_value" bindValue="lvl4_cd" (change)="onChangeLvl4()"
+                            [multiple]="false" placeholder="Select Level 4" [(ngModel)]="HierSelectObj['lvl4_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl4_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 5 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['lvl5_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <ng-select [items]="level5" bindLabel="lvl5_value" bindValue="lvl5_cd" (change)="onChangeLvl5()"
+                            [multiple]="false" placeholder="Select Level 5" [(ngModel)]="HierSelectObj['lvl5_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl5_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 6 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['lvl6_cd']" disabled>
+
+                    </div>
+
+
+                    <div class="col-3">
+
+                        <ng-select [items]="level6" bindLabel="lvl6_value" bindValue="lvl6_cd" (change)="onChangeLvl6()"
+                            [multiple]="false" placeholder="Select Level 6" [(ngModel)]="HierSelectObj['lvl6_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl6_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 7 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['lvl7_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <ng-select [items]="level7" (change)="onChangeLvl7()" bindLabel="lvl7_value" bindValue="lvl7_cd"
+                            [multiple]="false" placeholder="Select Level 7" [(ngModel)]="HierSelectObj['lvl7_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl7_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Leaf :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input disabled type="text" class="form-control" [(ngModel)]="HierSelectObj['leaf_cd']">
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <input disabled type="text" class="form-control" [(ngModel)]="HierSelectObj['leaf_value']">
+
+                    </div>
+                </div>
+                <br>
+
+
+
+
+
+
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary" (click)="SubmitSelectedListHier()">Submit</button>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="selectCreate">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> Select Event :</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <br>
+                <div class="row">
+                    <div class="col-3 text-center">
+
+
+                    </div>
+                    <div class="col-3 text-center"
+                        style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                        <h6><b>Code</b></h6>
+
+
+                    </div>
+                    <div class="col-3 text-center"
+                        style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                        <h6><b> Value</b></h6>
+
+
+                    </div>
+
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Level 1:
+                    </div>
+                    <div class="col-3">
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['lvl1_cd']" disabled>
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select [items]="level1" bindLabel="lvl1_value" bindValue="lvl1_cd" (change)="onChangeLvl1()"
+                            [multiple]="false" placeholder="Select Level 1 " [(ngModel)]="HierSelectObj['lvl1_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl1_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Level 2 :
+                    </div>
+                    <div class="col-3">
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['lvl2_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select [items]="level2" bindLabel="lvl2_value" bindValue="lvl2_cd" (change)="onChangeLvl2()"
+                            [multiple]="false" placeholder="Select Level 2" [(ngModel)]="HierSelectObj['lvl2_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl2_value">
+                        </ng-select>
+                    </div>
+
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 3 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['lvl3_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select [items]="level3" bindLabel="lvl3_value" bindValue="lvl3_cd" (change)="onChangeLvl3()"
+                            [multiple]="false" placeholder="Select Level 3" [(ngModel)]="HierSelectObj['lvl3_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl3_value">
+                        </ng-select>
+                    </div>
+
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 4 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['lvl4_cd']" disabled>
+
+                    </div>
+
+
+                    <div class="col-3">
+                        <ng-select [items]="level4" bindLabel="lvl4_value" bindValue="lvl4_cd" (change)="onChangeLvl4()"
+                            [multiple]="false" placeholder="Select Level 4" [(ngModel)]="HierSelectObj['lvl4_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl4_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 5 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['lvl5_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <ng-select [items]="level5" bindLabel="lvl5_value" bindValue="lvl5_cd" (change)="onChangeLvl5()"
+                            [multiple]="false" placeholder="Select Level 5" [(ngModel)]="HierSelectObj['lvl5_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl5_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 6 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['lvl6_cd']" disabled>
+
+                    </div>
+
+
+                    <div class="col-3">
+
+                        <ng-select [items]="level6" bindLabel="lvl6_value" bindValue="lvl6_cd" (change)="onChangeLvl6()"
+                            [multiple]="false" placeholder="Select Level 6" [(ngModel)]="HierSelectObj['lvl6_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl6_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 7 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['lvl7_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <ng-select [items]="level7" (change)="onChangeLvl7()" bindLabel="lvl7_value" bindValue="lvl7_cd"
+                            [multiple]="false" placeholder="Select Level 7" [(ngModel)]="HierSelectObj['lvl7_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl7_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Leaf :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['leaf_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['leaf_value']" disabled>
+
+                    </div>
+                </div>
+                <br>
+
+
+
+
+
+
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary" (click)="SubmitListHierforCreate()">Submit</button>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

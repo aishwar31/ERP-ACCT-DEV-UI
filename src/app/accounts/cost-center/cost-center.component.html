@@ -1,0 +1,975 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+   
+    <div class="col-lg-12 col-md-12">
+   
+    <div class="ibox">
+    <div class="ibox-head">
+    <div class="ibox-title">Cost Center
+    </div>
+    </div>
+   
+    <div class="ibox-body">
+    <ul class="nav nav-tabs tabs-line">
+    <li class="nav-item" *ngIf="list_flag==true">
+    <a class="nav-link active"><i class="ti-bar-chart"></i>
+    List</a>
+    </li>
+    <!-- <li class="nav-item" *ngIf="create_flag==true">
+    <a class="nav-link" (click)="refresh()">
+    <i class="fa fa-plus-circle"></i>
+    Create
+    </a>
+    </li> -->
+    <li class="nav-item" *ngIf="update_flag==true">
+    <a class="nav-link" (click)="refresh()">
+    <i class="ti-settings"></i>
+    Update
+    </a>
+    </li>
+   
+   
+    </ul>
+    <div class="tab-content">
+    <div class="tab-pane fade show active" id="tab-1" *ngIf="list_flag==true">
+    <br>
+    <!-- <div class="row">
+    <div class="col-4 text-right">
+    
+    <h6>Cost center Type</h6>
+    </div>
+    <div class="col-4">
+    <ng-select [items]="Type" bindLabel="value" bindValue="code" [multiple]="false"
+    placeholder="Type" [selectableGroup]="true" [selectableGroupAsModel]="false"
+    [closeOnSelect]="true" name="ledger">
+    </ng-select>
+    </div>
+    </div>
+    <br> -->
+   
+   
+    <br>
+    <div class="row">
+    <div class="col-4">
+    <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+    </div>
+    <div class="col-4">
+   
+    </div>
+    <div class="col-4 text-right">
+    <!-- <button class="btn btn-info" (click)="getList()">List</button>&nbsp; -->
+   
+    <!-- <button class="btn btn-primary" href="#tab-2" data-toggle="tab"
+    (click)="create()">Create new</button> -->
+    </div>
+    <div class="col-4"></div>
+   
+    </div>
+    <div class=" example-container">
+    <table mat-table [dataSource]="datasource" matSort #sort="matSort">
+   
+    <ng-container matColumnDef="cc_code">
+    <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Code
+    </th>
+    <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+    class="right">
+    {{element.cc_code}}
+    </td>
+    </ng-container>
+    <ng-container matColumnDef="cc_name">
+    <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Name
+    </th>
+    <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+    class="right">
+    {{element.cc_name}}
+    </td>
+    </ng-container>
+    <ng-container matColumnDef="cc_email">
+    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Email
+   
+    </th>
+    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+    {{element.cc_email}}
+    </td>
+    </ng-container>
+   
+    <ng-container matColumnDef="cc_mob_no">
+    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Phone
+   
+   
+    </th>
+    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+    {{element.cc_mob_no}}
+    </td>
+    </ng-container>
+   
+    <ng-container matColumnDef="cc_add">
+    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Address
+   
+   
+    </th>
+    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+    {{element.cc_add}}
+    </td>
+    </ng-container>
+   
+    <ng-container matColumnDef="manager_id">
+    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Manager
+   
+   
+    </th>
+    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+    {{element.manager_id}}
+    </td>
+    </ng-container>
+   
+    <ng-container matColumnDef="org_hier_code">
+    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Org
+    Hierarchy
+   
+   
+    </th>
+    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+    {{element.org_hier_code}}
+    </td>
+    </ng-container>
+    <ng-container matColumnDef="cc_func">
+    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Module
+   
+   
+    </th>
+    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+    {{element.cc_func}}
+    </td>
+    </ng-container>
+   
+    <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+   
+    <button class="btn btn-outline-info"
+    (click)="view(element)">View</button>&nbsp;
+   
+    <button class="btn btn-outline-primary" (click)="module(element)" *ngIf="element['cc_func']==null">Assign
+    Module</button>&nbsp;
+   
+    <!-- <button class="btn btn-outline-info"
+    (click)="workflow(element)">Workflow</button> -->
+   
+    <button class="btn btn-outline-success" href="#tab-3" data-toggle="tab"
+    (click)="update(element)">Update</button>&nbsp;
+<!--    
+    <button class="btn btn-outline-danger"
+    (click)="delete(element)">Delete</button>&nbsp; -->
+    <!-- <button class="btn btn-info" (click)="changeStatus(element)">Change
+    Status</button> -->
+   
+    </td>
+    </ng-container>
+   
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+    </tr>
+    </table>
+    <mat-paginator #paginator [pageSizeOptions]="[5,10, 20]" showFirstLastButtons>
+    </mat-paginator>
+    </div>
+    </div>
+    <br>
+    <!-- <div class="tab-pane fade" *ngIf="create_flag==true" id="tab-2">
+    <div class="col-12 text-right">
+    
+    <button class="btn btn-primary" (click)="listfunc()">Back to list</button>
+    
+    </div>
+    <div class="row">
+    <div class="col-4 text-center">
+    
+    <h6>Enter Mobile Number/Email* </h6>
+    </div>
+    <div class="col-4">
+    <input class="form-control" [(ngModel)]="obj['num_mail']">
+    </div>
+    </div>
+    <br>
+    <div class="row">
+    <div class="col-12 text-center">
+    <button class="btn btn-primary" >Search</button>
+    </div>
+    
+    </div> 
+    <br>
+    <div class="row">
+    <div class="col-4 text-center">
+    
+    <h6>Enter Cost Center Code* </h6>
+    </div>
+    <div class="col-4">
+    <input type="text" class="form-control" [(ngModel)]="obj['cc_code']">
+    </div>
+    
+    </div>
+    <br>
+    <div class="row">
+    <div class="col-4 text-center">
+    
+    <h6>Enter Cost Center Name* </h6>
+    </div>
+    <div class="col-4">
+    <input type="text" class="form-control" [(ngModel)]="obj['cc_name']">
+    </div>
+    
+    </div>
+    <br>
+    <div class="row">
+    <div class="col-4 text-center">
+    
+    <h6>Enter Cost Center Email* </h6>
+    </div>
+    <div class="col-4">
+    <input type="email" class="form-control" [(ngModel)]="obj['cc_email']">
+    </div>
+    
+    </div>
+    <br>
+    <div class="row">
+    <div class="col-4 text-center">
+    
+    <h6>Enter Cost Center Phone* </h6>
+    </div>
+    <div class="col-4">
+    <input type="number" class="form-control" [(ngModel)]="obj['cc_mob_no']">
+    </div>
+    
+    </div>
+    <br>
+    <div class="row">
+    <div class="col-4 text-center">
+    
+    <h6>Enter Cost Center Address* </h6>
+    </div>
+    <div class="col-4">
+    <input type="text" class="form-control" [(ngModel)]="obj['cc_add']">
+    </div>
+    
+    </div>
+    <br>
+    <div class="row">
+    <div class="col-4 text-center">
+    
+    <h6>Select Manager </h6>
+    </div>
+    <div class="col-4">
+    <ng-select [items]="allEmp" bindLabel="desc" bindValue="le_id" [multiple]="false"
+    placeholder="Manager" [selectableGroup]="true" [selectableGroupAsModel]="false"
+    [(ngModel)]="obj['manager_id']" [closeOnSelect]="true" name="ledger">
+    </ng-select>
+    </div>
+    
+    </div>
+    <br>
+    <div class="row">
+    <div class="col-4 text-center">
+    
+    <h6>Select Cost Center Function* </h6>
+    </div>
+    <div class="col-4">
+    
+    <ng-select [items]="moduleArr" bindLabel="module_cd" bindValue="module_cd"
+    [multiple]="false" placeholder="Cost center function" [selectableGroup]="true"
+    [(ngModel)]="obj['cc_func']" [selectableGroupAsModel]="false"
+    [closeOnSelect]="true" name="status">
+    </ng-select>
+    </div>
+    
+    </div>
+    <br>
+    <div class="row">
+    <div class="col-4 text-center">
+    
+    <h6>Cost Center Hierarchy* </h6>
+    </div>
+    <div class="col-1">
+    
+    
+    </div>
+    <div class="col-7">
+    
+    {{orgHierObject[obj['org_hier_leaf_code']]}}
+    </div>
+    </div>
+    <br>
+    <div class="col-12 text-center">
+    <button type="button" class="btn btn-primary"
+    (click)="createCostCenter()">Create</button>
+    
+    </div>
+    
+    
+    
+    <br>
+    
+    </div> -->
+    <div class="tab-pane fade" *ngIf="update_flag==true" id="tab-3">
+    <div class="col-12 text-right">
+   
+    <button class="btn btn-primary" (click)="listfunc()">Back to list</button>
+   
+    </div>
+   
+    <br>
+    <div class="row">
+    <div class="col-4 text-center">
+   
+    <h6>Enter Cost Center Code* </h6>
+    </div>
+    <div class="col-4">
+    <input type="text" class="form-control" [(ngModel)]="obj['cc_code']" disabled>
+    </div>
+   
+    </div>
+    <br>
+    <div class="row">
+    <div class="col-4 text-center">
+   
+    <h6>Enter Cost Center Name* </h6>
+    </div>
+    <div class="col-4">
+    <input type="text" class="form-control" [(ngModel)]="obj['cc_name']" disabled>
+    </div>
+   
+    </div>
+    <br>
+    <div class="row">
+    <div class="col-4 text-center">
+   
+    <h6>Enter Cost Center Email</h6>
+    </div>
+    <div class="col-4">
+    <input type="email" class="form-control" [(ngModel)]="obj['cc_email']">
+    </div>
+   
+    </div>
+    <br>
+    <div class="row">
+    <div class="col-4 text-center">
+   
+    <h6>Enter Cost Center Phone</h6>
+    </div>
+    <div class="col-4">
+    <input type="number" class="form-control" [(ngModel)]="obj['cc_mob_no']">
+    </div>
+   
+    </div>
+    <br>
+    <div class="row">
+    <div class="col-4 text-center">
+   
+    <h6>Enter Cost Center Address </h6>
+    </div>
+    <div class="col-4">
+    <input type="text" class="form-control" [(ngModel)]="obj['cc_add']">
+    </div>
+   
+    </div>
+    <br>
+    <div class="row">
+    <div class="col-4 text-center">
+   
+    <h6>Select Manager</h6>
+    </div>
+    <div class="col-4">
+   
+    <ng-select [items]="allEmp" bindLabel="desc" bindValue="le_id" [multiple]="false"
+    placeholder="Manager" [selectableGroup]="true" [selectableGroupAsModel]="false"
+    [(ngModel)]="obj['manager_id']" [closeOnSelect]="true" name="ledger">
+    </ng-select>
+    </div>
+   
+    </div>
+    <br>
+   
+    <div class="row">
+    <div class="col-4 text-center">
+   
+    <h6>Select Cost Center Function</h6>
+    </div>
+    <div class="col-4">
+    <ng-select [items]="moduleArr" bindLabel="module_cd" bindValue="module_cd"
+    [multiple]="false" placeholder="Cost center function" [selectableGroup]="true"
+    [(ngModel)]="obj['cc_func']" [selectableGroupAsModel]="false"
+    [closeOnSelect]="true" name="status" disabled>
+    </ng-select>
+    </div>
+   
+    </div>
+    <br>
+    <div class="row">
+    <div class="col-4 text-center">
+   
+    <h6>Cost Center Hierarchy *</h6>
+    </div>
+    <div class="col-1">
+   
+   
+    </div>
+    <div class="col-7">
+   
+    {{orgHierObject[obj['org_hier_leaf_code']]}}
+    </div>
+   
+    </div>
+    <br>
+    <div class="col-12 text-center">
+    <button type="button" class="btn btn-outline-primary"
+    (click)="updateCost()">Update</button>
+   
+    </div>
+   
+   
+   
+    <br>
+   
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+   
+    </div>
+   </div>
+   
+   <!-- <div class="modal" id="myModal3">
+    <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+    
+    <!-- Modal Header -->
+   <!-- <div class="modal-header">
+    <h5 class="modal-title"> Create/Update Organizational Hierarchy
+    </h5>
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    </div> -->
+   <!--Modal Body-->
+   <!-- <div class="modal-body">
+    <br>
+    <div class="row">
+    <div class="col-6 text-right">
+    
+    <h6>Hierarchy Identification Business Code* </h6>
+    </div>
+    <div class="col-4">
+    <ng-select [items]="hierCd" bindLabel="org_hier_code" bindValue="org_hier_code"
+    [multiple]="false" placeholder="Select FIN code" [(ngModel)]="obj['org_hier_code']"
+    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+    name="hierCd">
+    </ng-select>
+    </div>
+    
+    </div>
+    <br>
+    <div class="row">
+    <div class="col-2">
+    </div>
+    <div class="col-8">
+    <div class="row">
+    <div class="col-4 text-center"
+    style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+    <h6><b>Org Type</b></h6>
+    
+    </div>
+    <div class="col-4 text-center"
+    style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+    <h6><b>
+    {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy27']}}</b>
+    </h6>
+    <!-- Code -->
+   
+   <!-- </div>
+    <div class="col-4 text-center"
+    style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+    <h6><b>
+    {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy28']}}</b>
+    </h6> -->
+   <!-- Value -->
+   <!-- 
+    </div>
+    </div>
+    </div>
+    
+    
+    
+    <div class="col-2">
+    
+    </div>
+    
+    
+    </div>
+    <br>
+    <div class="row">
+    <div class="col-2 text-right">
+    {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy29']}}
+    </div> -->
+   <!-- <div class="col-8">
+    <div class="row">
+    
+    <div class="col-4">
+    <ng-select [items]="mainService.codeValueTechObj['ACC145']" bindLabel="value"
+    bindValue="code" [multiple]="false" placeholder="select "
+    [(ngModel)]="currentHierarchy['lvl1_node_type']" [selectableGroup]="true"
+    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+    </ng-select>
+    </div>
+    
+    <div class="col-4" *ngIf="currentHierarchy['lvl1_type']!='text'">
+    <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl1_cd']"
+    disabled>
+    
+    </div>
+    <div class="col-4" *ngIf="currentHierarchy['lvl1_type']=='text'">
+    <input type="text" class="form-control" (change)="makingLeafValues()"
+    [(ngModel)]="currentHierarchy['lvl1_cd']">
+    
+    </div>
+    <div class="col-4" *ngIf="currentHierarchy['lvl1_type']!='text'">
+    <ng-select [items]="level1" bindLabel="lvl1_value" bindValue="lvl1_cd"
+    (change)="onChangeLvl1()" [multiple]="false" placeholder="select"
+    [(ngModel)]="currentHierarchy['lvl1_cd']" [selectableGroup]="true"
+    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl1_value">
+    </ng-select>
+    </div>
+    <div class="col-4" *ngIf="currentHierarchy['lvl1_type']=='text'">
+    <input type="text" class="form-control" (change)="makingLeafValues()"
+    [(ngModel)]="currentHierarchy['lvl1_value']">
+    
+    </div>
+    </div>
+    </div>
+    
+    <div id="text" class="col-2" (click)="addNew('1')"
+    *ngIf="currentHierarchy['lvl1_type']!='text' && level1.length==0"
+    style="color: rgb(37, 130, 236);" disabled>
+    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy30']}}
+    </u></b></h6>
+    </div>
+    <div id="text" class="col-2" *ngIf="currentHierarchy['lvl1_type']=='text' && level1.length==0"
+    (click)="addNew('1')" style="color: rgb(37, 130, 236);">
+    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy31']}}
+    </u></b></h6>
+    </div>
+    </div>
+    <br>
+    
+    <div class="row">
+    <div class="col-2 text-right">
+    {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy32']}}
+    </div>
+    <div class="col-8">
+    <div class="row">
+    <div class="col-4">
+    <ng-select [items]="mainService.codeValueTechObj['ACC145']" bindLabel="value"
+    bindValue="code" [multiple]="false" placeholder="select "
+    [(ngModel)]="currentHierarchy['lvl2_node_type']" [selectableGroup]="true"
+    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+    </ng-select>
+    </div>
+    <div class="col-4" *ngIf="currentHierarchy['lvl2_type']!='text'">
+    <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl2_cd']"
+    disabled>
+    
+    </div>
+    <div class="col-4" *ngIf="currentHierarchy['lvl2_type']=='text'">
+    <input type="text" class="form-control" (change)="makingLeafValues()"
+    [(ngModel)]="currentHierarchy['lvl2_cd']">
+    
+    </div>
+    <div class="col-4" *ngIf="currentHierarchy['lvl2_type']!='text'">
+    <ng-select [items]="level2" bindLabel="lvl2_value" bindValue="lvl2_cd"
+    (change)="onChangeLvl2()" [multiple]="false"
+    placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy83']}}"
+    [(ngModel)]="currentHierarchy['lvl2_cd']" [selectableGroup]="true"
+    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl2_value">
+    </ng-select>
+    </div>
+    
+    <div class="col-4" *ngIf="currentHierarchy['lvl2_type']=='text'">
+    <input type="text" class="form-control" (change)="makingLeafValues()"
+    [(ngModel)]="currentHierarchy['lvl2_value']">
+    </div>
+    
+    </div>
+    </div>
+    <div id="text" class="col-2" (click)="addNew('2')" *ngIf="currentHierarchy['lvl2_type']!='text'"
+    style="color: rgb(37, 130, 236);">
+    <h6><b><u> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy33']}}
+    </u></b></h6>
+    </div>
+    
+    <div id="text" class="col-2" *ngIf="currentHierarchy['lvl2_type']=='text'" (click)="addNew('2')"
+    style="color: rgb(37, 130, 236);">
+    <h6><b><u>
+    {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy34']}}</u></b>
+    </h6>
+    </div>
+    
+    </div>
+    <br>
+    <div class="row">
+    
+    <div class="col-2 text-right">
+    <h6> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy35']}}</h6>
+    </div>
+    
+    <div class="col-8">
+    <div class="row">
+    <div class="col-4">
+    
+    <ng-select [items]="mainService.codeValueTechObj['ACC145']" bindLabel="value"
+    bindValue="code" [multiple]="false" placeholder="select "
+    [(ngModel)]="currentHierarchy['lvl3_node_type']" [selectableGroup]="true"
+    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+    </ng-select>
+    </div>
+    <div class="col-4" *ngIf="currentHierarchy['lvl3_type']!='text'">
+    
+    <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl3_cd']"
+    disabled>
+    
+    </div>
+    <div class="col-4" *ngIf="currentHierarchy['lvl3_type']=='text'">
+    
+    <input type="text" class="form-control" (change)="makingLeafValues()"
+    [(ngModel)]="currentHierarchy['lvl3_cd']">
+    
+    </div>
+    <div class="col-4" *ngIf="currentHierarchy['lvl3_type']!='text'">
+    <ng-select [items]="level3" bindLabel="lvl3_value" bindValue="lvl3_cd"
+    (change)="onChangeLvl3()" [multiple]="false"
+    placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy84']}}"
+    [(ngModel)]="currentHierarchy['lvl3_cd']" [selectableGroup]="true"
+    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl3_value">
+    </ng-select>
+    </div>
+    <div class="col-4" *ngIf="currentHierarchy['lvl3_type']=='text'">
+    <input type="text" class="form-control" (change)="makingLeafValues()"
+    [(ngModel)]="currentHierarchy['lvl3_value']">
+    
+    </div>
+    </div>
+    </div>
+    
+    <div id="text" class="col-2" (click)="addNew('3')" *ngIf="currentHierarchy['lvl3_type']!='text'"
+    style="color: rgb(37, 130, 236);">
+    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy36']}}</u></b>
+    </h6>
+    </div>
+    
+    <div id="text" class="col-2" *ngIf="currentHierarchy['lvl3_type']=='text'" (click)="addNew('3')"
+    style="color: rgb(37, 130, 236);">
+    <h6><b><u> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy37']}}
+    </u></b></h6>
+    </div>
+    
+    </div>
+    <br>
+    
+    <div class="row">
+    
+    <div class="col-2 text-right">
+    <h6>{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy38']}}</h6>
+    </div>
+    <div class="col-8">
+    <div class="row">
+    <div class="col-4">
+    
+    <ng-select [items]="mainService.codeValueTechObj['ACC145']" bindLabel="value"
+    bindValue="code" [multiple]="false" placeholder="select "
+    [(ngModel)]="currentHierarchy['lvl4_node_type']" [selectableGroup]="true"
+    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+    </ng-select>
+    
+    </div>
+    <div class="col-4" *ngIf="currentHierarchy['lvl4_type']!='text'">
+    
+    <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl4_cd']"
+    disabled>
+    
+    </div>
+    <div class="col-4" *ngIf="currentHierarchy['lvl4_type']=='text'">
+    
+    <input type="text" class="form-control" (change)="makingLeafValues()"
+    [(ngModel)]="currentHierarchy['lvl4_cd']">
+    
+    </div>
+    
+    <div class="col-4" *ngIf="currentHierarchy['lvl4_type']!='text'">
+    <ng-select [items]="level4" bindLabel="lvl4_value" bindValue="lvl4_cd"
+    (change)="onChangeLvl4()" [multiple]="false"
+    placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy85']}}"
+    [(ngModel)]="currentHierarchy['lvl4_cd']" [selectableGroup]="true"
+    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl4_value">
+    </ng-select>
+    </div>
+    <div class="col-4" *ngIf="currentHierarchy['lvl4_type']=='text'">
+    <input type="text" class="form-control" (change)="makingLeafValues()"
+    [(ngModel)]="currentHierarchy['lvl4_value']">
+    
+    </div>
+    </div>
+    </div>
+    
+    <div id="text" class="col-2" (click)="addNew('4')" *ngIf="currentHierarchy['lvl4_type']!='text'"
+    style="color: rgb(37, 130, 236);">
+    <h6><b><u> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy39']}}
+    </u></b></h6>
+    </div>
+    
+    <div id="text" class="col-2" *ngIf="currentHierarchy['lvl4_type']=='text'" (click)="addNew('4')"
+    style="color: rgb(37, 130, 236);">
+    <h6><b><u> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy40']}}
+    </u></b></h6>
+    </div>
+    
+    </div>
+    <br>
+    
+    <div class="row">
+    
+    <div class="col-2 text-right">
+    <h6> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy41']}}</h6>
+    </div>
+    <div class="col-8">
+    <div class="row">
+    <div class="col-4">
+    
+    <ng-select [items]="mainService.codeValueTechObj['ACC145']" bindLabel="value"
+    bindValue="code" [multiple]="false" placeholder="select "
+    [(ngModel)]="currentHierarchy['lvl5_node_type']" [selectableGroup]="true"
+    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+    </ng-select>
+    
+    </div>
+    <div class="col-4" *ngIf="currentHierarchy['lvl5_type']!='text'">
+    
+    <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl5_cd']"
+    disabled>
+    
+    </div>
+    <div class="col-4" *ngIf="currentHierarchy['lvl5_type']=='text'">
+    
+    <input type="text" class="form-control" (change)="makingLeafValues()"
+    [(ngModel)]="currentHierarchy['lvl5_cd']">
+    
+    </div>
+    <div class="col-4" *ngIf="currentHierarchy['lvl5_type']!='text'">
+    
+    <ng-select [items]="level5" bindLabel="lvl5_value" bindValue="lvl5_cd"
+    (change)="onChangeLvl5()" [multiple]="false"
+    placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy86']}}"
+    [(ngModel)]="currentHierarchy['lvl5_cd']" [selectableGroup]="true"
+    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl5_value">
+    </ng-select>
+    </div>
+    <div class="col-4" *ngIf="currentHierarchy['lvl5_type']=='text'">
+    <input type="text" class="form-control" (change)="makingLeafValues()"
+    [(ngModel)]="currentHierarchy['lvl5_value']">
+    
+    </div>
+    </div>
+    </div>
+    
+    <div id="text" class="col-2" (click)="addNew('5')" *ngIf="currentHierarchy['lvl5_type']!='text'"
+    style="color: rgb(37, 130, 236);">
+    <h6><b><u>
+    {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy42']}}</u></b>
+    </h6>
+    </div>
+    
+    <div id="text" class="col-2" *ngIf="currentHierarchy['lvl5_type']=='text'" (click)="addNew('5')"
+    style="color: rgb(37, 130, 236);">
+    <h6><b><u> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy43']}}
+    </u></b></h6>
+    </div>
+    
+    </div>
+    <br>
+    
+    <div class="row">
+    
+    <div class="col-2 text-right">
+    <h6> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy44']}}</h6>
+    </div>
+    <div class="col-8">
+    <div class="row">
+    <div class="col-4">
+    <ng-select [items]="mainService.codeValueTechObj['ACC145']" bindLabel="value"
+    bindValue="code" [multiple]="false" placeholder="select "
+    [(ngModel)]="currentHierarchy['lvl6_node_type']" [selectableGroup]="true"
+    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+    </ng-select>
+    
+    </div>
+    <div class="col-4" *ngIf="currentHierarchy['lvl6_type']!='text'">
+    
+    <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl6_cd']"
+    disabled>
+    
+    </div>
+    
+    <div class="col-4" *ngIf="currentHierarchy['lvl6_type']=='text'">
+    
+    <input type="text" class="form-control" (change)="makingLeafValues()"
+    [(ngModel)]="currentHierarchy['lvl6_cd']">
+    
+    </div>
+    <div class="col-4" *ngIf="currentHierarchy['lvl6_type']!='text'">
+    
+    <ng-select [items]="level6" bindLabel="lvl6_value" bindValue="lvl6_cd"
+    (change)="onChangeLvl6()" [multiple]="false"
+    placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy87']}}"
+    [(ngModel)]="currentHierarchy['lvl6_cd']" [selectableGroup]="true"
+    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl6_value">
+    </ng-select>
+    </div>
+    <div class="col-4" *ngIf="currentHierarchy['lvl6_type']=='text'">
+    <input type="text" class="form-control" (change)="makingLeafValues()"
+    [(ngModel)]="currentHierarchy['lvl6_value']">
+    
+    </div>
+    </div>
+    </div>
+    
+    <div id="text" class="col-2" (click)="addNew('6')" *ngIf="currentHierarchy['lvl6_type']!='text'"
+    style="color: rgb(37, 130, 236);">
+    <h6><b><u>
+    {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy45']}}</u></b>
+    </h6>
+    </div>
+    
+    <div id="text" class="col-2" *ngIf="currentHierarchy['lvl6_type']=='text'" (click)="addNew('6')"
+    style="color: rgb(37, 130, 236);">
+    <h6><b><u> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy46']}}
+    </u></b></h6>
+    </div>
+    
+    </div>
+    
+    <br>
+    
+    <div class="row">
+    
+    <div class="col-2 text-right">
+    <h6> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy50']}}</h6>
+    </div>
+    <div class="col-8">
+    <div class="row">
+    <div class="col-4">
+    
+    <input type="text" class="form-control"
+    [(ngModel)]="currentHierarchy['leaf_node_type']">
+    
+    </div>
+    <div class="col-4">
+    
+    <input type="text" class="form-control" [(ngModel)]="currentHierarchy['leaf_cd']">
+    
+    </div>
+    
+    <div class="col-4">
+    
+    <input type="text" class="form-control" [(ngModel)]="currentHierarchy['leaf_value']">
+    
+    </div>
+    </div>
+    </div>
+    
+    </div>
+    <br>
+    
+    </div> 
+    
+    <div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
+    (click)="select()">Save</button>
+    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+    </div>
+    </div>
+    </div>
+    </div> -->
+   
+    <div class="modal" id="myModal4">
+    <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+   
+    <!-- Modal Header -->
+    <div class="modal-header">
+    <h4 class="modal-title">Update Cost Center Function</h4>
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    </div>
+    
+   
+    <div class="modal-body">
+    
+    
+   
+    <br>
+    <div class="row">
+    <div class="col-4 text-center">
+   
+    <h6>Enter Cost Center Code* </h6>
+    </div>
+    <div class="col-4">
+    <input type="text" class="form-control" [(ngModel)]="obj['cc_code']" disabled>
+    </div>
+   
+    </div>
+    <br>
+    <div class="row">
+    <div class="col-4 text-center">
+   
+    <h6>Enter Cost Center Name* </h6>
+    </div>
+    <div class="col-4">
+    <input type="text" class="form-control" [(ngModel)]="obj['cc_name']" disabled>
+    </div>
+   
+    </div>
+    <br>
+    
+    
+   
+    <div class="row">
+    <div class="col-4 text-center">
+   
+    <h6>Select Cost Center Function</h6>
+    </div>
+    <div class="col-4">
+    <ng-select [items]="moduleArr" bindLabel="module_cd" bindValue="module_cd"
+    [multiple]="false" placeholder="Cost center function" [selectableGroup]="true"
+    [(ngModel)]="obj['cc_func']" [selectableGroupAsModel]="false"
+    [closeOnSelect]="true" name="status">
+    </ng-select>
+    </div>
+   
+    </div>
+    <br>
+    
+    <br>
+    <div class="col-12 text-center">
+    <button type="button" class="btn btn-outline-primary"
+    (click)="updateCostCenterModule()" data-dismiss="modal">Update</button>
+   
+    </div>
+   
+   
+   
+    <br>
+   
+    
+   
+   
+    </div>
+    </div>
+    </div>
+   </div>

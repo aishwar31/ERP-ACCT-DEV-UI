@@ -1,0 +1,716 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Work </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item" *ngIf="list_flag==true">
+                            <a class="nav-link"   (click)="refresh()"><i class="fa fa-line-chart"></i>
+                                Work List</a>
+                        </li>
+                        <li class="nav-item" *ngIf="create_flag==true">
+                            <a class="nav-link"  (click)="refresh()"><i
+                                    class="fa fa-plus-circle"></i>
+                                Create Work </a>
+                        </li>
+                        <li class="nav-item"   *ngIf="update_flag==true">
+                            <a class="nav-link" (click)="refresh()"><i
+                                    class="ti-settings"></i>
+                                Update Work</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1"  *ngIf="list_flag==true">
+                            <br>
+
+                            <div class="row">
+                            <div class="col-4">
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+                        </div>
+                            <div class="col-4 text-center">
+                            </div>
+                        <div class="col-4 text-right">
+                        <button type="button" class="btn btn-primary"  href="#tab-2" data-toggle="tab"
+                            (click)="createNew()">Create New
+                            <!-- Submit -->
+                        </button>
+                        </div>
+                        </div>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.id }}</td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="work_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Work Order
+                                            Number
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.work_order_no }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="work_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Work
+                                            Description
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.work_desc }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="party_le_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Party name
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.party_legal_name }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="start_dt">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Work Start
+                                            Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{  mainService.dateFormatChange(element.work_start_dt)}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="end_dt">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Work End
+                                            Date
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.dateFormatChange(element.work_end_dt)}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="amt">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Work Order Amount
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.work_order_amt }} </td>
+                                    </ng-container>
+                                    <!-- <ng-container matColumnDef="run_bill">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Running Bill Number
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.runnig_bill_no }} </td>
+                                    </ng-container> -->
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-primary"
+                                                (click)="open_update(element)"   href="#tab-3" data-toggle="tab">Update</button>
+                                            <button class="btn btn-danger" (click)="delete(element)">Delete</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+
+                        <div class="tab-pane fade" *ngIf="create_flag==true"  id="tab-2">
+                            <br>
+                            <div class="col-12 text-right">
+
+                                <button class="btn btn-primary"
+                                            (click)="listfunc()">Back to list</button>
+
+                             </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 ">
+                                    <h6  style="margin-left:2%">Work Order Number :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" placeholder="enter work order number" [(ngModel)]="obj['work_order_no']" class="form-control">
+
+                                </div>
+                                <div class="col-3 ">
+                                    <h6 style="margin-left:2%">Work Order Description :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <!-- <input type="text" placeholder="enter work order description" [(ngModel)]="obj['work_desc']" class="form-control"> -->
+                                    <textarea id="t1" name="t1" placeholder="enter work order description" [(ngModel)]="obj['work_desc']"></textarea>
+
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 ">
+                                    <h6 style="margin-left:2%">Work Start Date :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" [(ngModel)]="obj['work_start_dt']" class="form-control">
+
+                                </div>
+                                <div class="col-3 ">
+                                    <h6 style="margin-left:2%">Work End Date :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" [(ngModel)]="obj['work_end_dt']" class="form-control">
+
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <!-- <div class="col-3 ">
+                                    <h6>Running Bill Number :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" placeholder="enter running bill number" [(ngModel)]="obj['runnig_bill_no']" class="form-control">
+
+                                </div> -->
+                                <div class="col-3">
+                                    <h6 style="margin-left:2%">Work Order Amount :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" placeholder="enter work order amount" [(ngModel)]="obj['work_order_amt']" class="form-control">
+                                </div>
+                                <div class="col-3 ">
+                                    <h6 style="margin-left:2%">Select Party :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="allParty" bindLabel="party_legal_name" bindValue="le_id"
+                                        [multiple]="false" placeholder="Select party" [(ngModel)]="obj['party_le_id']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        (change)="setPartyData()" name="Reference_data">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 ">
+                                    <h6 style="margin-left:2%">Party Email :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="obj['party_email']" disabled>
+
+                                </div>
+                                <div class="col-3 ">
+                                    <h6 style="margin-left:2%">Party Mobile Number :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control"  [(ngModel)]="obj['party_phone_no']" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                             
+                                <div class="col-3"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <h6 style="margin-left:2%">Select Budget
+                                        <!-- Select Budget --> :
+                                    </h6>
+                                </div>
+                                <div class="col-3">
+                                    <!-- <ng-select [items]="allBudgetHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['bud_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="bud_cd">
+                                    </ng-select> -->
+                                    {{budgetObj[obj['bud_cd']]}}
+
+
+                                </div>
+                                <div  class="col-1">
+                                    <button type="button" class="btn btn-primary"
+                                    (click)="selectCreate('budget')">Select</button>
+                                </div>
+                            </div>
+                            <br>
+
+
+
+                            <div class="row">
+                                <div class="col-3">
+                                    <h6 style="margin-left:2%"> Select Project
+                                        <!-- Select Project --> :
+                                    </h6>
+                                </div>
+                                <div class="col-3">
+                                    <!-- <ng-select [items]="allProjectHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['proj_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="proj_cd">
+                                    </ng-select> -->
+                                    {{projectObj[obj['proj_cd']]}}
+
+                                </div>
+                                <div  class="col-1">
+                                    <button type="button" class="btn btn-primary"
+                                    (click)="selectCreate('project')">Select</button>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3">
+                                    <h6 style="margin-left:2%"> Select Product
+                                        <!-- Select Product --> :
+                                    </h6>
+                                </div>
+                                <div class="col-3">
+                                    <!-- <ng-select [items]="allProductHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['prod_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="prod_cd">
+                                    </ng-select> -->
+                                    {{productObj[obj['prod_cd']]}}
+
+                                </div>
+                                <div  class="col-1">
+                                    <button type="button" class="btn btn-primary"
+                                    (click)="selectCreate('product')">Select</button>
+                                </div>
+                            </div>
+                          
+                            <br><br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button (click)="submit()" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-3" *ngIf="update_flag==true">
+                            <br>
+                            <div class="col-12 text-right">
+
+                                <button class="btn btn-primary"
+                                            (click)="listfunc()">Back to list</button>
+
+                             </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 ">
+                                    <h6 style="margin-left:2%">Work Order Number :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" placeholder="enter work order number" [(ngModel)]="obj['work_order_no']" class="form-control">
+
+                                </div>
+                                <div class="col-3 ">
+                                    <h6 style="margin-left:2%">Work Order Description :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <textarea id="t1" name="t1" placeholder="enter work order description" [(ngModel)]="obj['work_desc']"></textarea>
+
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 ">
+                                    <h6 style="margin-left:2%">Work Start Date :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" [(ngModel)]="obj['work_start_dt']" class="form-control">
+
+                                </div>
+                                <div class="col-3 ">
+                                    <h6 style="margin-left:2%">Work End Date :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" [(ngModel)]="obj['work_end_dt']" class="form-control">
+
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <!-- <div class="col-3 ">
+                                    <h6>Running Bill Number :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" placeholder="enter running bill number" [(ngModel)]="obj['runnig_bill_no']" class="form-control">
+
+                                </div> -->
+                                <div class="col-3">
+                                    <h6 style="margin-left:2%">Work Order Amount :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" placeholder="enter work order amount" [(ngModel)]="obj['work_order_amt']" class="form-control">
+                                </div>
+                                <div class="col-3 ">
+                                    <h6 style="margin-left:2%">Select Party :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="allParty" bindLabel="party_legal_name" bindValue="le_id"
+                                        [multiple]="false" placeholder="Select party" [(ngModel)]="obj['party_le_id']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        (change)="setPartyData()" name="Reference_data">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 ">
+                                    <h6 style="margin-left:2%">Party Email :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="obj['party_email']" disabled>
+
+                                </div>
+                                <div class="col-3 ">
+                                    <h6 style="margin-left:2%">Party Mobile Number :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control"  [(ngModel)]="obj['party_phone_no']" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <!-- <div class="col-3">
+                                    <h6>Work Order Amount :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" placeholder="enter work order amount" [(ngModel)]="obj['work_order_amt']" class="form-control">
+                                </div> -->
+                                <div class="col-3"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <h6 style="margin-left:2%">Select Budget
+                                        <!-- Select Budget --> :
+                                    </h6>
+                                </div>
+                                <div class="col-3">
+                                    <!-- <ng-select [items]="allBudgetHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['bud_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="bud_cd">
+                                    </ng-select> -->
+                                    {{budgetObj[obj['bud_cd']]}}
+
+
+                                </div>
+                                <div  class="col-1">
+                                    <button type="button" class="btn btn-primary"
+                                    (click)="selectCreate('budget')">Select</button>
+                                </div>
+                            </div>
+                            <br>
+
+
+
+                            <div class="row">
+                                <div class="col-3">
+                                    <h6 style="margin-left:2%"> Select Project
+                                        <!-- Select Project --> :
+                                    </h6>
+                                </div>
+                                <div class="col-3">
+                                    <!-- <ng-select [items]="allProjectHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['proj_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="proj_cd">
+                                    </ng-select> -->
+                                    {{projectObj[obj['proj_cd']]}}
+
+                                </div>
+                                <div  class="col-1">
+                                    <button type="button" class="btn btn-primary"
+                                    (click)="selectCreate('project')">Select</button>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3">
+                                    <h6 style="margin-left:2%"> Select Product
+                                        <!-- Select Product --> :
+                                    </h6>
+                                </div>
+                                <div class="col-3">
+                                    <!-- <ng-select [items]="allProductHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['prod_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="prod_cd">
+                                    </ng-select> -->
+                                    {{productObj[obj['prod_cd']]}}
+
+                                </div>
+                                <div  class="col-1">
+                                    <button type="button" class="btn btn-primary"
+                                    (click)="selectCreate('product')">Select</button>
+                                </div>
+                            </div>
+                          
+                            <br><br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button (click)="update()" class="btn btn-primary">Update</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal" id="selectCreate">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> Select Event :</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <br>
+                <div class="row">
+                    <div class="col-3 text-center">
+
+
+                    </div>
+                    <div class="col-3 text-center"
+                        style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                        <h6><b>Code</b></h6>
+
+
+                    </div>
+                    <div class="col-3 text-center"
+                        style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                        <h6><b> Value</b></h6>
+
+
+                    </div>
+
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Level 1:
+                    </div>
+                    <div class="col-3">
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['lvl1_cd']" disabled>
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select [items]="level1" bindLabel="lvl1_value" bindValue="lvl1_cd" (change)="onChangeLvl1()"
+                            [multiple]="false" placeholder="Select Level 1 " [(ngModel)]="HierSelectObj['lvl1_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl1_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Level 2 :
+                    </div>
+                    <div class="col-3">
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['lvl2_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select [items]="level2" bindLabel="lvl2_value" bindValue="lvl2_cd" (change)="onChangeLvl2()"
+                            [multiple]="false" placeholder="Select Level 2" [(ngModel)]="HierSelectObj['lvl2_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl2_value">
+                        </ng-select>
+                    </div>
+
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 3 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['lvl3_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select [items]="level3" bindLabel="lvl3_value" bindValue="lvl3_cd" (change)="onChangeLvl3()"
+                            [multiple]="false" placeholder="Select Level 3" [(ngModel)]="HierSelectObj['lvl3_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl3_value">
+                        </ng-select>
+                    </div>
+
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 4 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['lvl4_cd']" disabled>
+
+                    </div>
+
+
+                    <div class="col-3">
+                        <ng-select [items]="level4" bindLabel="lvl4_value" bindValue="lvl4_cd" (change)="onChangeLvl4()"
+                            [multiple]="false" placeholder="Select Level 4" [(ngModel)]="HierSelectObj['lvl4_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl4_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 5 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['lvl5_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <ng-select [items]="level5" bindLabel="lvl5_value" bindValue="lvl5_cd" (change)="onChangeLvl5()"
+                            [multiple]="false" placeholder="Select Level 5" [(ngModel)]="HierSelectObj['lvl5_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl5_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 6 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['lvl6_cd']" disabled>
+
+                    </div>
+
+
+                    <div class="col-3">
+
+                        <ng-select [items]="level6" bindLabel="lvl6_value" bindValue="lvl6_cd" (change)="onChangeLvl6()"
+                            [multiple]="false" placeholder="Select Level 6" [(ngModel)]="HierSelectObj['lvl6_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl6_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 7 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['lvl7_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <ng-select [items]="level7" (change)="onChangeLvl7()" bindLabel="lvl7_value" bindValue="lvl7_cd"
+                            [multiple]="false" placeholder="Select Level 7" [(ngModel)]="HierSelectObj['lvl7_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl7_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Leaf :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['leaf_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="HierSelectObj['leaf_value']" disabled>
+
+                    </div>
+                </div>
+                <br>
+
+
+
+
+
+
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary" (click)="SubmitListHierforCreate()">Submit</button>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

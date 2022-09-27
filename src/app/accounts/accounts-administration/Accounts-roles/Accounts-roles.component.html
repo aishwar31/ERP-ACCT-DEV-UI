@@ -1,0 +1,356 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Role1</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li *ngIf="list_flag" class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-line-chart"></i>&nbsp;Role List</a>
+                        </li>
+                        <li *ngIf="create_flag" class="nav-item">
+                            <a class="nav-link" data-toggle="tab" (click)="refresh()"><i class="fa fa-plus-circle"
+                                    aria-hidden="true"></i> Create
+                                Role
+                            </a>
+                        </li>
+                        <li *ngIf="update_flag" class="nav-item">
+                            <a class="nav-link" data-toggle="tab"><i class="ti-settings"></i> Update
+                                Role
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div *ngIf="list_flag">
+
+                            <div class="row">
+                                <div class="col-9"></div>
+
+                                <div class="col-3 text-right">
+                                    <button (click)="open_create()" class="btn btn-outline-primary">Create</button>
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+
+                            <div class="example-container">
+
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <!-- <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            Id
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.id}} </td>
+                                    </ng-container> -->
+
+
+                                    <ng-container matColumnDef="role_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Role Code
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.role_cd}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="role_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Role Name
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.role_name}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="role_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Role
+                                            Description
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.role_desc}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="role_type">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Role Type
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.role_type}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="res">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Resource
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.resource_desc}} </td>
+                                    </ng-container>
+
+                                    <!-- <ng-container matColumnDef="valid_from">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Valid From
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.valid_from}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="valid_upto">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Valid Upto
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.valid_upto}} </td>
+                                    </ng-container> -->
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <!-- <button (click)="viewDetails(element)"
+                                                class="btn btn-primary">View</button>&nbsp;&nbsp; -->
+                                            <button (click)="open_update(element)"
+                                                class="btn btn-success">Update</button>&nbsp;&nbsp;
+                                            <button *ngIf="element['role_cd']!='ACCT_EMP'" (click)="delete(element)"
+                                                class="btn btn-danger">Delete</button>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+
+
+                        <div *ngIf="create_flag">
+
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button (click)="open_list()" class="btn btn-outline-primary">Go To List</button>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3">
+                                    <h6>Enter Role Code : <span style="color: red;"> *</span> </h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" [(ngModel)]="Obj['role_cd']" placeholder="Entre Role Code"
+                                        class="form-control" name="" id="">
+                                </div>
+                                <div class="col-3"></div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3">
+                                    <h6>Enter Role Name : <span style="color: red;"> *</span> </h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" [(ngModel)]="Obj['role_name']" placeholder="Entre Role Name"
+                                        class="form-control" name="" id="">
+                                </div>
+                                <div class="col-3"></div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3">
+                                    <h6>Enter Role Description : <span style="color: red;"> *</span> </h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" [(ngModel)]="Obj['role_desc']"
+                                        placeholder="Entre Role Description" class="form-control" name="" id="">
+                                </div>
+                                <div class="col-3"></div>
+                            </div>
+                            <!-- <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3">
+                                    <h6>Select Role Type : <span style="color: red;"> *</span> </h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="role_type" bindLabel="code" bindValue="code" [multiple]="false" placeholder="Select Role Type" [(ngModel)]="Obj['role_type']" [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="true" name="role_type">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3"></div>
+                            </div> -->
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3">
+                                    <h6>Select Resource : <span style="color: red;"> *</span> </h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="resource" bindLabel="desc" bindValue="resource_cd"
+                                        [multiple]="true" placeholder="Select Resource" [(ngModel)]="Obj['res']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="false"
+                                        name="chart_of_account0">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3">
+                                    <mat-checkbox [(ngModel)]="checkBoxValue" [ngModelOptions]="{standalone: true}"
+                                        (click)="checkCheckBoxvalue()">Select All Resource
+                                    </mat-checkbox>
+                                </div>
+                            </div>
+                            <!-- <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3">
+                                    <h6>Valid from : <span style="color: red;"> *</span> </h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" [(ngModel)]="Obj['valid_from']" class="form-control" name="" id="">
+                                </div>
+                                <div class="col-3"></div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3">
+                                    <h6>Valid Upto : <span style="color: red;"> *</span> </h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" [(ngModel)]="Obj['valid_upto']" class="form-control" name="" id="">
+                                </div>
+                                <div class="col-3"></div>
+                            </div> -->
+                            <br><br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="submit()">Submit</button>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div *ngIf="update_flag">
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button (click)="open_list()" class="btn btn-outline-primary">Go To List</button>
+                                </div>
+                            </div>
+                            <br>
+                                                        
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3">
+                                    <h6>Enter Role Code : <span style="color: red;"> *</span> </h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" [(ngModel)]="Obj['role_cd']" placeholder="Entre Role Code"
+                                        class="form-control" name="" id="" disabled>
+                                </div>
+                                <div class="col-3"></div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3">
+                                    <h6>Enter Role Name : <span style="color: red;"> *</span> </h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" [(ngModel)]="Obj['role_name']" placeholder="Entre Role Name"
+                                        class="form-control" name="" id="">
+                                </div>
+                                <div class="col-3"></div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3">
+                                    <h6>Enter Role Description : <span style="color: red;"> *</span> </h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" [(ngModel)]="Obj['role_desc']"
+                                        placeholder="Entre Role Description" class="form-control" name="" id="">
+                                </div>
+                                <div class="col-3"></div>
+                            </div>
+                            <!-- <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3">
+                                    <h6>Select Role Type : <span style="color: red;"> *</span> </h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="role_type" bindLabel="code" bindValue="code" [multiple]="false" placeholder="Select Role Type" [(ngModel)]="Obj['role_type']" [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="true" name="role_type">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3"></div>
+                            </div> -->
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3">
+                                    <h6>Select Resource : <span style="color: red;"> *</span> </h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="resource" bindLabel="desc" bindValue="resource_cd"
+                                        [multiple]="true" placeholder="Select Resource" [(ngModel)]="Obj['res']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="false"
+                                        name="chart_of_account0">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3">
+                                    <mat-checkbox [(ngModel)]="checkBoxValue" [ngModelOptions]="{standalone: true}"
+                                        (click)="checkCheckBoxvalue()">Select All Resource
+                                    </mat-checkbox>
+                                </div>
+                            </div>
+                            <!-- <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3">
+                                    <h6>Valid from : <span style="color: red;"> *</span> </h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" [(ngModel)]="Obj['valid_from']" class="form-control" name="" id="">
+                                </div>
+                                <div class="col-3"></div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3">
+                                    <h6>Valid Upto : <span style="color: red;"> *</span> </h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" [(ngModel)]="Obj['valid_upto']" class="form-control" name="" id="">
+                                </div>
+                                <div class="col-3"></div>
+                            </div> -->
+                            <br><br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- <div class="tab-pane fade" id="tab-7-3">
+                            <br>
+
+                        </div> -->
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

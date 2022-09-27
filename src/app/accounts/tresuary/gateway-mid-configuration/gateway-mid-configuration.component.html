@@ -1,0 +1,371 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">
+                        Configure Payment Gateway</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" *ngIf='list_flag' data-toggle="tab"><i
+                                    class="fa fa-line-chart"></i>&nbsp;
+                                    Payment Gateway List</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" *ngIf="create_flag" data-toggle="tab"><i class="ti-settings"></i> 
+                                Create
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" *ngIf="update_flag" data-toggle="tab"><i class="ti-settings"></i> 
+                               Update
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div *ngIf="list_flag" id="tab-7-1">
+                            <br>
+                            <div class=" table-container ">
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <mat-form-field style="margin-left: 2%">
+                                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <button (click)="open_create()" class="btn btn-outline-primary">Create</button>
+                                    </div>
+
+                                </div>
+                                <div class="example-container">
+                                    <table style="width: 100%" mat-table [dataSource]="dataSource" matSort>
+                                        <!-- <ng-container matColumnDef="id" sticky>
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header><b>ID</b>
+                                            </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element">
+                                                {{element.id}} </td>
+                                        </ng-container> -->
+                                        <ng-container matColumnDef="gateway_id">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                <b>Gateway ID</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element; let i = index;">
+                                                {{element.gateway_id}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="gateway_desc">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                <b>Gateway Desc</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element; let i = index;">
+                                                {{element.gateway_name}}
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="bank">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                <b>Bank</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element; let i = index;">
+                                                {{element.bank_name}}
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="account">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                <b>Account</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element; let i = index;">
+                                                {{element.account_no}}
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="mid_key">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                <b>MID KEY</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element; let i = index;">
+                                                {{element.mid_key}}
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="status">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                <b>Status</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element; let i = index;">
+                                                {{element.status}}
+                                            </td>
+                                        </ng-container>
+                                        
+
+                                        <ng-container matColumnDef="action">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                                Action</th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                <!-- <button class="btn btn-primary" >Approve</button>
+                                                <button class="btn btn-dark" >WorkFlow</button>
+                                                <button class="btn btn-success">View</button> -->
+                                                <button class="btn btn-danger" (click)='Del(element)'>Delete</button>
+                                                <button class="btn btn-primary" (click)='open_update(element)'>Update</button>
+                                            </td>
+                                            
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns">
+                                        </tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                        </tr>
+                                    </table>
+                                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div *ngIf="create_flag"id="tab-7-2">
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button (click)="open_list()" class="btn btn-outline-primary">Go To List</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-1 "></div>
+                                <div class="col-2 ">
+                                    <h6 style="margin-left: 2%;">
+                                        Gateway
+                                        <span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-2">
+                                    <ng-select [items]="admindata" bindLabel="gateway_name" bindValue="gateway_id"
+                                        [multiple]="false"
+                                        placeholder="Select..."
+                                        placeholder="Gateway List"
+                                         [(ngModel)]="Obj['gateway_id']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="true"
+                                        name="chart_of_account0">
+                                    </ng-select>
+                                    
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-1 "></div>
+                                <div class="col-2 ">
+                                    <h6 style="margin-left: 2%;">
+                                        Bank :<span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-2">
+                                    
+                                    <input type="text" placeholder="Bank Name" class="form-control" [(ngModel)]="Obj['bank_name']">
+                                </div>
+                                <div class="col-2 ">
+                                    <h6 style="margin-left: 2%;">
+                                        Branch:
+                                        <span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-2">
+                                    <input type="text" placeholder="Branch Name" class="form-control" [(ngModel)]="Obj['branch_name']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-1 "></div>
+                                <div class="col-2 ">
+                                    <h6 style="margin-left: 2%;">
+                                        Account:
+                                        <span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-2">
+                                    <input type="number" placeholder="Account Number" class="form-control" [(ngModel)]="Obj['account_no']">
+                                </div>
+                            </div>
+                            <br>
+                            
+                            
+                            <div class="row">
+                                <div class="col-1 "></div>
+                                <div class="col-2 ">
+                                    <h6 style="margin-left: 2%;">
+                                        ACCUNT/MID Desc*:
+                                        <span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <textarea style="width: 100%; height: 80px;" id="re" name="re"
+                                                        [(ngModel)]="Obj['gateway_name']"
+                                                        placeholder="Description"
+                                                        class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-1 "></div>
+                                <div class="col-2 ">
+                                    <h6 style="margin-left: 2%;">
+                                        MID KEY:
+                                        <span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-2">
+                                    <input type="text" placeholder="MID KEY" class="form-control" [(ngModel)]="Obj['mid_key']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-1 "></div>
+                                <div class="col-2 ">
+                                    <h6 style="margin-left: 2%;">
+                                        AES KEY:
+                                        <span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-2">
+                                    <input type="text" placeholder="AES KEY" class="form-control" [(ngModel)]="Obj['aes_key']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="submit()">
+                                    Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="update_flag">
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button (click)="open_list()" class="btn btn-outline-primary">Go To List</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-1 "></div>
+                                <div class="col-2 ">
+                                    <h6 style="margin-left: 2%;">
+                                        Gateway
+                                        <span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-2">
+
+                                    <ng-select [items]="admindata" bindLabel="gateway_name" bindValue="gateway_id"
+                                        [multiple]="false"
+                                        placeholder="Select..."
+                                        placeholder="Gateway List"
+                                         [(ngModel)]="Obj['gateway_id']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="true"
+                                        name="chart_of_account0">
+                                    </ng-select>
+
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-1 "></div>
+                                <div class="col-2 ">
+                                    <h6 style="margin-left: 2%;">
+                                        Bank :<span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-2">
+                                    <input type="text" placeholder="Bank Name" class="form-control" [(ngModel)]="Obj['bank_name']">
+                                   
+                                </div>
+                                <div class="col-2 ">
+                                    <h6 style="margin-left: 2%;">
+                                        Branch:
+                                        <span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-2">
+                                    <input type="text" placeholder="Website" class="form-control" [(ngModel)]="Obj['branch_name']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-1 "></div>
+                                <div class="col-2 ">
+                                    <h6 style="margin-left: 2%;">
+                                        Account:
+                                        <span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-2">
+                                    <input type="text" placeholder="Gateway Return URL" class="form-control" [(ngModel)]="Obj['account_no']">
+                                </div>
+                            </div>
+                            <br>
+                            
+                            
+                            <div class="row">
+                                <div class="col-1 "></div>
+                                <div class="col-2 ">
+                                    <h6 style="margin-left: 2%;">
+                                        ACCUNT/MID Desc*:
+                                        <span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <textarea style="width: 100%; height: 80px;" id="re" name="re"
+                                                        [(ngModel)]="Obj['gateway_name']"
+                                                        placeholder="Description"
+                                                        class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-1 "></div>
+                                <div class="col-2 ">
+                                    <h6 style="margin-left: 2%;">
+                                        MID KEY:
+                                        <span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-2">
+                                    <input type="text" placeholder="Enter Channel ID" class="form-control" [(ngModel)]="Obj['mid_key']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-1 "></div>
+                                <div class="col-2 ">
+                                    <h6 style="margin-left: 2%;">
+                                        AES KEY:
+                                        <span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-2">
+                                    <input type="text" placeholder="Return Success Code" class="form-control" [(ngModel)]="Obj['aes_key']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)='update()'>
+                                        Update</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<ngx-spinner><!-- Loading.... -->Loading</ngx-spinner>
+
+
+
+<ngx-spinner type="ball-atom">
+    <p style="color: white"><!--  Loading... -->Loading</p>
+</ngx-spinner>

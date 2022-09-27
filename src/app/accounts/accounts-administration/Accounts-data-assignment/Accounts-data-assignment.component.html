@@ -1,0 +1,421 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <div class="ibox-head">
+
+                    <div class="ibox-title">{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Data_Assignment1']}}<!-- HR Data Assignment --></div>
+
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-7-1" data-toggle="tab"><i
+              class="fa fa-line-chart"></i>&nbsp;{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Data_Assignment2']}}<!-- HR Data Assignment List --></a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-2" data-toggle="tab"><i class="ti-settings"></i> {{mainServices.allLableShowObj[mainServices.language_cd+'AC_Data_Assignment3']}}<!-- Create
+                                HR Data Assignment -->
+
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-3" data-toggle="tab"><i class="ti-settings"></i> Update
+                                Hierarchy Node
+                            </a>
+                        </li> -->
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-4" data-toggle="tab"><i class="ti-settings"></i> Update
+                                User Role
+                            </a>
+                        </li> -->
+
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-7-1">
+                            <br>
+                            <div class=" table-container ">
+
+                                <div class="row">
+                                    <div class="col-4">
+                                        <mat-form-field style="margin-left: 2%">
+                                            <input matInput (keyup)="applyFilter($event.target.value)"
+                                                placeholder="{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Data_Assignment4']}}"><!-- Filter -->
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+                                <div class="example-container">
+                                    <table style="width: 100%" mat-table [dataSource]="dataSource" matSort>
+
+                                        <ng-container matColumnDef="node_cd" sticky>
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header><b>{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Data_Assignment5']}}<!-- Node Code --></b>
+                                            </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element">
+                                                {{element.node_cd}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="node_desc">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                <b>{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Data_Assignment6']}}<!-- Node Description --></b>
+                                            </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element; let i = index;">
+                                                {{element.node_desc}}
+                                            </td>
+                                        </ng-container>
+
+                                        <!-- <ng-container matColumnDef="update">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                <b>Role Description</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element; let i = index;">
+                                                {{element.role_desc}}
+                                            </td>
+                                        </ng-container> -->
+
+
+
+                                        <ng-container matColumnDef="status">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                <b>{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Data_Assignment7']}}<!-- Status --></b>
+                                            </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element; let i = index;">
+                                                {{element.status}}
+                                            </td>
+                                        </ng-container>
+
+
+
+
+
+                                        <ng-container matColumnDef="action">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                <b>{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Data_Assignment8']}}<!-- Action --></b>
+                                            </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element; let i = index;">
+                                                <button class="btn btn-primary" *ngIf="element.status=='ACTIVE'"
+                                                    (click)="inactive(element)">{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Data_Assignment9']}}<!-- INACTIVE --></button>
+                                                <!-- <button class="btn btn-danger" (click)="deleteRole(element,i)">Delete</button> -->
+                                            </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns">
+                                        </tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                        </tr>
+                                    </table>
+                                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-7-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3">
+                                    <h6 style="margin-left: 2%;"> {{mainServices.allLableShowObj[mainServices.language_cd+'AC_Data_Assignment10']}}<!-- Select Node --> : <span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="ActiveNode" [multiple]="false" placeholder="{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Data_Assignment10']}}"
+                                        bindLabel="desc" bindValue="node_cd" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="hierarchy"
+                                        [(ngModel)]="Obj['node_cd']"><!-- Select Node -->
+                                    </ng-select>
+
+                                </div>
+                                <div class="col-3"></div>
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3">
+                                    <h6 style="margin-left: 2%;"> {{mainServices.allLableShowObj[mainServices.language_cd+'AC_Data_Assignment11']}}<!-- Select User --> : <span style="color: red;">*</span> </h6>
+                                </div>
+                                <div class="col-3">
+
+                                    <ng-select [items]="all_Users" [multiple]="false" placeholder="{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Data_Assignment11']}}"></ng-select>
+
+                                    <ng-select [items]="users" [multiple]="false" placeholder="Select User"></ng-select>
+
+                                </div>
+                                <div class="col-3"></div>
+                            </div>
+
+                            <!-- <br>
+                            <div class="row">
+                                <div class="col-4 text-left">
+                                    <h6 style="margin-left: 2%;">Select Resource :<span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allResources" bindLabel="res_desc" bindValue="res_cd" [multiple]="true" placeholder="Select Resource" [(ngModel)]="Obj['res_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="role">
+                                    </ng-select>
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                            </div> -->
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="submit()">{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Data_Assignment12']}}<!-- Submit --></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-7-3">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 ">
+                                    <h6 style="margin-left: 2%;"> {{mainServices.allLableShowObj[mainServices.language_cd+'AC_Data_Assignment10']}}<!-- Select Node --> : <span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="ActiveNode" [multiple]="false" bindLabel="desc"
+                                        bindValue="node_cd" [selectableGroup]="true" (change)="ParentNodeChange()"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="hierarchy"
+                                        [(ngModel)]="Obj['parent_node_cd']">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 ">
+                                    <h6 style="margin-left: 2%;">{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Data_Assignment13']}}<!-- Current Node Path --> : <span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    {{Obj['path_desc']}}
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-4 ">
+                                    <h6 style="margin-left: 2%;"> {{mainServices.allLableShowObj[mainServices.language_cd+'AC_Data_Assignment5']}}<!-- Node Code --> : <span style="color: red;">*</span> </h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="Obj['node_cd']" onkeypress='return (event.charCode > 96 && event.charCode < 123) || 
+                                    (event.charCode > 64 && event.charCode < 91) || (event.charCode >= 48 
+                                    && event.charCode <= 57) || event.charCode <= 31' type="text"
+                                        placeholder="{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Data_Assignment14']}" /><!-- Enter Node Code -->
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 ">
+                                    <h6 style="margin-left: 2%;"> {{mainServices.allLableShowObj[mainServices.language_cd+'AC_Data_Assignment6']}}<!-- Node Description --> : <span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <textarea style="width: 100%; height: 80px;" id="re" name="re"
+                                        [(ngModel)]="Obj['node_desc']" placeholder="{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Data_Assignment15']}"
+                                        class="form-control"></textarea><!-- Enter Node Description -->
+                                </div>
+                            </div>
+                            <!-- <br>
+                            <div class="row">
+                                <div class="col-4 text-left">
+                                    <h6 style="margin-left: 2%;">Select Resource :<span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allResources" bindLabel="res_desc" bindValue="res_cd" [multiple]="true" placeholder="Select Resource" [(ngModel)]="Obj['res_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="role">
+                                    </ng-select>
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                            </div> -->
+                            <!-- <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+                            </div> -->
+                        </div>
+                        <!-- <div class="tab-pane fade" id="tab-7-4">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 ">
+                                    <h6 style="margin-left: 2%;"> Role Code : <span style="color: red;">*</span> </h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="email" placeholder="Enter Role Code" class="form-control" [(ngModel)]="Obj['role_cd']" disabled>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 ">
+                                    <h6 style="margin-left: 2%;"> Role Name : <span style="color: red;">*</span></h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="email" placeholder="Enter Name" class="form-control" [(ngModel)]="Obj['role_name']">
+
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 ">
+                                    <h6 style="margin-left: 2%;"> Role Description : <span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <textarea style="width: 100%; height: 80px;" id="re" name="re" [(ngModel)]="Obj['role_desc']" placeholder="Enter Role Description" class="form-control"></textarea>
+
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 ">
+                                    <h6 style="margin-left: 2%;"> Select Access : <span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [multiple]="false" placeholder="Select Access " [items]="access" bindLabel="value" bindValue="code" [selectableGroup]="true" [selectableGroupAsModel]="false" aria-placeholder="Select Access" [closeOnSelect]="false" name="hierarchy" [(ngModel)]="Obj['access']">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-left">
+                                    <h6 style="margin-left: 2%;">Select Resource :<span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-4" *ngIf="flag == false">
+                                    <ng-select [items]="allResources" bindLabel="res_desc" bindValue="res_cd" [multiple]="true" placeholder="Select Resource" [(ngModel)]="Obj['res_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="role">
+                                    </ng-select>
+                                </div>
+                                <div class="col-4" *ngIf="flag == true">
+                                    <ng-select [items]="allResources" bindLabel="res_desc" bindValue="res_cd" [multiple]="true" placeholder="Select Resource" [(ngModel)]="Obj['res_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="role" disabled>
+                                    </ng-select>
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+                            </div>
+                        </div> -->
+
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>Loading....</ngx-spinner>
+
+<!-- <div class="modal" id="createRole">
+    <div class="modal-dialog  modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Create Role</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" style="padding-left: 15%">
+                <div class="row">
+                    <label class="col-lg-2 control-label" style="font-size: 15px ;padding-top: 1%"><b>Select
+                            Components:</b></label>
+                    <div class="col-lg-8">
+
+                        <ng-select [items]="allComp" bindLabel="interface_name" bindValue="id" [multiple]="true" placeholder="Select Components" [(ngModel)]="selectedComp" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="role">
+
+
+
+                        </ng-select>
+
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <label class="col-lg-2 control-label" style="font-size: 15px ;padding-top: 1%"><b>Whats is Role
+                            Name:</b></label>
+                    <div class="col-lg-8">
+
+                        <input class="form-control" [(ngModel)]="role_name">
+                    </div>
+                </div>
+                <br>
+
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-info" (click)="addNewRole()">Add</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+<ngx-spinner type="ball-atom">
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>
+
+<!-- <div class="modal" id="updateRole">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+
+            <div class="modal-header">
+                <h4 class="modal-title">Update Role</h4>
+            </div>
+
+
+            <div class="modal-body" style="padding-left: 15%">
+                <div class="row">
+                    <label class="col-lg-2 control-label" style="font-size: 15px ;padding-top: 1%"><b>Selected
+                            Components:</b></label>
+                    <div class="col-lg-8">
+
+                        <ng-select [items]="allComp" bindLabel="interface_name" bindValue="id" [multiple]="true" placeholder="Select Components" [(ngModel)]="selectedComp" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="role">
+
+
+
+                        </ng-select>
+
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <label class="col-lg-2 control-label" style="font-size: 15px ;padding-top: 1%"><b> Role
+                            Name:</b></label>
+                    <div class="col-lg-8">
+
+                        <input class="form-control" [(ngModel)]="role_name">
+                    </div>
+                </div>
+                <br>
+
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" (click)="updateRole()">Update</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div> -->

@@ -1,0 +1,456 @@
+<div id="sidebar-collapse">
+    <div class="admin-block d-flex" style="align-items: center;">
+        <div>
+            <img src="./../../../assets/img/dash/ap.png" class="img-circle" width="45px" />
+        </div>
+        <div class="admin-info">
+            <div class="font-strong" (click)="home()">{{auth.allSystemModuleObj['ACCOUNT']}}</div>
+        </div>
+    </div>
+    <ul class="side-menu metismenu">
+        <li>
+            <a routerLinkActive="active" routerLink="/accounts/index"><i class="sidebar-item-icon fa fa-th-large"></i>
+                <span class="nav-label">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar1']}}
+                    <!-- Dashboard -->
+                </span>
+            </a>
+        </li>
+
+        <li routerLinkActive="active">
+            <a href="javascript:;"><i class="sidebar-item-icon fa fa-bar-chart"></i>
+                <span class="nav-label">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar2']}}
+                    <!-- Report -->
+                </span><i class="fa fa-angle-left arrow"></i></a>
+            <ul class="nav-2-level collapse" routerLinkActive="in">
+
+                <li>
+                    <a routerLink="/accounts/ledger/report/ledger-report"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar4']}}
+                        <!-- Ledger Report -->
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/ledger/report/bank-report"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar5']}}
+                        <!-- Bank Book -->
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/ledger/report/gst"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar6']}}
+                        <!-- GST -->
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/ledger/report/tds-gst"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar7']}}
+                        <!-- TDS on GST -->
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/ledger/report/tds"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar8']}}
+                        <!-- TDS -->
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/ledger/report/all-ded"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar9']}}
+                        <!-- Deductions -->
+                    </a>
+                </li>
+                <!--  <li>
+                    <a routerLink="/accounts/ledger/report/trail-balance" routerLinkActive="active">PF</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/ledger/report/trail-balance" routerLinkActive="active">GIS</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/ledger/report/trail-balance" routerLinkActive="active">Labour Cess</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/ledger/report/trail-balance" routerLinkActive="active">Royality</a>
+                </li> -->
+                <!-- <li>
+                    <a routerLink="/accounts/ledger/report/trail-balance" routerLinkActive="active">LIC</a>
+                </li> -->
+
+
+
+            </ul>
+        </li>
+
+
+        <li routerLinkActive="active">
+            <a href="javascript:;"><i class="sidebar-item-icon fa fa-money"></i>
+                <span class="nav-label">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar10']}}
+                    <!-- Accounts Payable -->
+                </span><i class="fa fa-angle-left arrow"></i></a>
+            <ul class="nav-2-level collapse" routerLinkActive="in">
+                <li>
+                    <a routerLink="/accounts/bill"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar11']}}
+                        <!-- Bills -->
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/dep-bill" routerLinkActive="active">Department Bill
+                        <!-- Bills -->
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/bank-payment"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar12']}}
+                        <!-- Bank Payment -->
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/advice"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar13']}}
+                        <!-- Advice -->
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+
+        <li routerLinkActive="active">
+            <a href="javascript:;"><i class="sidebar-item-icon fa fa-get-pocket"></i>
+                <span class="nav-label">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar14']}}
+                    <!-- Accounts Receivable -->
+                </span><i class="fa fa-angle-left arrow"></i></a>
+            <ul class="nav-2-level collapse" routerLinkActive="in">
+                <li>
+                    <a routerLink="/accounts/challan"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar15']}}
+                        <!-- Challans -->
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/dep-payment" routerLinkActive="active">Department Payment
+                        <!-- Payments -->
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/dep-demands" routerLinkActive="active">Department Demand
+                        <!-- Demands -->
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/demand"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar16']}}
+                        <!-- Demand -->
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+        <!-- <li>
+            <a href="javascript:;" routerLinkActive="active"  routerLink="/accounts/event-group"><i class="sidebar-item-icon fa fa-th-large"></i>
+                <span class="nav-label"></span>Event-Group
+            </a>
+        </li> -->
+        <li routerLinkActive="active">
+            <a href="javascript:;"><i class="sidebar-item-icon fa fa-id-card"></i>
+                <span class="nav-label">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar17']}}
+                    <!-- Treasury -->
+                </span><i class="fa fa-angle-left arrow"></i></a>
+            <ul class="nav-2-level collapse" routerLinkActive="in">
+                <li>
+                    <a routerLink="/accounts/tresuary/contra"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar18']}}
+                        <!-- Contra -->
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/tresuary/bank-account"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar20']}}
+                        <!-- Bank Account -->
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/tresuary/gateway-mid-configuration" routerLinkActive="active">Gateway MID
+                        Configuration
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+
+        <li routerLinkActive="active">
+            <a href="javascript:;"><i class="sidebar-item-icon fa fa-book"></i>
+                <span class="nav-label">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar21']}}
+                    <!-- Ledger -->
+                </span><i class="fa fa-angle-left arrow"></i></a>
+            <ul class="nav-2-level collapse" routerLinkActive="in">
+                <li>
+                    <a routerLink="/accounts/ledger/jv" routerLinkActive="active">
+                        Journals
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/ledger/report/trail-balance"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar3']}}
+                        <!-- Trial Balance -->
+                    </a>
+                </li>
+
+                <!--   <li>
+                    <a routerLink="/accounts/budget" routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar24']}} 
+                            Budget</a>
+                </li> -->
+                <li>
+                    <a routerLink="/accounts/ledger/bud-hier"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar24']}}
+                        <!-- Budget Hierarchy -->
+                    </a>
+                </li>
+                <!--    <li>
+                    <a routerLink="/accounts/ledger/jrnl"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar25']}}
+                        Manual Journal 
+                    </a>
+                </li> -->
+
+
+            </ul>
+        </li>
+
+        <li routerLinkActive="active">
+            <a href="javascript:;"><i class="sidebar-item-icon fa fa-user-plus"></i>
+                <span class="nav-label">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar29']}}
+                    <!-- Administration -->
+                </span><i class="fa fa-angle-left arrow"></i></a>
+            <ul class="nav-2-level collapse" routerLinkActive="in">
+                <li routerLinkActive="active">
+                    <a href="javascript:;"><i class="sidebar-item-icon "></i>
+                        <span class="nav-label">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar21']}}
+                            <!-- Ledger -->
+                        </span><i class="fa fa-angle-left arrow"></i></a>
+                    <ul class="nav-3-level collapse" routerLinkActive="in">
+                        <li>
+                            <a routerLink="/accounts/setting/fin-year" routerLinkActive="active">
+                                <!-- {{mainService.allLableShowObj[mainService.language_cd+'Sidebar23']}} -->
+                                Fiscal Year
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/accounts/ledger/coa"
+                                routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar33']}}
+                                <!-- Chart Of Account -->
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/accounts/ledger/org-hier" routerLinkActive="active">Organization
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" routerLinkActive="active" routerLink="/accounts/cost-center">
+                                <span class="nav-label"></span>Cost Center
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/accounts/ledger/activity-hier"
+                                routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar36']}}
+                                <!-- Activity Hierarchy -->
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/accounts/ledger/proj-hier"
+                                routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar35']}}
+                                <!-- Project Hierarchy -->
+                            </a>
+                        </li>
+
+                        <li>
+                            <a routerLink="/accounts/ledger/prod-hier"
+                                routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar37']}}
+                                <!-- Product Hierarchy -->
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/accounts/ledger/events" routerLinkActive="active">
+                                <!-- {{mainService.allLableShowObj[mainService.language_cd+'Sidebar31']}} -->
+                                Business Event
+                            </a>
+                        </li>
+                        <!--  <li>
+                            <a routerLink="/accounts/ledger/report/party-report" routerLinkActive="active">Chart of Account (Ledger)</a>
+                        </li> -->
+                        <li>
+                            <a routerLink="/accounts/ledger/rule"
+                                routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar32']}}
+                                <!-- Accounting Rule -->
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li>
+                    <a routerLinkActive="active" routerLink="/accounts/setting/party">
+                        <span class="nav-label">
+                            <!-- {{mainService.allLableShowObj[mainService.language_cd+'Sidebar27']}} -->
+                            Parties
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a routerLinkActive="active" routerLink="/accounts/setting/work">
+                        <span class="nav-label">
+                            <!-- {{mainService.allLableShowObj[mainService.language_cd+'Sidebar28']}} -->
+                            Work
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/setting/hsn" routerLinkActive="active">
+                        <!-- {{mainService.allLableShowObj[mainService.language_cd+'Sidebar6']}} -->
+                        GST
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/setting/deduction-mapping" routerLinkActive="active">
+                        <!-- {{mainService.allLableShowObj[mainService.language_cd+'Sidebar39']}} -->
+                        Deduction Mapping
+                    </a>
+                </li>
+                <li routerLinkActive="active">
+                    <a href="javascript:;">
+                        <span class="nav-label">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar26']}}
+                            <!-- Master Data -->
+                        </span><i class="fa fa-angle-left arrow"></i></a>
+                    <ul class="nav-2-level collapse" routerLinkActive="in">
+                        <li>
+                            <a routerLink="/accounts/setting/code-value"
+                                routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar41']}}
+                                <!-- Code-Value -->
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li routerLinkActive="active">
+                    <a href="javascript:;">
+                        <span class="nav-label">
+                            <!-- {{mainService.allLableShowObj[mainService.language_cd+'Sidebar42']}} -->
+                            Security
+                        </span><i class="fa fa-angle-left arrow"></i></a>
+                    <ul class="nav-2-level collapse" routerLinkActive="in">
+
+
+                        <li>
+                            <a routerLink="/accounts/administration/roles" routerLinkActive="active">
+                                {{mainService.allLableShowObj[mainService.language_cd+'Sidebar43']}}
+                                <!-- Role -->
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/accounts/administration/users" routerLinkActive="active">
+                                <!-- {{mainService.allLableShowObj[mainService.language_cd+'Sidebar44']}} -->
+                                Functional Authorization
+                                <!-- Users Role Authorization -->
+                            </a>
+                        </li>
+
+                        <li>
+                            <a routerLink="/accounts/administration/dataAuth" routerLinkActive="active">
+                                <!-- {{mainService.allLableShowObj[mainService.language_cd+'Sidebar44']}} -->
+                                Data Authorization
+                                <!-- Users Role Authorization -->
+                            </a>
+                        </li>
+
+                        <!-- <li>
+                            <a routerLink="/accounts/administration/hierarchy" routerLinkActive="active">
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Sidebar45']}}
+                                     Hierarchy 
+                                </a>
+                        </li> -->
+                        <!-- <li>
+                            <a routerLink="/accounts/administration/data-assignment" routerLinkActive="active">
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Sidebar47']}}
+                                    Data Assignment
+                                </a>
+                        </li> -->
+                        <!-- <li>
+                            <a routerLink="/accounts/administration/account-appr" routerLinkActive="active">
+                                WorkFlow
+                            </a>
+                        </li> -->
+                    </ul>
+                </li>
+
+                <!--   <li>
+                    <a routerLink="/accounts/setting/project-bank"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar38']}}
+                        Project Bank Account 
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/setting/deduction-mapping"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar39']}}
+                         Deduction Mapping 
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/setting/acc-mapping"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar40']}}
+                         Account Mapping 
+                    </a>
+                </li> -->
+
+
+
+                <!-- <li>
+                    <a routerLink="/accounts/setting/fields" routerLinkActive="active">Fields</a>
+                </li> -->
+                <!--   <li>
+                    <a routerLink="/accounts/setting/hsn"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar6']}}
+                         GST 
+                    </a>
+                </li> -->
+
+
+            </ul>
+        </li>
+
+
+        <li routerLinkActive="active">
+            <a href="javascript:;"><i class="sidebar-item-icon fa fa-question-circle"></i>
+                <span class="nav-label">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar48']}}
+                    <!-- Help -->
+                </span><i class="fa fa-angle-left arrow"></i></a>
+            <ul class="nav-2-level collapse" routerLinkActive="in">
+                <li>
+                    <a routerLink="/accounts/help/faq"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar49']}}
+                        <!-- FAQ -->
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/help/doc"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar50']}}
+                        <!-- User Manual -->
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/help/videos"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar51']}}
+                        <!-- Tutorial Videos -->
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/help/online-support"
+                        routerLinkActive="active">{{mainService.allLableShowObj[mainService.language_cd+'Sidebar52']}}
+                        <!-- Online Support -->
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+
+
+    </ul>
+</div>

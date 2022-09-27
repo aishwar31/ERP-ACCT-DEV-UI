@@ -1,0 +1,1164 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Party Info </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" *ngIf="list_flag" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                Party Detail
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" *ngIf="create_flag" data-toggle="tab"><i class="fa fa-plus-circle"></i>
+                                Add Party
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" *ngIf="update_flag" data-toggle="tab"><i class="ti-settings"></i> 
+                                Update Party Detail
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" *ngIf="list_flag" id="tab-1">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-11 text-right">
+                                    <button style="margin: 5px;" (click)="open_create()" class="btn btn-success">
+                                        New Party    
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="example-container" style="text-size-adjust: 2;">
+                                <table mat-table [dataSource]="datasource" matSort>
+
+                                    <ng-container matColumnDef="party_legal_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            Party Name
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.party_legal_name}}
+                                        </td>
+                                    </ng-container>
+                                   
+                                    <ng-container matColumnDef="le_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            Party Id
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.le_id}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="party_origination_source_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            Party Source Code
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.party_origination_source_code}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="party_type_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            Party Type Code
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.party_type_code}}
+                                        </td>
+                                    </ng-container>
+                                    
+                                    <ng-container matColumnDef="party_phone_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            Phone
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.party_phone_no}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="party_email">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            Email
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.party_email}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="party_city">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            City
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.party_city}}
+                                        </td>
+                                    </ng-container>
+                                    
+                                    <ng-container matColumnDef="action" style="width: 5%;">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            Action</th>
+                                        <!--Action-->
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-outline-primary" (click)="open_update(element)">Update</button>
+                                            <button class="btn btn-outline-danger" *ngIf="element.party_status=='ACTIVE'" (click)="inactiveParty(element)" style="margin: 5px;">INACTIVE</button>
+                                            <button class="btn btn-outline-danger"  (click)="deleteParty(element)" style="margin: 5px;">Delete</button>  
+                                            <!-- *ngIf="element.party_status=='INACTIVE'" -->
+                                            <button class="btn btn-outline-primary" *ngIf="element.party_status=='INACTIVE'" (click)="activeParty(element)" style="margin: 5px;">ACTIVE</button>
+
+                                            <!--Update-->
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+                            </div>
+
+                        </div>
+
+                        <!-- <div class="tab-pane fade show active" *ngIf="create_flag" id="tab-2">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Legal Name :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['party_name']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Email :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['email']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Phone No :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['phone_no']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Adhar No :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['adhar_no']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    State :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0004']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['party_state']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-2 text-right">
+                                    Country :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0005']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['party_country']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    City :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['city']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    PAN :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['pan_no']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Address Line 1 :
+                                </div>
+                                <div class="col-4">
+                                    <textarea id="t1" name="t1" [(ngModel)]="partyObj['addr_line_1']"></textarea>
+                                </div>
+                                <div class="col-2 text-right">
+                                    Address Line 2 :
+                                </div>
+                                <div class="col-4">
+                                    <textarea id="t2" name="t2" [(ngModel)]="partyObj['addr_line_2']"></textarea>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Party PIN Code :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['zip']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Father or Husband Name :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['father_or_husband_name']">
+                                </div>
+                            </div>
+                            <br>
+
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <h5>Other Party Details</h5>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Source :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0037']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['evt_grp_src_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-2 text-right">
+                                    Party Type :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0002']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['party_type_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    GSTIN :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['gstin_no']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Effective Date :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" [(ngModel)]="partyObj['effective_date']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Party Bank Account Number :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['bank_acct_num']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Party Bank :
+                                </div>
+                                <div class="col-4">
+
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0006']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['bank_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Bank Branch:
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['branch_code']"> -->
+                                    <!-- <ng-select [items]="mainService.codeValueTechObj['ACC0007']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['branch_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select> -->
+                                <!-- </div>
+                                <div class="col-2 text-right">
+                                    IFS Code :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['ifsc_code']">
+                                </div>
+                            </div>
+                            <br>
+
+
+
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="save()">SUBMIT</button>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <div class="tab-pane fade show active" *ngIf="create_flag" id="tab-2">
+
+                            <div class="col-12 text-right">
+
+                                <button class="btn btn-primary"
+                                            (click)="listfunc()">Back to list</button>
+
+                             </div>
+
+                             <br>
+                             <br>
+
+                            <mat-horizontal-stepper [linear]="isLinear" #stepper1>
+
+                                <mat-step [stepControl]="first" label="Search" completed="false">
+
+                                    <br>
+                                    <br>
+
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            <h6>Enter Mobile Number/Email* </h6>
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="email" class="form-control" [(ngModel)]="partyObj['credential']">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <button class="btn btn-danger" (click)=open_list()>Cancel</button> &nbsp;&nbsp;
+                                            <button class="btn btn-primary" (click)="searchtab2()">Search</button>
+                                        </div>
+
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <!-- <button mat-button mat-raised-button class="btn btn-outline-success"
+                                                 matStepperNext>Next</button> -->
+                                        </div>
+                                    </div>
+
+                                </mat-step>
+                                <br>
+                                <br>
+                                
+                                <mat-step [stepControl]="second" label="Identity">
+
+                                    <br>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <hr class="hrline">
+                                        </div>
+                                        <div class="col-2 text-center">
+                                            <h6 id="h" style="color: brown; min-height: 20px;">
+                                                Party Info:
+                                            </h6>
+                                        </div>
+                                        <div class="col-5">
+                                            <hr class="hrline">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+
+                                            Party Id*
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="text" class="form-control" placeholder="system assiged" [(ngModel)]="partyObj['le_id']" disabled>
+                                        </div>
+
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+
+                                            Party Name*
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="text" class="form-control" *ngIf="disable_flag==true" [(ngModel)]="partyObj['party_name']" disabled>
+                                            <input type="text" class="form-control" *ngIf="disable_flag==false" [(ngModel)]="partyObj['party_name']">
+                                        </div>
+
+                                    </div>
+                                    <br>
+
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+
+                                            Email*
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="email" class="form-control" *ngIf="disable_flag==true" [(ngModel)]="partyObj['party_email']" disabled>
+                                            <input type="email" class="form-control" *ngIf="disable_flag==false" [(ngModel)]="partyObj['party_email']">
+                                        </div>
+
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+
+                                            Phone*
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="number" class="form-control" *ngIf="disable_flag==true" [(ngModel)]="partyObj['party_phone_no']" disabled>
+                                            <input type="number" class="form-control" *ngIf="disable_flag==false" [(ngModel)]="partyObj['party_phone_no']">
+                                        </div>
+
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+
+                                            Party DOB*
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="date" class="form-control" *ngIf="dob_blank==false " [(ngModel)]="partyObj['party_dob']" disabled>
+                                            <input type="date" class="form-control" *ngIf="dob_blank==true" [(ngModel)]="partyObj['party_dob']">
+                                        </div>
+
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <button mat-button mat-raised-button class="btn btn-outline-danger" (click)=open_list()>Cancel</button> &nbsp;&nbsp;
+                                            <button mat-button mat-raised-button class="btn btn-outline-primary" matStepperPrevious>Back</button> &nbsp;&nbsp;
+                                            <!--Back-->
+                                            <button mat-button mat-raised-button class="btn btn-outline-info" *ngIf="next_button_2==true" matStepperNext>Next</button>
+                                            <button mat-button mat-raised-button class="btn btn-outline-success" *ngIf="next_button_2==false" (click)="submitlegal()" matStepperNext>Save</button>
+                                           
+                                            <!--Next-->
+
+
+                                        </div>
+                                    </div>
+
+                                </mat-step>
+                                <br>
+                                <br>
+                                
+                                <mat-step [stepControl]="third" label="Party Info">
+                                    
+                                    <br>
+                                    <br>                                    
+                                    <br>
+                                    
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <hr class="partyline">
+                                        </div>
+                                        <div class="col-2 text-center">
+                                            <h6 id="h" style="color: brown; min-height: 20px;">
+                                                Party Info:
+                                            </h6>
+                                        </div>
+                                        <div class="col-5">
+                                            <hr class="partyline">
+                                        </div>
+                                    </div>
+                                    <br> 
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-2 text-right">
+                                            Legal Name :
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_legal_name']">
+                                        </div>
+                                        <div class="col-2 text-right">
+                                            Email :
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_email']">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-2 text-right">
+                                            Phone No :
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_phone_no']">
+                                        </div>
+                                        <div class="col-2 text-right">
+                                            Adhar No :
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_adhaar_no']">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-2 text-right">
+                                            State :
+                                        </div>
+                                        <!-- <div class="col-4">
+                                            <ng-select [items]="mainService.codeValueTechObj['ACC0004']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['party_state']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                            </ng-select>
+                                        </div> -->
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_state']">
+                                        </div>
+                                        <div class="col-2 text-right">
+                                            Country :
+                                        </div>
+                                        <!-- <div class="col-4">
+                                            <ng-select [items]="mainService.codeValueTechObj['ACC0005']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['party_country']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                                name="field_name">
+                                            </ng-select>
+                                        </div> -->
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_country']">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-2 text-right">
+                                            City :
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_city']">
+                                        </div>
+                                        <div class="col-2 text-right">
+                                            PAN :
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_pan_no']">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-2 text-right">
+                                            Address Line 1 :
+                                        </div>
+                                        <div class="col-4">
+                                            <textarea id="t1" name="t1" [(ngModel)]="partyObj['party_addr_line1']"></textarea>
+                                        </div>
+                                        <div class="col-2 text-right">
+                                            Address Line 2 :
+                                        </div>
+                                        <div class="col-4">
+                                            <textarea id="t2" name="t2" [(ngModel)]="partyObj['party_addr_line2']"></textarea>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <button mat-button mat-raised-button class="btn btn-outline-danger" (click)=open_list()>Cancel</button> &nbsp;&nbsp;
+                                            <button mat-button mat-raised-button class="btn btn-outline-primary" matStepperPrevious>Back</button> &nbsp;&nbsp;
+                                            <!--Back-->
+                                            <button mat-button mat-raised-button class="btn btn-outline-info" matStepperNext>Next</button>
+                                            <!--Next-->
+
+
+                                        </div>
+                                    </div>
+                                    
+                                </mat-step>
+
+                                <mat-step [stepControl]="fourth" label="Other Party Details">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <hr class="partyline">
+                                        </div>
+                                        <div class="col-2 text-center">
+                                            <h6 id="h" style="color: brown; min-height: 20px;">
+                                                Other Party Details:
+                                            </h6>
+                                        </div>
+                                        <div class="col-5">
+                                            <hr class="partyline">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <br>
+
+                                    <div class="row">
+                                        
+                                        <div class="col-2 text-right">
+                                            Party Type :
+                                        </div>
+                                        <div class="col-4">
+                                            <ng-select [items]="party_type" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['party_type_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                                name="field_name">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-2 text-right">
+                                            GSTIN :
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['gstin_no']">
+                                        </div>
+                                        <div class="col-2 text-right">
+                                            Effective Date :
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" type="date" [(ngModel)]="partyObj['effective_date']">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-2 text-right">
+                                            Party Bank Account Number :
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['bank_acct_num']">
+                                        </div>
+                                        <div class="col-2 text-right">
+                                            Party Bank :
+                                        </div>
+                                        <div class="col-4">
+        
+                                            <ng-select [items]="mainService.codeValueTechObj['ACC0006']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['bank_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-2 text-right">
+                                            Bank Branch:
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['branch_code']">                                            
+                                        </div>
+                                        <div class="col-2 text-right">
+                                            IFS Code :
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['ifsc_code']">
+                                        </div>
+                                    </div>
+
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <button mat-button mat-raised-button class="btn btn-outline-danger" (click)=open_list()>Cancel</button> &nbsp;&nbsp;
+                                            <button mat-button mat-raised-button class="btn btn-outline-primary" matStepperPrevious>Back</button> &nbsp;&nbsp;
+                                            <!--Back-->
+                                            <button mat-button mat-raised-button class="btn btn-outline-info" matStepperNext>Next</button>
+                                            <!--Next-->
+
+
+                                        </div>
+                                    </div>
+
+                                </mat-step>
+
+                                <mat-step [stepControl]="fifth" label="Done">
+                                    <br>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <hr class="partyline">
+                                        </div>
+                                        <div class="col-2 text-center">
+                                            <h6 id="h" style="color: brown; min-height: 20px;">
+                                                Party Info:
+                                            </h6>
+                                        </div>
+                                        <div class="col-5">
+                                            <hr class="partyline">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            Party Id:
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['le_id']" placeholder="system assigned" disabled>
+                                        </div>
+
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            Party Name:
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_legal_name']" disabled>
+                                        </div>
+
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            Party DOB:
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_dob']" disabled>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            Email:
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_email']" disabled>
+                                        </div>
+
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            Phone:
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_phone_no']" disabled>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            Adhar No:
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_adhaar_no']" disabled>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            State:
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_state']" disabled>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            Country:
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_country']" disabled>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            City:
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_city']" disabled>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            PAN No:
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_pan_no']" disabled>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            Address Line 1:
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_addr_line1']" disabled>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            Address Line 2:
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_addr_line2']" disabled>
+                                        </div>
+                                    </div>
+                                    <br>  
+                                    <br>                                    
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <hr class="partyline">
+                                        </div>
+                                        <div class="col-2 text-center">
+                                            <h6 id="h" style="color: brown; min-height: 20px;">
+                                                Other Party Details:
+                                            </h6>
+                                        </div>
+                                        <div class="col-5">
+                                            <hr class="partyline">
+                                        </div>
+                                    </div>
+                                    <br>   
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            Type Code:
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_type_code']" disabled>
+                                        </div>
+                                    </div>
+                                    <br> 
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            GSTIN:
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_gst_no']" disabled>
+                                        </div>
+                                    </div>
+                                    <br> 
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            Party Bank Account No:
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_bank_acct_no']" disabled>
+                                        </div>
+                                    </div>
+                                    <br> 
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            Party Bank Code:
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_bank_code']" disabled>
+                                        </div>
+                                    </div>
+                                    <br> 
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            Party Branch Code:
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_branch_code']" disabled>
+                                        </div>
+                                    </div>
+                                    <br> 
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            Party IFSC Code:
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control" [(ngModel)]="partyObj['party_ifsc_code']" disabled>
+                                        </div>
+                                    </div>
+                                    <br>   
+                                    
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <button mat-button mat-raised-button class="btn btn-outline-danger" (click)=open_list()>Cancel</button> &nbsp;&nbsp;
+                                            <button mat-button mat-raised-button class="btn btn-outline-primary" matStepperPrevious>Back</button> &nbsp;&nbsp;
+                                            <!--Back-->
+                                            <button mat-button mat-raised-button class="btn btn-outline-success" (click)="addParty()">Submit</button>
+                                            <!--Next-->
+                                        </div>
+                                    </div>
+                                    <br>
+                                    
+                                </mat-step>
+
+                            </mat-horizontal-stepper>
+
+                        </div>
+
+                        
+                        <div class="tab-pane fade show active" *ngIf="update_flag" id="tab-3">
+
+                            <br>
+                            <div class="col-12 text-right">
+
+                                <button class="btn btn-primary"
+                                            (click)="listfunc()">Back to list</button>
+
+                             </div>
+
+                             <br>
+                             <br>
+
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Legal Name :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['party_legal_name']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Email :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['party_email']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Phone No :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['party_phone_no']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Adhar No :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['party_adhar_no']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    State :
+                                </div>
+                                <!-- <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0004']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['party_state']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div> -->
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['party_state']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Country :
+                                </div>
+                                <!-- <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0005']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['party_country']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div> -->
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['party_country']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    City :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['party_city']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    PAN :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['party_pan_no']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Address Line 1 :
+                                </div>
+                                <div class="col-4">
+                                    <textarea id="t1" name="t1" [(ngModel)]="partyObj['party_addr_line_1']"></textarea>
+                                </div>
+                                <div class="col-2 text-right">
+                                    Address Line 2 :
+                                </div>
+                                <div class="col-4">
+                                    <textarea id="t2" name="t2" [(ngModel)]="partyObj['party_addr_line_2']"></textarea>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Party PIN Code :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['party_pin_code']">
+                                </div>
+                                
+                            </div>
+                            <br>
+
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <h5>Other Party Details</h5>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                
+                                <div class="col-2 text-right">
+                                    Party Type :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="party_type" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['party_type_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    GSTIN :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['party_gst_no']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Effective Date :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" [(ngModel)]="partyObj['effective_date']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Party Bank Account Number :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['party_bank_acct_no']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Party Bank :
+                                </div>
+                                <div class="col-4">
+
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0006']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['party_bank_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Bank Branch:
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['party_branch_code']">
+                                    <!-- <ng-select [items]="mainService.codeValueTechObj['ACC0007']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['branch_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select> -->
+                                </div>
+                                <div class="col-2 text-right">
+                                    IFS Code :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['party_ifsc_code']">
+                                </div>
+                            </div>
+                            <br>
+
+
+
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-outline-primary" (click)="update()">UPDATE</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>
+
+<div class="modal" id="myModal1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <!-- <div class="modal-header">
+                <h4 class="modal-title">Challan</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div> -->
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <br>
+
+
+                <div class="row">
+                    <div class="col-12 text-center">
+                        An employee with searched email or phone no. already exists,Please search with a different email and phone no. to add a new employee.
+                    </div>
+                </div>
+
+                <br>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        <h6>Party ID:</h6>
+                    </div>
+                    <div class="col-5 text-left">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="modobj['id']" disabled>
+
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        <h6> Party Name:</h6>
+                    </div>
+                    <div class="col-5 text-left">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="modobj['party_legal_name']" disabled>
+
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        <h6> Email:</h6>
+                    </div>
+                    <div class="col-5 text-left">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="modobj['party_email']" disabled>
+
+
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        <h6> Phone:</h6>
+                    </div>
+                    <div class="col-5 text-left">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="modobj['party_phone_no']" disabled>
+
+
+                    </div>
+                </div>
+                <br>
+                <br>
+
+
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">CANCEL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,2187 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title" href="#tab-1" data-toggle="tab"> Organization Hierarchy
+                    </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item" *ngIf="list_flag==true">
+                            <a class="nav-link active" (click)="refresh()"><i class="ti-bar-chart"></i>
+                                List</a>
+                        </li>
+                        <li class="nav-item" *ngIf="view_flag==true">
+                            <a class="nav-link" (click)="refresh()"><i class="ti-bar-chart"></i>
+                                List</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" *ngIf="list_flag==true" id="tab-1">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+
+                                    <h6>Business Entity Type</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="obj['buss_func_type']" disabled>
+                                </div>
+                                <div class="col-4">
+                                    <button class="btn btn-primary" (click)="getorgHier()">List</button>
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field>
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-4"></div>
+                                <div class="col-4 text-right" *ngIf="allOrgHier.length==0">
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal1"
+                                        (click)="createNewHierarchy()">Create New</button>
+                                </div>
+                            </div>
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort #sort="matSort">
+
+
+
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Hier ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.id }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="hier_purpose">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Hier Purpose
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.hier_purpose }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="org_hier_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Hier Code
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.org_hier_code}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="hier_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Hier
+                                            Description
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.hier_desc }} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary" (click)="view(element)"
+                                                data-toggle="tab" href="#tab-2">View</button>
+                                            <button class="btn btn-outline-success"
+                                                (click)="open_update(element)">Update</button>
+                                            <button class="btn btn-outline-danger" *ngIf="element.org_hier_code!='FIN'"
+                                                (click)="delete(element)">Delete</button>
+                                            <!--   <button class="btn btn-info" (click)="changeStatus(element)">Change
+                                                Status</button> -->
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator #paginator [pageSizeOptions]="[5,10, 20]" showFirstLastButtons>
+                                </mat-paginator>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" *ngIf="view_flag==true" id="tab-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-right">
+
+                                    <button class="btn btn-primary" (click)="listfunc()">Back to list</button>
+
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3">
+                                    Business Entity Type:
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="viewObj['buss_func_type']" disabled>
+                                </div>
+                                <div class="col-3">
+                                    Hierarchy Purpose:
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="viewObj['hier_purpose']" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3">
+                                    Hierarchy Code:
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="viewObj['org_hier_code']" disabled>
+                                </div>
+                                <div class="col-3">
+                                    Hierarchy Name:
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="viewObj['hier_desc']" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary "> UPDATE</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button (click)="add()" class="btn btn-success"> ADD</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter1($event.target.value)"
+                                            placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="dataSource" matSort #sortCol2="matSort">
+                                    <ng-container matColumnDef="leaf_node_type">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Leaf Node
+                                            Type
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.leaf_node_type}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="leaf_code_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Leaf
+                                            Code-Desc
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.leaf_cd }}-{{element.leaf_value}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl1_node_type">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>lvl1 Node
+                                            Type
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.lvl1_node_type}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl1_code_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Lvl1
+                                            Code-Desc
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl1_cd }} - {{ element.lvl1_value }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl2_node_type">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>lvl2 Node
+                                            Type
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.lvl2_node_type}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl2_code_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Lvl2
+                                            Code-Desc
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl2_cd }}-{{ element.lvl2_value }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl3_node_type">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>lvl3 Node
+                                            Type
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.lvl3_node_type}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl3_code_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Lvl3
+                                            Code-Desc
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl3_cd }}-{{ element.lvl3_value }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl4_node_type">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Lvl4 Node
+                                            Type
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.lvl4_node_type}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl4_code_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Lvl4
+                                            Code-Desc
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl4_cd }}-{{ element.lvl4_value }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl5_node_type">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Lvl5 Node
+                                            Type
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.lvl5_node_type}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl5_code_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Lvl5
+                                            Code-Desc
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl5_cd }}-{{ element.lvl5_value }} </td>
+                                    </ng-container>
+
+
+
+
+                                    <ng-container matColumnDef="lvl6_node_type">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Lvl6 Node
+                                            Type
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.lvl6_node_type}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl6_code_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Lvl6
+                                            Code-Desc
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl6_cd }}-{{ element.lvl6_value }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="lvl7_node_type">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Lvl7 Node
+                                            Type
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.lvl7_node_type}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl7_code_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Lvl7
+                                            Code-Desc
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl7_cd }}-{{ element.lvl7_value }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="is_cc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Is Cost
+                                            Center
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ flagObj[ element.is_cc] }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainService.allLableShowObj[mainService.language_cd+'Activity_Hierarchy23']}}
+                                            <!-- Action -->
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button *ngIf="element['is_cc']!=1" class="btn btn-outline-primary"
+                                                (click)="open_update2(element)">{{mainService.allLableShowObj[mainService.language_cd+'Activity_Hierarchy24']}}
+                                                <!-- Update -->
+                                            </button>
+                                            <button *ngIf="element['is_cc']!=1" class="btn btn-outline-danger"
+                                                (click)="delete2(element)">{{mainService.allLableShowObj[mainService.language_cd+'Activity_Hierarchy25']}}
+                                                <!-- Delete -->
+                                            </button>
+                                            <button *ngIf="element['leaf_cd'] !=element['lvl1_cd']"
+                                                class="btn btn-outline-warning"
+                                                (click)="openMove(element)">Move</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns1;">
+                                    </tr>
+                                </table>
+                                <mat-paginator #paginator1 [pageSizeOptions]="[5,10, 20]" showFirstLastButtons>
+                                </mat-paginator>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal" id="myModal1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title"> Create Organizational Hierarchy
+                </h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-4 text-right">
+
+                        <h6>Hierarchy Identification Business Code* </h6>
+                    </div>
+                    <div class="col-4">
+                        <input disabled class="form-control" [(ngModel)]="obj['org_hier_code']">
+                    </div>
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-4 text-right">
+
+                        <h6>Hierarchy Name* </h6>
+                    </div>
+                    <div class="col-4">
+                        <input class="form-control" [(ngModel)]="obj['hier_desc']">
+                    </div>
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-4 text-right">
+
+                        <h6>Hierarchy Purpose* </h6>
+                    </div>
+                    <div class="col-4">
+                        <input class="form-control" [(ngModel)]="obj['hier_purpose']">
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" (click)="createHier()">Save</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="myModal2">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title"> Update Organizational Hierarchy
+                </h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-4 text-right">
+
+                        <h6>Hierarchy Identification Business Code* </h6>
+                    </div>
+                    <div class="col-4">
+                        <input class="form-control" [(ngModel)]="obj['org_hier_code']" disabled>
+                    </div>
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-4 text-right">
+
+                        <h6>Hierarchy Name* </h6>
+                    </div>
+                    <div class="col-4">
+                        <input class="form-control" [(ngModel)]="obj['hier_desc']">
+                    </div>
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-4 text-right">
+
+                        <h6>Hierarchy Purpose* </h6>
+                    </div>
+                    <div class="col-4">
+                        <input class="form-control" [(ngModel)]="obj['hier_purpose']">
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" (click)="update()">Update</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="myModal3">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title"> Create Organizational Hierarchy
+                </h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!--Modal Body-->
+            <div class="modal-body">
+                <br>
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-2 text-center">
+                        Business Entity Type:
+                    </div>
+                    <div class="col-2 text-center">
+                        <input class="form-control" [(ngModel)]="viewObj['buss_func_type']" disabled>
+                    </div>
+                    <div class="col-2 text-center">
+                        Hierarchy Purpose:
+                    </div>
+                    <div class="col-2 text-center">
+                        <input class="form-control" [(ngModel)]="viewObj['hier_purpose']" disabled>
+                    </div>
+                    <div class="col-2">
+
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-2 text-center">
+                        Hierarchy Code:
+                    </div>
+                    <div class="col-2 text-center">
+                        <input class="form-control" [(ngModel)]="viewObj['org_hier_code']" disabled>
+                    </div>
+                    <div class="col-2 text-center">
+                        Hierarchy Name:
+                    </div>
+                    <div class="col-2 text-center">
+                        <input class="form-control" [(ngModel)]="viewObj['hier_desc']" disabled>
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-2">
+                    </div>
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4 text-center"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <h6><b>Org Type</b></h6>
+
+                            </div>
+                            <div class="col-4 text-center"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <h6><b>
+                                        {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy27']}}</b>
+                                </h6>
+                                <!-- Code -->
+
+                            </div>
+                            <div class="col-4 text-center"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <h6><b>
+                                        {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy28']}}</b>
+                                </h6>
+                                <!-- Value -->
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-2">
+
+                    </div>
+
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-2 text-right">
+                        {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy29']}}
+                    </div>
+                    <!-- Level 1: -->
+                    <div class="col-8">
+                        <div class="row">
+
+                            <div class="col-4" *ngIf="currentHierarchy['lvl1_type']=='text'">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl1_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl1_type']!='text'">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl1_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name" disabled>
+                                </ng-select>
+                            </div>
+
+                            <div class="col-4" *ngIf="currentHierarchy['lvl1_type']!='text'">
+                                <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl1_cd']"
+                                    disabled>
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl1_type']=='text'">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl1_cd']">
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl1_type']!='text'">
+                                <ng-select [items]="level1" bindLabel="lvl1_value" bindValue="lvl1_cd"
+                                    (change)="onChangeLvl1()" [multiple]="false" placeholder="select"
+                                    [(ngModel)]="currentHierarchy['lvl1_cd']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl1_value">
+                                </ng-select>
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl1_type']=='text'">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl1_value']">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-2" (click)="addNew('1')"
+                        *ngIf="currentHierarchy['lvl1_type']!='text'  && level1.length==0"
+                        style="color: rgb(37, 130, 236);" disabled>
+                        <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy30']}}
+                                </u></b></h6>
+                    </div>
+                    <!-- Add New  -->
+                    <div class="col-2" *ngIf="currentHierarchy['lvl1_type']=='text' && level1.length==0"
+                        (click)="addNew('1')" style="color: rgb(37, 130, 236);">
+                        <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy31']}}
+                                </u></b></h6>
+                    </div>
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col-2 text-right">
+                        {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy32']}}
+                    </div>
+                    <!-- Level 2 : -->
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4" *ngIf="currentHierarchy['lvl2_type']=='text'">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl2_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl2_type']!='text'">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl2_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name" disabled>
+                                </ng-select>
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl2_type']!='text'">
+                                <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl2_cd']"
+                                    disabled>
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl2_type']=='text'">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl2_cd']">
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl2_type']!='text'">
+                                <ng-select [items]="level2" bindLabel="lvl2_value" bindValue="lvl2_cd"
+                                    (change)="onChangeLvl2()" [multiple]="false"
+                                    placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy83']}}"
+                                    [(ngModel)]="currentHierarchy['lvl2_cd']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl2_value">
+                                </ng-select>
+                            </div>
+
+                            <div class="col-4" *ngIf="currentHierarchy['lvl2_type']=='text'">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl2_value']">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div id="text" class="col-2" (click)="addNew('2')" *ngIf="currentHierarchy['lvl2_type']!='text'"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy33']}}
+                                </u></b></h6>
+                    </div>
+                    <!-- Add New -->
+                    <div id="text" class="col-2" *ngIf="currentHierarchy['lvl2_type']=='text'" (click)="addNew('2')"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u>
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy34']}}</u></b>
+                        </h6>
+                    </div>
+                    <!-- Select  -->
+                </div>
+                <br>
+                <div class="row">
+
+                    <div class="col-2 text-right">
+                        <h6> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy35']}}</h6>
+                    </div>
+                    <!-- Level 3 : -->
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4" *ngIf="currentHierarchy['lvl3_type']=='text'">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl3_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl3_type']!='text'">
+
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl3_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name" disabled>
+                                </ng-select>
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl3_type']!='text'">
+
+                                <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl3_cd']"
+                                    disabled>
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl3_type']=='text'">
+
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl3_cd']">
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl3_type']!='text'">
+                                <ng-select [items]="level3" bindLabel="lvl3_value" bindValue="lvl3_cd"
+                                    (change)="onChangeLvl3()" [multiple]="false"
+                                    placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy84']}}"
+                                    [(ngModel)]="currentHierarchy['lvl3_cd']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl3_value">
+                                </ng-select>
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl3_type']=='text'">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl3_value']">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="text" class="col-2" (click)="addNew('3')" *ngIf="currentHierarchy['lvl3_type']!='text'"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy36']}}</u></b>
+                        </h6>
+                    </div>
+                    <!-- Add New   -->
+                    <div id="text" class="col-2" *ngIf="currentHierarchy['lvl3_type']=='text'" (click)="addNew('3')"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy37']}}
+                                </u></b></h6>
+                    </div>
+                    <!-- Select -->
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-2 text-right">
+                        <h6>{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy38']}}</h6>
+                    </div>
+                    <!-- Level 4 :  -->
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4" *ngIf="currentHierarchy['lvl4_type']=='text'">
+
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl4_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl4_type']!='text'">
+
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl4_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name" disabled>
+                                </ng-select>
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl4_type']!='text'">
+
+                                <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl4_cd']"
+                                    disabled>
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl4_type']=='text'">
+
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl4_cd']">
+
+                            </div>
+
+                            <div class="col-4" *ngIf="currentHierarchy['lvl4_type']!='text'">
+                                <ng-select [items]="level4" bindLabel="lvl4_value" bindValue="lvl4_cd"
+                                    (change)="onChangeLvl4()" [multiple]="false"
+                                    placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy85']}}"
+                                    [(ngModel)]="currentHierarchy['lvl4_cd']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl4_value">
+                                </ng-select>
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl4_type']=='text'">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl4_value']">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="text" class="col-2" (click)="addNew('4')" *ngIf="currentHierarchy['lvl4_type']!='text'"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy39']}}
+                                </u></b></h6>
+                    </div>
+                    <!-- Add New -->
+                    <div id="text" class="col-2" *ngIf="currentHierarchy['lvl4_type']=='text'" (click)="addNew('4')"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy40']}}
+                                </u></b></h6>
+                    </div>
+                    <!-- Select -->
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-2 text-right">
+                        <h6> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy41']}}</h6>
+                    </div>
+                    <!-- Level 5 : -->
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4" *ngIf="currentHierarchy['lvl5_type']=='text'">
+
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl5_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl5_type']!='text'">
+
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl5_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name" disabled>
+                                </ng-select>
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl5_type']!='text'">
+
+                                <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl5_cd']"
+                                    disabled>
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl5_type']=='text'">
+
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl5_cd']">
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl5_type']!='text'">
+
+                                <ng-select [items]="level5" bindLabel="lvl5_value" bindValue="lvl5_cd"
+                                    (change)="onChangeLvl5()" [multiple]="false"
+                                    placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy86']}}"
+                                    [(ngModel)]="currentHierarchy['lvl5_cd']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl5_value">
+                                </ng-select>
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl5_type']=='text'">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl5_value']">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="text" class="col-2" (click)="addNew('5')" *ngIf="currentHierarchy['lvl5_type']!='text'"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u>
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy42']}}</u></b>
+                        </h6>
+                    </div>
+                    <!-- Add New  -->
+                    <div id="text" class="col-2" *ngIf="currentHierarchy['lvl5_type']=='text'" (click)="addNew('5')"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy43']}}
+                                </u></b></h6>
+                    </div>
+                    <!-- Select -->
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-2 text-right">
+                        <h6> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy44']}}</h6>
+                    </div>
+                    <!-- Level 6 : -->
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4" *ngIf="currentHierarchy['lvl6_type']=='text'">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl6_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl6_type']!='text'">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl6_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name" disabled>
+                                </ng-select>
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl6_type']!='text'">
+
+                                <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl6_cd']"
+                                    disabled>
+
+                            </div>
+
+                            <div class="col-4" *ngIf="currentHierarchy['lvl6_type']=='text'">
+
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl6_cd']">
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl6_type']!='text'">
+
+                                <ng-select [items]="level6" bindLabel="lvl6_value" bindValue="lvl6_cd"
+                                    (change)="onChangeLvl6()" [multiple]="false"
+                                    placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy87']}}"
+                                    [(ngModel)]="currentHierarchy['lvl6_cd']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl6_value">
+                                </ng-select>
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl6_type']=='text'">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl6_value']">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="text" class="col-2" (click)="addNew('6')" *ngIf="currentHierarchy['lvl6_type']!='text'"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u>
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy45']}}</u></b>
+                        </h6>
+                    </div>
+                    <!-- Add New  -->
+                    <div id="text" class="col-2" *ngIf="currentHierarchy['lvl6_type']=='text'" (click)="addNew('6')"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy46']}}
+                                </u></b></h6>
+                    </div>
+                    <!-- Select -->
+                </div>
+
+                <br>
+                <div class="row">
+
+                    <div class="col-2 text-right">
+                        <h6> Level 7 :
+
+                        </h6>
+                    </div>
+
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4" *ngIf="currentHierarchy['lvl7_type']=='text'">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl7_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl7_type']!='text'">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl7_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name" disabled>
+                                </ng-select>
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl7_type']!='text'">
+
+                                <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl7_cd']"
+                                    disabled>
+
+                            </div>
+
+                            <div class="col-4" *ngIf="currentHierarchy['lvl7_type']=='text'">
+
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl7_cd']">
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl7_type']!='text'">
+
+                                <ng-select [items]="level7" bindLabel="lvl7_value" bindValue="lvl7_cd"
+                                    (change)="onChangeLvl7()" [multiple]="false" placeholder="Select Level 7"
+                                    [(ngModel)]="currentHierarchy['lvl7_cd']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl7_value">
+                                </ng-select>
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl7_type']=='text'">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl7_value']">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="text" class="col-2" (click)="addNew('7')" *ngIf="currentHierarchy['lvl7_type']!='text'"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u>
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy45']}}</u></b>
+                        </h6>
+                    </div>
+                    <!-- Add New  -->
+                    <div id="text" class="col-2" *ngIf="currentHierarchy['lvl7_type']=='text'" (click)="addNew('7')"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy46']}}
+                                </u></b></h6>
+                    </div>
+                    <!-- Select -->
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-2 text-right">
+                        <h6> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy50']}}</h6>
+                    </div>
+                    <!-- Leaf : -->
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4">
+
+                                <input type="text" class="form-control" [(ngModel)]="currentHierarchy['leaf_node_type']"
+                                    disabled>
+
+                            </div>
+                            <div class="col-4">
+
+                                <input type="text" class="form-control" [(ngModel)]="currentHierarchy['leaf_cd']"
+                                    disabled>
+
+                            </div>
+
+                            <div class="col-4">
+
+                                <input type="text" class="form-control" [(ngModel)]="currentHierarchy['leaf_value']"
+                                    disabled>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col-4 text-right">
+                        <h6>Is Cost Center:</h6>
+                    </div>
+                    <div class="col-8 ">
+                        &nbsp; <input type="checkbox" style="width: 20px;height: 20px;" class="form-check-input"
+                            [(ngModel)]="is_cost_center" />
+                        &nbsp; &nbsp; <b>Please check if you are adding a Cost Center.</b>
+                    </div>
+                </div>
+
+                <br>
+
+
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary" (click)="save()"> Add</button>
+
+                    </div>
+                </div>
+                <br>
+            </div>
+
+            <!--Modal Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="myModal4">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title">Update Organizational Hierarchy
+                </h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!--Modal Body-->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-2">
+                    </div>
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4 text-center"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <h6><b>Org Type</b></h6>
+
+                            </div>
+                            <div class="col-4 text-center"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <h6><b>
+                                        {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy27']}}</b>
+                                </h6>
+                                <!-- Code -->
+
+                            </div>
+                            <div class="col-4 text-center"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <h6><b>
+                                        {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy28']}}</b>
+                                </h6>
+                                <!-- Value -->
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-2">
+
+                    </div>
+
+
+                </div>
+                <br>
+                <div class="row" *ngIf="1==updateLevel">
+                    <div class="col-2 text-right">
+                        {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy29']}}
+                    </div>
+                    <!-- Level 1: -->
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4" *ngIf="currentHierarchy['lvl1_type']=='text'">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl1_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+                            </div>
+                            <div class="col-4 " *ngIf="currentHierarchy['lvl1_type']!='text'">
+                                <input type="text" class="form-control"
+                                    [(ngModel)]="currentHierarchy['lvl1_node_type']">
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl1_type']!='text'">
+                                <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl1_cd']"
+                                    disabled>
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl1_type']=='text'">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl1_cd']">
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl1_type']!='text'">
+                                <ng-select [items]="level1" bindLabel="lvl1_value" bindValue="lvl1_cd"
+                                    (change)="onChangeLvl1()" [multiple]="false"
+                                    placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy82']}}"
+                                    [(ngModel)]="currentHierarchy['lvl1_cd']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl1_value">
+                                </ng-select>
+                            </div>
+
+                            <div class="col-4" *ngIf="currentHierarchy['lvl1_type']=='text'">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl1_value']">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="text" class="col-2" (click)="addNew('1')" *ngIf="currentHierarchy['lvl1_type']!='text'  "
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy30']}}
+                                </u></b></h6>
+                    </div>
+                    <!-- Add New  -->
+                    <div id="text" class="col-2" *ngIf="currentHierarchy['lvl1_type']=='text'" (click)="addNew('1')"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy31']}}
+                                </u></b></h6>
+                    </div>
+                </div>
+                <div class="row" *ngIf="1!=updateLevel">
+                    <div class="col-2 text-right">
+                        Level 1 :
+                    </div>
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4 ">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl1_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name" disabled>
+                                </ng-select>
+                            </div>
+                            <div class="col-4">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl1_cd']" disabled>
+
+                            </div>
+
+                            <div class="col-4">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl1_value']" disabled>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-2">
+
+                    </div>
+
+                </div>
+
+                <br>
+
+                <div class="row" *ngIf="2==updateLevel">
+                    <div class="col-2 text-right">
+                        Level 2:
+                    </div>
+
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4" *ngIf="currentHierarchy['lvl2_type']=='text'">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl2_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+                            </div>
+                            <div class="col-4 " *ngIf="currentHierarchy['lvl2_type']!='text'">
+                                <input type="text" class="form-control"
+                                    [(ngModel)]="currentHierarchy['lvl2_node_type']">
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl2_type']!='text'">
+                                <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl2_cd']"
+                                    disabled>
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl2_type']=='text'">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl2_cd']">
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl2_type']!='text'">
+                                <ng-select [items]="level2" bindLabel="lvl2_value" bindValue="lvl2_cd"
+                                    (change)="onChangeLvl2()" [multiple]="false" placeholder="select"
+                                    [(ngModel)]="currentHierarchy['lvl2_cd']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl2_value">
+                                </ng-select>
+                            </div>
+
+                            <div class="col-4" *ngIf="currentHierarchy['lvl2_type']=='text'">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl2_value']">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="text" class="col-2" (click)="addNew('2')" *ngIf="currentHierarchy['lvl2_type']!='text' "
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u> Add New</u></b></h6>
+                    </div>
+
+                    <div id="text" class="col-2" *ngIf="currentHierarchy['lvl2_type']=='text' " (click)="addNew('2')"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy31']}}
+                                </u></b></h6>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="2!=updateLevel">
+                    <div class="col-2 text-right">
+                        Level 2 :
+                    </div>
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4 ">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl2_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name" disabled>
+                                </ng-select>
+                            </div>
+                            <div class="col-4">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl2_cd']" disabled>
+
+                            </div>
+
+                            <div class="col-4">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl2_value']" disabled>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-2">
+
+                    </div>
+
+                </div>
+
+                <br>
+                <div class="row" *ngIf="3==updateLevel">
+
+                    <div class="col-2 text-right">
+                        <h6> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy35']}}</h6>
+                    </div>
+                    <!-- Level 3 : -->
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4" *ngIf="currentHierarchy['lvl3_type']=='text'">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl3_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl3_type']!='text'">
+
+                                <input type="text" class="form-control"
+                                    [(ngModel)]="currentHierarchy['lvl3_node_type']">
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl3_type']!='text'">
+
+                                <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl3_cd']"
+                                    disabled>
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl3_type']=='text'">
+
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl3_cd']">
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl3_type']!='text'">
+                                <ng-select [items]="level3" bindLabel="lvl3_value" bindValue="lvl3_cd"
+                                    (change)="onChangeLvl3()" [multiple]="false"
+                                    placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy84']}}"
+                                    [(ngModel)]="currentHierarchy['lvl3_cd']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl3_value">
+                                </ng-select>
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl3_type']=='text'">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl3_value']">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="text" class="col-2" (click)="addNew('3')" *ngIf="obj['lvl3_type']!='text'"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy36']}}</u></b>
+                        </h6>
+                    </div>
+                    <!-- Add New   -->
+                    <div id="text" class="col-2" *ngIf="obj['lvl3_type']=='text'" (click)="addNew('3')"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy37']}}
+                                </u></b></h6>
+                    </div>
+                    <!-- Select -->
+                </div>
+                <div class="row" *ngIf="3!=updateLevel">
+                    <div class="col-2 text-right">
+                        Level 3 :
+                    </div>
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4 ">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl3_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name" disabled>
+                                </ng-select>
+                            </div>
+                            <div class="col-4">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl3_cd']" disabled>
+
+                            </div>
+
+                            <div class="col-4">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl3_value']" disabled>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-2">
+
+                    </div>
+
+                </div>
+
+                <br>
+
+                <div class="row" *ngIf="4==updateLevel">
+
+                    <div class="col-2 text-right">
+                        <h6>{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy38']}}</h6>
+                    </div>
+                    <!-- Level 4 :  -->
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4" *ngIf="currentHierarchy['lvl4_type']=='text'">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl4_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl4_type']!='text'">
+
+                                <input type="text" class="form-control"
+                                    [(ngModel)]="currentHierarchy['lvl4_node_type']">
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl4_type']!='text'">
+
+                                <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl4_cd']"
+                                    disabled>
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl4_type']=='text'">
+
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl4_cd']">
+
+                            </div>
+
+                            <div class="col-4" *ngIf="currentHierarchy['lvl4_type']!='text'">
+                                <ng-select [items]="level4" bindLabel="lvl4_value" bindValue="lvl4_cd"
+                                    (change)="onChangeLvl4()" [multiple]="false"
+                                    placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy85']}}"
+                                    [(ngModel)]="currentHierarchy['lvl4_cd']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl4_value">
+                                </ng-select>
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl4_type']=='text'">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl4_value']">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="text" class="col-2" (click)="addNew('4')" *ngIf="obj['lvl4_type']!='text'"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy39']}}
+                                </u></b></h6>
+                    </div>
+                    <!-- Add New -->
+                    <div id="text" class="col-2" *ngIf="obj['lvl4_type']=='text'" (click)="addNew('4')"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy40']}}
+                                </u></b></h6>
+                    </div>
+                    <!-- Select -->
+                </div>
+                <div class="row" *ngIf="4!=updateLevel">
+                    <div class="col-2 text-right">
+                        Level 4 :
+                    </div>
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4 ">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl4_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name" disabled>
+                                </ng-select>
+                            </div>
+                            <div class="col-4">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl4_cd']" disabled>
+
+                            </div>
+
+                            <div class="col-4">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl4_value']" disabled>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-2">
+
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="row" *ngIf="5==updateLevel">
+
+                    <div class="col-2 text-right">
+                        <h6> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy41']}}</h6>
+                    </div>
+                    <!-- Level 5 : -->
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4" *ngIf="currentHierarchy['lvl5_type']=='text'">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl5_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl5_type']!='text'">
+
+                                <input type="text" class="form-control"
+                                    [(ngModel)]="currentHierarchy['lvl5_node_type']">
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl5_type']!='text'">
+
+                                <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl5_cd']"
+                                    disabled>
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl5_type']=='text'">
+
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl5_cd']">
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl5_type']!='text'">
+
+                                <ng-select [items]="level5" bindLabel="lvl5_value" bindValue="lvl5_cd"
+                                    (change)="onChangeLvl5()" [multiple]="false"
+                                    placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy86']}}"
+                                    [(ngModel)]="currentHierarchy['lvl5_cd']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl5_value">
+                                </ng-select>
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl5_type']=='text'">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl5_value']">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="text" class="col-2" (click)="addNew('5')" *ngIf="obj['lvl5_type']!='text'"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u>
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy42']}}</u></b>
+                        </h6>
+                    </div>
+                    <!-- Add New  -->
+                    <div id="text" class="col-2" *ngIf="obj['lvl5_type']=='text'" (click)="addNew('5')"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy43']}}
+                                </u></b></h6>
+                    </div>
+                    <!-- Select -->
+                </div>
+                <div class="row" *ngIf="5!=updateLevel">
+                    <div class="col-2 text-right">
+                        Level 5 :
+                    </div>
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4 ">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl5_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name" disabled>
+                                </ng-select>
+                            </div>
+                            <div class="col-4">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl5_cd']" disabled>
+
+                            </div>
+
+                            <div class="col-4">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl5_value']" disabled>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-2">
+
+                    </div>
+
+                </div>
+
+                <br>
+                <div class="row" *ngIf="6==updateLevel">
+
+                    <div class="col-2 text-right">
+                        <h6> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy44']}}</h6>
+                    </div>
+                    <!-- Level 6 : -->
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4" *ngIf="currentHierarchy['lvl6_type']=='text'">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl6_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl6_type']!='text'">
+
+                                <input type="text" class="form-control"
+                                    [(ngModel)]="currentHierarchy['lvl6_node_type']">
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl6_type']!='text'">
+
+                                <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl6_cd']"
+                                    disabled>
+
+                            </div>
+
+                            <div class="col-4" *ngIf="currentHierarchy['lvl6_type']=='text'">
+
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl6_cd']">
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl6_type']!='text'">
+
+                                <ng-select [items]="level6" bindLabel="lvl6_value" bindValue="lvl6_cd"
+                                    (change)="onChangeLvl6()" [multiple]="false"
+                                    placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy87']}}"
+                                    [(ngModel)]="currentHierarchy['lvl6_cd']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl6_value">
+                                </ng-select>
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl6_type']=='text'">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl6_value']">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="text" class="col-2" (click)="addNew('6')" *ngIf="obj['lvl6_type']!='text'"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u>
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy45']}}</u></b>
+                        </h6>
+                    </div>
+                    <!-- Add New  -->
+                    <div id="text" class="col-2" *ngIf="obj['lvl6_type']=='text'" (click)="addNew('6')"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy46']}}
+                                </u></b></h6>
+                    </div>
+                    <!-- Select -->
+                </div>
+                <div class="row" *ngIf="6!=updateLevel">
+                    <div class="col-2 text-right">
+                        Level 6:
+                    </div>
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4 ">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl6_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name" disabled>
+                                </ng-select>
+                            </div>
+                            <div class="col-4">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl6_cd']" disabled>
+
+                            </div>
+
+                            <div class="col-4">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl6_value']" disabled>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-2">
+
+                    </div>
+
+                </div>
+                <br>
+                <div class="row" *ngIf="7==updateLevel">
+
+                    <div class="col-2 text-right">
+                        <h6> Level 7: </h6>
+                    </div>
+
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4" *ngIf="currentHierarchy['lvl7_type']=='text'">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl7_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl7_type']!='text'">
+
+                                <input type="text" class="form-control"
+                                    [(ngModel)]="currentHierarchy['lvl7_node_type']">
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl7_type']!='text'">
+
+                                <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl7_cd']"
+                                    disabled>
+
+                            </div>
+
+                            <div class="col-4" *ngIf="currentHierarchy['lvl7_type']=='text'">
+
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl7_cd']">
+
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl7_type']!='text'">
+
+                                <ng-select [items]="level7" bindLabel="lvl7_value" bindValue="lvl6_cd"
+                                    (change)="onChangeLvl7()" [multiple]="false"
+                                    placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy87']}}"
+                                    [(ngModel)]="currentHierarchy['lvl7_cd']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl7_value">
+                                </ng-select>
+                            </div>
+                            <div class="col-4" *ngIf="currentHierarchy['lvl7_type']=='text'">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl7_value']">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="text" class="col-2" (click)="addNew('7')" *ngIf="obj['lvl7_type']!='text'"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u>
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy45']}}</u></b>
+                        </h6>
+                    </div>
+                    <!-- Add New  -->
+                    <div id="text" class="col-2" *ngIf="obj['lvl7_type']=='text'" (click)="addNew('7')"
+                        style="color: rgb(37, 130, 236);">
+                        <h6><b><u> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy46']}}
+                                </u></b></h6>
+                    </div>
+                    <!-- Select -->
+                </div>
+                <div class="row" *ngIf="7!=updateLevel">
+                    <div class="col-2 text-right">
+                        Level 7:
+                    </div>
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4 ">
+                                <ng-select [items]="mainService.codeValueTechObj['ACC145']"
+                                    (change)="makingLeafValues()" bindLabel="value" bindValue="code" [multiple]="false"
+                                    placeholder="select " [(ngModel)]="currentHierarchy['lvl7_node_type']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name" disabled>
+                                </ng-select>
+                            </div>
+                            <div class="col-4">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl7_cd']" disabled>
+
+                            </div>
+
+                            <div class="col-4">
+                                <input type="text" class="form-control" (change)="makingLeafValues()"
+                                    [(ngModel)]="currentHierarchy['lvl7_value']" disabled>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-2">
+
+                    </div>
+
+                </div>
+                <br>
+                <div class="row">
+
+                    <div class="col-2 text-right">
+                        <h6> {{mainService.allLableShowObj[mainService.language_cd+'Product_Hierarchy50']}}</h6>
+                    </div>
+                    <!-- Leaf : -->
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4">
+
+                                <input type="text" class="form-control" [(ngModel)]="currentHierarchy['leaf_node_type']"
+                                    disabled>
+
+                            </div>
+                            <div class="col-4">
+
+                                <input type="text" class="form-control" [(ngModel)]="currentHierarchy['leaf_cd']"
+                                    disabled>
+
+                            </div>
+
+                            <div class="col-4">
+
+                                <input type="text" class="form-control" [(ngModel)]="currentHierarchy['leaf_value']"
+                                    disabled>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+
+
+
+
+
+
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary" (click)="updateHier()"> Update</button>
+
+                    </div>
+                </div>
+                <br>
+            </div>
+            <!--Modal Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="selectCreate">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> Select Node :</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <br>
+                <div class="row">
+                    <div class="col-3 text-center">
+
+
+                    </div>
+                    <div class="col-2 text-center"
+                        style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                        <h6><b>Node Type</b></h6>
+
+
+                    </div>
+                    <div class="col-2 text-center"
+                        style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                        <h6><b>Code</b></h6>
+
+
+                    </div>
+                    <div class="col-2 text-center"
+                        style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                        <h6><b> Value</b></h6>
+
+
+                    </div>
+
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Level 1:
+                    </div>
+                    <div class="col-2">
+                        <ng-select [items]="level1" bindLabel="lvl1_node_type" bindValue="lvl1_cd" (change)="onChangeLvl1()"
+                            [multiple]="false" placeholder="Select Level 1 " [(ngModel)]="currentHierarchy['lvl1_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl1_node_type">
+                        </ng-select>
+                    </div>
+                    <div class="col-2">
+                        <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl1_cd']" disabled>
+                    </div>
+
+                    <div class="col-2">
+                        <ng-select [items]="level1" bindLabel="lvl1_value" bindValue="lvl1_cd" (change)="onChangeLvl1()"
+                            [multiple]="false" placeholder="Select Level 1 " [(ngModel)]="currentHierarchy['lvl1_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl1_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Level 2 :
+                    </div>
+                    <div class="col-2">
+                        <ng-select [items]="level2" bindLabel="lvl2_node_type" bindValue="lvl2_cd" (change)="onChangeLvl2()"
+                            [multiple]="false" placeholder="Select Level 2 " [(ngModel)]="currentHierarchy['lvl2_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl2_node_type">
+                        </ng-select>
+                    </div>
+                    <div class="col-2">
+                        <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl2_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-2">
+                        <ng-select [items]="level2" bindLabel="lvl2_value" bindValue="lvl2_cd" (change)="onChangeLvl2()"
+                            [multiple]="false" placeholder="Select Level 2" [(ngModel)]="currentHierarchy['lvl2_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl2_value">
+                        </ng-select>
+                    </div>
+
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 3 :</h6>
+                    </div>
+                    <div class="col-2">
+                        <ng-select [items]="level3" bindLabel="lvl3_node_type" bindValue="lvl3_cd" (change)="onChangeLvl3()"
+                            [multiple]="false" placeholder="Select Level 3 " [(ngModel)]="currentHierarchy['lvl3_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl3_node_type">
+                        </ng-select>
+                    </div>
+                    <div class="col-2">
+
+                        <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl3_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-2">
+                        <ng-select [items]="level3" bindLabel="lvl3_value" bindValue="lvl3_cd" (change)="onChangeLvl3()"
+                            [multiple]="false" placeholder="Select Level 3" [(ngModel)]="currentHierarchy['lvl3_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl3_value">
+                        </ng-select>
+                    </div>
+
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 4 :</h6>
+                    </div>
+                    <div class="col-2">
+                        <ng-select [items]="level4" bindLabel="lvl4_node_type" bindValue="lvl4_cd" (change)="onChangeLvl4()"
+                            [multiple]="false" placeholder="Select Level 4 " [(ngModel)]="currentHierarchy['lvl4_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl4_node_type">
+                        </ng-select>
+                    </div>
+                    <div class="col-2">
+
+                        <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl4_cd']" disabled>
+
+                    </div>
+
+
+                    <div class="col-2">
+                        <ng-select [items]="level4" bindLabel="lvl4_value" bindValue="lvl4_cd" (change)="onChangeLvl4()"
+                            [multiple]="false" placeholder="Select Level 4" [(ngModel)]="currentHierarchy['lvl4_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl4_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 5 :</h6>
+                    </div>
+                    <div class="col-2">
+                        <ng-select [items]="level5" bindLabel="lvl5_node_type" bindValue="lvl5_cd" (change)="onChangeLvl5()"
+                            [multiple]="false" placeholder="Select Level 5 " [(ngModel)]="currentHierarchy['lvl5_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl5_node_type">
+                        </ng-select>
+                    </div>
+                    <div class="col-2">
+
+                        <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl5_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-2">
+
+                        <ng-select [items]="level5" bindLabel="lvl5_value" bindValue="lvl5_cd" (change)="onChangeLvl5()"
+                            [multiple]="false" placeholder="Select Level 5" [(ngModel)]="currentHierarchy['lvl5_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl5_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 6 :</h6>
+                    </div>
+                    <div class="col-2">
+                        <ng-select [items]="level6" bindLabel="lvl6_node_type" bindValue="lvl6_cd" (change)="onChangeLvl6()"
+                            [multiple]="false" placeholder="Select Level 6 " [(ngModel)]="currentHierarchy['lvl6_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl6_node_type">
+                        </ng-select>
+                    </div>
+                    <div class="col-2">
+
+                        <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl6_cd']" disabled>
+
+                    </div>
+
+
+                    <div class="col-2">
+
+                        <ng-select [items]="level6" bindLabel="lvl6_value" bindValue="lvl6_cd" (change)="onChangeLvl6()"
+                            [multiple]="false" placeholder="Select Level 6" [(ngModel)]="currentHierarchy['lvl6_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl6_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 7 :</h6>
+                    </div>
+                    <div class="col-2">
+                        <ng-select [items]="level7" bindLabel="lvl7_node_type" bindValue="lvl7_cd" (change)="onChangeLvl7()"
+                            [multiple]="false" placeholder="Select Level 7 " [(ngModel)]="currentHierarchy['lvl7_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl7_node_type">
+                        </ng-select>
+                    </div>
+                    <div class="col-2">
+
+                        <input type="text" class="form-control" [(ngModel)]="currentHierarchy['lvl7_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-2">
+
+                        <ng-select [items]="level7" (change)="onChangeLvl7()" bindLabel="lvl7_value" bindValue="lvl7_cd"
+                            [multiple]="false" placeholder="Select Level 7" [(ngModel)]="currentHierarchy['lvl7_cd']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl7_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Leaf :</h6>
+                    </div>
+                    <div class="col-2">
+
+                        <input type="text" class="form-control" [(ngModel)]="currentHierarchy['leaf_node_type']" disabled>
+
+                    </div>
+
+                    <div class="col-2">
+
+                        <input type="text" class="form-control" [(ngModel)]="currentHierarchy['leaf_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-2">
+
+                        <input type="text" class="form-control" [(ngModel)]="currentHierarchy['leaf_value']" disabled>
+
+                    </div>
+                </div>
+                <br>
+
+
+
+
+
+
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary" data-dismiss="modal"
+                            (click)="SubmitListHierforMove()">Move</button>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-spinner>Loading....</ngx-spinner>

@@ -1,0 +1,33 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">{{mainService.allLableShowObj[mainService.language_cd+'AC_Online_Support1']}}<!-- Online Support --></div>
+                </div>
+                <div class="ibox-body">
+                    <br>
+                    <br>
+                    <div class="container">
+                        <form id="contact" action="" method="post">
+                            <h3>{{mainService.allLableShowObj[mainService.language_cd+'AC_Online_Support2']}}<!-- Quick Contact --></h3>
+                            <h4>{{mainService.allLableShowObj[mainService.language_cd+'AC_Online_Support3']}}<!-- Contact us today, and get reply with in 24 hours! --></h4>
+                            <fieldset>
+                                <input placeholder="{{mainService.allLableShowObj[mainService.language_cd+'AC_Online_Support4']}}" type="text" tabindex="1" [(ngModel)]="Subject" name="subject" required autofocus><!-- Subject -->
+                            </fieldset>
+
+                            <fieldset>
+                                <textarea placeholder="{{mainService.allLableShowObj[mainService.language_cd+'AC_Online_Support5']}}" tabindex="5" [(ngModel)]="Message" name="meg" required></textarea><!-- Type your Message Here.... -->
+                            </fieldset>
+                            <fieldset>
+                                <button name="submit" type="submit" id="contact-submit" class="float-right" (click)="Submit()">{{mainService.allLableShowObj[mainService.language_cd+'AC_Online_Support6']}}<!-- Submit --></button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

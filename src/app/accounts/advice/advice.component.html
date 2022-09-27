@@ -1,0 +1,96 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">{{mainService.allLableShowObj[mainService.language_cd+'Advice10']}}<!--Advice--></div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i
+                                    class="ti-bar-chart"></i>
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Advice1']}}<!--Advice List--></a>
+                        </li>
+
+
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>{{mainService.allLableShowObj[mainService.language_cd+'Advice2']}}<!--Advice ID-->
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element.id }}</td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>{{mainService.allLableShowObj[mainService.language_cd+'Advice3']}}<!--Amount-->
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.amount}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>{{mainService.allLableShowObj[mainService.language_cd+'Advice4']}}<!--Advice Date-->
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <!-- {{element.date}} -->
+                                            <p *ngIf="element.date">{{mainService.dateFormatChange(element.date)}}</p>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="remark">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>{{mainService.allLableShowObj[mainService.language_cd+'Advice5']}}<!--Remark-->
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.remark}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>{{mainService.allLableShowObj[mainService.language_cd+'Advice6']}}<!--Status-->
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.status}}
+                                        </td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>{{mainService.allLableShowObj[mainService.language_cd+'Advice7']}}<!--Action-->
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-primary" (click)="printAdvice(element)">{{mainService.allLableShowObj[mainService.language_cd+'Advice8']}}<!--Print--></button> &nbsp;&nbsp;
+                                            <button class="btn btn-danger" (click)="delete(element)">{{mainService.allLableShowObj[mainService.language_cd+'Advice9']}}<!--Delete--></button>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="list"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: list;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+                            <br>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-spinner>Loading....</ngx-spinner>

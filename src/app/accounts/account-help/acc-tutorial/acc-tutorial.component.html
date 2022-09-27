@@ -1,0 +1,68 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">{{mainService.allLableShowObj[mainService.language_cd+'AC_Tutorial_Videos1']}}<!-- Tutorial Videos --></div>
+                </div>
+                <div class="ibox-body">
+                    <br>
+
+                    <div class="row">
+                        <div class="col-4">
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter2($event.target.value)" placeholder="{{mainService.allLableShowObj[mainService.language_cd+'AC_Tutorial_Videos2']}}"><!-- Filter -->
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="example-container">
+
+                        <table mat-table [dataSource]="dataSource2" matSort #sortCol3="matSort">
+
+                            <ng-container matColumnDef="s_no">
+                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>{{mainService.allLableShowObj[mainService.language_cd+'AC_Tutorial_Videos3']}}<!-- S. No. -->
+                                </th>
+                                <td mat-cell flex-stretch *matCellDef="let element;let i = index" class="left">
+                                    {{i+1}}
+                                </td>
+                            </ng-container>
+
+
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>{{mainService.allLableShowObj[mainService.language_cd+'AC_Tutorial_Videos5']}}<!-- Name -->
+                                </th>
+                                <td mat-cell flex-stretch *matCellDef="let element" class="left">
+                                    {{ element.name}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="url">
+                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>{{mainService.allLableShowObj[mainService.language_cd+'AC_Tutorial_Videos4']}}<!-- Video URL -->
+                                </th>
+                                <td mat-cell flex-stretch *matCellDef="let element" class="left">
+                                    <a href="{{element.url}}" target="_blank">{{ element.url}}</a> </td>
+                            </ng-container>
+
+
+                            <!-- <ng-container matColumnDef="action">
+                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action
+                                </th>
+                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                    <button class="btn btn-primary" (click)="play_video(element)">View</button>
+                                </td>
+                            </ng-container> -->
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns_for_VIDEO"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns_for_VIDEO;">
+                            </tr>
+                        </table>
+                        <mat-paginator #paginator2 [pageSizeOptions]="[10, 20]" showFirstLastButtons>
+                        </mat-paginator>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

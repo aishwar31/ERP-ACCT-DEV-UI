@@ -1,0 +1,217 @@
+
+tr.mat-header-row {
+    height: 40px !important;
+}
+
+tr.mat-row {
+    height: 30px !important;
+    font-size: 12px;
+}
+
+.example-container {
+    max-height: 720px;
+    overflow: auto;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-cell {
+    padding: 5px 10px 5px 0;
+}
+
+.mat-header-cell {
+    padding: 5px 10px 5px 0;
+}
+
+.mat-row:nth-child(even) {
+    background-color: rgb(238, 224, 226);
+}
+
+.mat-row:nth-child(odd) {
+    background-color: white;
+}
+.block {
+    display: block;
+    border: none;
+    color: white;
+    background-color: rgba(8, 85, 250, 0.651);
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .block:hover {
+    background-color: #ddd;
+    color: black;
+  }
+    .modal {
+        overflow-y:auto;
+      }
+.circles {
+    height: 20px;
+    width: 20px;
+    border: 0.188em solid red;
+    background-color: red;
+    border-radius: 100%;
+    display: inline-block;
+}
+
+.aa {
+    background-color: #ffa500;
+}
+
+.circle-desc-active {
+    font-weight: bold;
+}
+
+.vl {
+    border-left: 6px solid green;
+    height: 500px;
+}
+
+.barblue {
+    width: 0.083em;
+    height: 60px;
+    border: 0.031em solid rgb(89, 255, 47);
+    color: rgb(89, 255, 47);
+    background-color: rgb(89, 255, 47);
+    display: inline-block;
+    text-align: center;
+    
+}
+.bar {
+    width: 0.063em;
+    height: 60px;
+    
+    border: 0.031em solid grey;
+    color: gray;
+    background-color: gray;
+    display: inline-block;
+    text-align: center;
+    margin: "0 auto";
+}
+.container {
+    width: 35%;
+  }
+  
+  .step {
+    
+    
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    
+    background-color: cream;
+  }
+  
+  .v-stepper {
+    position: relative;
+  /*   visibility: visible; */
+  }
+  
+  
+  /* regular step */
+  .step .circle {
+    background-color: white;
+    border: 3px solid gray;
+    border-radius: 100%;
+    width: 20px;    /* +6 for border */
+    height: 20px;
+    display: inline-block;
+  }
+  
+  .step .line {
+      top: 23px;
+    left: 12px;
+  /*   height: 120px; */
+    height: 100%;
+      
+      position: absolute;
+      border-left: 3px solid gray;
+  }
+  
+  .step.completed .circle {
+    visibility: visible;
+    background-color: rgb(89, 255, 47);
+    border-color: rgb(89, 255, 47);
+  }
+  
+  .step.completed .line {
+    border-left: 3px solid rgb(89, 255, 47);
+  }
+  
+  .step.active .circle {
+  visibility: visible;
+    border-color: rgb(89, 255, 47);
+  }
+  
+  .step.empty .circle {
+      visibility: hidden;
+  }
+  
+  .step.empty .line {
+  /*     visibility: hidden; */
+  /*   height: 150%; */
+    top: 0;
+    height: 150%;
+  }
+  
+  
+  .step:last-child .line {
+    border-left: 3px solid white;
+    z-index: -1; /* behind the circle to completely hide */
+  }
+  
+  .content {
+    margin-left: 20px;
+    display: inline-block;
+  }
+ 
+  .showonhover .hovertext { display: none;}
+.showonhover:hover .hovertext {display: inline;}
+a.viewdescription {color:#999;}
+a.viewdescription:hover {background-color:#999; color: White;}
+.hovertext {position:absolute;z-index:1000;border:1px solid #ffd971;background-color:#463E3F; color: white;padding:11px;width:700px;font-size: 14px;}
+.modal-dialog-full-width {
+    width: 80% !important;
+    height: 80% !important;
+    margin-left: 10% !important;
+    max-width:none !important;
+
+}
+.modal-dialog-full-width2 {
+    width: 70% !important;
+    height: 70% !important;
+    margin: 15% !important;
+    
+    max-width:none !important;
+}
+
+.modal-content-full-width  {
+    height: auto !important;
+    min-height: 100% !important;
+    border-radius: 0 !important;
+    background-color: #ececec !important 
+}
+.modal-content-full-width2  {
+    height: auto !important;
+    min-height: 100% !important;
+    border-radius: 0 !important;
+    background-color: #aeaeae !important 
+}
+
+
+.modal-header-full-width  {
+    border-bottom: 1px solid #9ea2a2 !important;
+}
+.modal-header-full-width2  {
+    border-bottom: 1px solid #dadddd !important;
+}
+
+.modal-footer-full-width  {
+    border-top: 1px solid #9ea2a2 !important;
+}

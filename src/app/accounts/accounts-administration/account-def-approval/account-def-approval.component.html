@@ -1,0 +1,785 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">WorkFlow</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-bar-chart"></i>
+                                View ALL WorkFlow</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-plus-circle"></i> Create
+                                WorkFlow</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-settings"></i>
+                                Update WorkFlow</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ i+1 }}</td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="doc_type">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Document Type
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element['doc_type']}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="module_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Module
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element['module_cd']}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-info" (click)="viewRule(element)">View</button>&nbsp;&nbsp;
+                                            <button class="btn btn-primary" (click)="open_update(element)">Update</button>&nbsp;&nbsp;
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+
+
+
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3 text-left">
+                                    <h6>Select Document Type : </h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="doc_type" bindLabel="value" bindValue="value" [multiple]="false" placeholder="" [(ngModel)]="FlowObj['doc_type']" (change)="changedoctype()" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <mat-horizontal-stepper [linear]="isLinear" #stepper>
+                                <mat-step [stepControl]="first" label="Module">
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12 text-right">
+                                            <button class="btn btn-info" (click)="addRowLevelForModule()"><i
+                                                    class="fa fa-plus" aria-hidden="true"></i> Level</button>
+                                        </div>
+                                    </div>
+                                    <br>
+
+                                    <div class="row" style="background-color: #1589FF;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                        <div style="width: 5%;" class="text-center">Level</div>
+                                        <div style="width: 5%;" class="text-center">Branch</div>
+                                        <div style="width: 10%;" class="text-center">Branch Logical Condition</div>
+                                        <div style="width: 10%;" class="text-center">Module</div>
+                                        <div style="width: 15%;" class="text-center">Role</div>
+                                        <div style="width: 10%;" class="text-center">Role Function</div>
+                                        <div style="width: 15%;" class="text-center">Success Action</div>
+                                        <div style="width: 10%;" class="text-center">Condition Exist</div>
+                                        <div style="width: 10%;" class="text-center">Vendor Approval Required </div>
+                                        <div style="width: 10%;" class="text-center">All User Approval Required </div>
+                                    </div>
+
+
+
+
+                                    <div *ngFor="let lvl of moduledata; let i = index">
+
+                                        <br>
+
+                                        <div *ngFor="let ob of lvl['branch_data']; let j = index" class="row">
+
+                                            <div style="width: 5%;">
+                                                <input type="number" placeholder="Enter Level" class="form-control" [(ngModel)]="ob['level']">
+                                            </div>
+
+                                            <div style="width: 5%;">
+                                                <input type="number" placeholder="Enter Branch" class="form-control" [(ngModel)]="ob['branch']">
+                                            </div>
+                                            <div style="width: 10%;">
+                                                <ng-select [items]="logicalCondition" bindLabel="value" bindValue="value" [multiple]="false" placeholder="Select Condition" [(ngModel)]="ob['branch_logical_condition']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Condition">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 10%;">
+                                                <ng-select [items]="allModuleForEMB" bindLabel="module_name" bindValue="module_cd" [multiple]="false" placeholder="Select Module" [(ngModel)]="ob['module_role']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Module">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 15%;">
+                                                <ng-select [items]="allRolesForEMB" bindLabel="role_name" bindValue="role_cd" [multiple]="false" placeholder="Select Role" [(ngModel)]="ob['role_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Role">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 10%;">
+                                                <ng-select [items]="roleFunction" bindLabel="value" bindValue="value" [multiple]="false" placeholder="Select Role Function" [(ngModel)]="ob['role_function']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Role">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 15%;">
+                                                <ng-select [items]="successAction" bindLabel="value" bindValue="value" [multiple]="false" placeholder="Select Success Action" [(ngModel)]="ob['success_action']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Role">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 10%;" class="text-center">
+                                                <mat-checkbox class="example-margin" [(ngModel)]="ob['condition_exists']" [(indeterminate)]="indeterminate" [labelPosition]="labelPosition" [disabled]="disabled">
+                                                </mat-checkbox>
+                                                <button *ngIf="ob['condition_exists']" class="btn btn-info" (click)="condtion(i,j)">Condtion</button>
+
+                                            </div>
+                                            <div style="width: 10%;" class="text-center">
+                                                <mat-checkbox class="example-margin" [(ngModel)]="ob['sent_to_vendor']" [(indeterminate)]="indeterminate" [labelPosition]="labelPosition" [disabled]="disabled">
+                                                </mat-checkbox>
+                                            </div>
+                                            <div style="width: 10%;" class="text-center">
+                                                <mat-checkbox class="example-margin" [(ngModel)]="ob['all_user_approval_req']" [(indeterminate)]="indeterminate" [labelPosition]="labelPosition" [disabled]="disabled">
+                                                </mat-checkbox>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <button mat-button mat-raised-button class="btn btn-primary" matStepperNext>Next</button>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </mat-step>
+                                <mat-step [stepControl]="second" label="Cross-Module">
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12 text-right">
+                                            <button class="btn btn-info" (click)="addCrossModule()"><i
+                                                    class="fa fa-plus" aria-hidden="true"></i>
+                                                Cross-Module</button>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row" style="background-color: #1589FF;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                        <div style="width: 5%;">Level</div>
+                                        <div style="width: 5%;">Branch</div>
+                                        <div style="width: 10%;">Branch Logical Condition</div>
+                                        <div style="width: 10%;">Module</div>
+                                        <div style="width: 15%;">Role</div>
+                                        <div style="width: 10%;">Role Function</div>
+                                        <div style="width: 15%;">Success Action</div>
+                                        <div style="width: 5%;">Condition Exist</div>
+                                        <div style="width: 5%;">Vendor Approval Required </div>
+                                        <div style="width: 5%;">All User Approval Required </div>
+                                        <div style="width: 15%;">Action</div>
+                                    </div>
+
+
+                                    <div *ngFor="let module of crossmoduledata1; let i = index">
+                                        <br>
+
+                                        <div class="row" *ngIf="module['module_show']==true">
+                                            <div class="col-6 text-right">
+                                                <h4>Level :</h4>
+                                            </div>
+                                            <div class="col-6 text-left">
+                                                {{module['module']}}
+                                                <button class="btn btn-info" (click)="addLevel(module['module'])">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i> Level</button>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div *ngFor="let lvl of module['level_data']; let j = index">
+
+                                            <div *ngFor="let ob of lvl['branch_data']; let k = index" class="row">
+
+                                                <div style="width: 5%;">
+                                                    <input type="number" placeholder="Enter Level" class="form-control" [(ngModel)]="ob['level']">
+                                                </div>
+
+                                                <div style="width: 5%;">
+                                                    <input type="number" placeholder="Enter Branch" class="form-control" [(ngModel)]="ob['branch']">
+                                                </div>
+                                                <div style="width: 10%;">
+                                                    <ng-select [items]="logicalCondition" bindLabel="value" bindValue="value" [multiple]="false" placeholder="Select Condition" [(ngModel)]="ob['branch_logical_condition']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Condition">
+                                                    </ng-select>
+                                                </div>
+                                                <div style="width: 10%;">
+                                                    <ng-select [items]="allModule" bindLabel="module_name" bindValue="module_cd" [multiple]="false" placeholder="Select Module" [(ngModel)]="ob['module_role']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Module">
+                                                    </ng-select>
+                                                </div>
+                                                <div style="width: 15%;">
+                                                    <ng-select [items]="allRoles" bindLabel="role_name" bindValue="role_cd" [multiple]="false" placeholder="Select Role" [(ngModel)]="ob['role_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Role">
+                                                    </ng-select>
+                                                </div>
+                                                <div style="width: 10%;">
+                                                    <ng-select [items]="roleFunction" bindLabel="value" bindValue="value" [multiple]="false" placeholder="Select Role Function" [(ngModel)]="ob['role_function']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Role">
+                                                    </ng-select>
+                                                </div>
+                                                <div style="width: 15%;">
+                                                    <ng-select [items]="successAction" bindLabel="value" bindValue="value" [multiple]="false" placeholder="Select Success Action" [(ngModel)]="ob['success_action']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Role">
+                                                    </ng-select>
+                                                </div>
+                                                <div style="width: 5%;" class="text-center">
+                                                    <mat-checkbox class="example-margin" [(ngModel)]="ob['condition_exists']" [(indeterminate)]="indeterminate" [labelPosition]="labelPosition" [disabled]="disabled">
+                                                    </mat-checkbox>
+                                                </div>
+                                                <div style="width: 5%;" class="text-center">
+                                                    <mat-checkbox class="example-margin" [(ngModel)]="ob['sent_to_vendor']" [(indeterminate)]="indeterminate" [labelPosition]="labelPosition" [disabled]="disabled">
+                                                    </mat-checkbox>
+                                                </div>
+                                                <div style="width: 5%;" class="text-center">
+                                                    <mat-checkbox class="example-margin" [(ngModel)]="ob['all_user_approval_req']" [(indeterminate)]="indeterminate" [labelPosition]="labelPosition" [disabled]="disabled">
+                                                    </mat-checkbox>
+                                                </div>
+                                                <div style="width: 15%;">
+                                                    <button class="btn btn-info" *ngIf="ob['branch']==1" (click)="addBranch(module['module'],lvl['level'])"><i
+                                                            class="fa fa-plus" aria-hidden="true"></i> Branch</button>
+                                                    <button *ngIf="ob['condition_exists']" class="btn btn-info" (click)="condtion(i,j)">Condtion</button>
+                                                    <!-- <button class="btn btn-danger" (click)="deleteRow(i,j)">DELETE</button> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <button mat-button mat-raised-button class="btn btn-danger" matStepperPrevious>Back</button>
+                                            <button mat-button mat-raised-button class="btn btn-primary" matStepperNext>Next</button>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </mat-step>
+                                <mat-step [stepControl]="third" label="Approval">
+                                    <div class="row">
+                                        <div class="col-12 text-right">
+                                            <button class="btn btn-info" (click)="addRowLevelForApprModule()"><i
+                                                    class="fa fa-plus" aria-hidden="true"></i> Level</button>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row" style="background-color: #1589FF;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                        <div style="width: 5%;">Level</div>
+                                        <div style="width: 5%;">Branch</div>
+                                        <div style="width: 10%;">Branch Logical Condition</div>
+                                        <div style="width: 10%;">Module</div>
+                                        <div style="width: 15%;">Role</div>
+                                        <div style="width: 10%;">Role Function</div>
+                                        <div style="width: 15%;">Success Action</div>
+                                        <div style="width: 10%;">Condition Exist</div>
+                                        <div style="width: 10%;">Vendor Approval Required </div>
+                                        <div style="width: 10%;">All User Approval Required </div>
+                                    </div>
+
+
+                                    <div *ngFor="let lvl of Apprmoduledata; let i = index">
+                                        <br>
+
+                                        <div *ngFor="let ob of lvl['branch_data']; let j = index" class="row">
+
+                                            <div style="width: 5%;">
+                                                <input type="number" placeholder="Enter Level" class="form-control" [(ngModel)]="ob['level']">
+                                            </div>
+
+                                            <div style="width: 5%;">
+                                                <input type="number" placeholder="Enter Branch" class="form-control" [(ngModel)]="ob['branch']">
+                                            </div>
+                                            <div style="width: 10%;">
+                                                <ng-select [items]="logicalCondition" bindLabel="value" bindValue="value" [multiple]="false" placeholder="Select Condition" [(ngModel)]="ob['branch_logical_condition']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Condition">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 10%;">
+                                                <ng-select [items]="Module" bindLabel="module_name" bindValue="module_cd" [multiple]="false" placeholder="Select Module" [(ngModel)]="ob['module_role']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Module">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 15%;">
+                                                <ng-select [items]="roles" bindLabel="role_name" bindValue="role_cd" [multiple]="false" placeholder="Select Role" [(ngModel)]="ob['role_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Role">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 10%;">
+                                                <ng-select [items]="roleFunction" bindLabel="value" bindValue="value" [multiple]="false" placeholder="Select Role Function" [(ngModel)]="ob['role_function']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Role">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 15%;">
+                                                <ng-select [items]="successAction" bindLabel="value" bindValue="value" [multiple]="false" placeholder="Select Success Action" [(ngModel)]="ob['success_action']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Role">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 10%;" class="text-center">
+                                                <mat-checkbox class="example-margin" [(ngModel)]="ob['condition_exists']" [(indeterminate)]="indeterminate" [labelPosition]="labelPosition" [disabled]="disabled">
+
+                                                </mat-checkbox>
+                                                <button *ngIf="ob['condition_exists']" class="btn btn-info" (click)="condtion(i,j)">Condtion</button>
+
+                                            </div>
+                                            <div style="width: 10%;" class="text-center">
+                                                <mat-checkbox class="example-margin" [(ngModel)]="ob['sent_to_vendor']" [(indeterminate)]="indeterminate" [labelPosition]="labelPosition" [disabled]="disabled">
+
+                                                </mat-checkbox>
+                                            </div>
+                                            <div style="width: 10%;" class="text-center">
+                                                <mat-checkbox class="example-margin" [(ngModel)]="ob['all_user_approval_req']" [(indeterminate)]="indeterminate" [labelPosition]="labelPosition" [disabled]="disabled">
+                                                </mat-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <button mat-button mat-raised-button class="btn btn-danger" matStepperPrevious>Back</button>
+                                            <button class="btn btn-primary" (click)="submit()">CREATE</button>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </mat-step>
+                            </mat-horizontal-stepper>
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3 text-left">
+                                    <h6>Document Type : </h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="doc_type" disabled bindLabel="value" bindValue="value" [multiple]="false" placeholder="" [(ngModel)]="FlowObj['doc_type']" (change)="changedoctype()" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <mat-horizontal-stepper [linear]="isLinear" #stepper>
+                                <mat-step [stepControl]="first" label="Module">
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12 text-right">
+                                            <button class="btn btn-info" (click)="addRowLevelForModule()"><i
+                                                    class="fa fa-plus" aria-hidden="true"></i> Level</button>
+                                        </div>
+                                    </div>
+                                    <br>
+
+                                    <div class="row" style="background-color: #1589FF;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                        <div style="width: 5%;" class="text-center">Level</div>
+                                        <div style="width: 5%;" class="text-center">Branch</div>
+                                        <div style="width: 10%;" class="text-center">Branch Logical Condition</div>
+                                        <div style="width: 10%;" class="text-center">Module</div>
+                                        <div style="width: 15%;" class="text-center">Role</div>
+                                        <div style="width: 10%;" class="text-center">Role Function</div>
+                                        <div style="width: 15%;" class="text-center">Success Action</div>
+                                        <div style="width: 10%;" class="text-center">Condition Exist</div>
+                                        <div style="width: 10%;" class="text-center">Vendor Approval Required </div>
+                                        <div style="width: 10%;" class="text-center">All User Approval Required </div>
+                                    </div>
+
+
+
+
+                                    <div *ngFor="let lvl of moduledata; let i = index">
+
+                                        <br>
+
+                                        <div *ngFor="let ob of lvl['branch_data']; let j = index" class="row">
+
+                                            <div style="width: 5%;">
+                                                <input type="number" placeholder="Enter Level" class="form-control" [(ngModel)]="ob['level']">
+                                            </div>
+
+                                            <div style="width: 5%;">
+                                                <input type="number" placeholder="Enter Branch" class="form-control" [(ngModel)]="ob['branch']">
+                                            </div>
+                                            <div style="width: 10%;">
+                                                <ng-select [items]="logicalCondition" bindLabel="value" bindValue="value" [multiple]="false" placeholder="Select Condition" [(ngModel)]="ob['branch_logical_condition']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Condition">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 10%;">
+                                                <ng-select [items]="allModuleForEMB" bindLabel="module_name" bindValue="module_cd" [multiple]="false" placeholder="Select Module" [(ngModel)]="ob['module_role']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Module">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 15%;">
+                                                <ng-select [items]="allRolesForEMB" bindLabel="role_name" bindValue="role_cd" [multiple]="false" placeholder="Select Role" [(ngModel)]="ob['role_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Role">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 10%;">
+                                                <ng-select [items]="roleFunction" bindLabel="value" bindValue="value" [multiple]="false" placeholder="Select Role Function" [(ngModel)]="ob['role_function']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Role">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 15%;">
+                                                <ng-select [items]="successAction" bindLabel="value" bindValue="value" [multiple]="false" placeholder="Select Success Action" [(ngModel)]="ob['success_action']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Role">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 10%;" class="text-center">
+                                                <mat-checkbox class="example-margin" [(ngModel)]="ob['condition_exists']" [(indeterminate)]="indeterminate" [labelPosition]="labelPosition" [disabled]="disabled">
+                                                </mat-checkbox>
+                                                <button *ngIf="ob['condition_exists']" class="btn btn-info" (click)="condtion(i,j)">Condtion</button>
+
+                                            </div>
+                                            <div style="width: 10%;" class="text-center">
+                                                <mat-checkbox class="example-margin" [(ngModel)]="ob['sent_to_vendor']" [(indeterminate)]="indeterminate" [labelPosition]="labelPosition" [disabled]="disabled">
+                                                </mat-checkbox>
+                                            </div>
+                                            <div style="width: 10%;" class="text-center">
+                                                <mat-checkbox class="example-margin" [(ngModel)]="ob['all_user_approval_req']" [(indeterminate)]="indeterminate" [labelPosition]="labelPosition" [disabled]="disabled">
+                                                </mat-checkbox>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <button mat-button mat-raised-button class="btn btn-primary" matStepperNext>Next</button>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </mat-step>
+                                <mat-step [stepControl]="second" label="Cross-Module">
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12 text-right">
+                                            <button class="btn btn-info" (click)="addCrossModule()"><i
+                                                    class="fa fa-plus" aria-hidden="true"></i>
+                                                Cross-Module</button>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row" style="background-color: #1589FF;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                        <div style="width: 5%;">Level</div>
+                                        <div style="width: 5%;">Branch</div>
+                                        <div style="width: 10%;">Branch Logical Condition</div>
+                                        <div style="width: 10%;">Module</div>
+                                        <div style="width: 15%;">Role</div>
+                                        <div style="width: 10%;">Role Function</div>
+                                        <div style="width: 15%;">Success Action</div>
+                                        <div style="width: 5%;">Condition Exist</div>
+                                        <div style="width: 5%;">Vendor Approval Required </div>
+                                        <div style="width: 5%;">All User Approval Required </div>
+                                        <div style="width: 15%;">Action</div>
+                                    </div>
+
+
+                                    <div *ngFor="let module of crossmoduledata1; let i = index">
+                                        <br>
+
+                                        <div class="row" *ngIf="module['module_show']==true">
+                                            <div class="col-6 text-right">
+                                                <h4>Level :</h4>
+                                            </div>
+                                            <div class="col-6 text-left">
+                                                {{module['module']}}
+                                                <button class="btn btn-info" (click)="addLevel(module['module'])">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i> Level</button>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div *ngFor="let lvl of module['level_data']; let j = index">
+
+                                            <div *ngFor="let ob of lvl['branch_data']; let k = index" class="row">
+
+                                                <div style="width: 5%;">
+                                                    <input type="number" placeholder="Enter Level" class="form-control" [(ngModel)]="ob['level']">
+                                                </div>
+
+                                                <div style="width: 5%;">
+                                                    <input type="number" placeholder="Enter Branch" class="form-control" [(ngModel)]="ob['branch']">
+                                                </div>
+                                                <div style="width: 10%;">
+                                                    <ng-select [items]="logicalCondition" bindLabel="value" bindValue="value" [multiple]="false" placeholder="Select Condition" [(ngModel)]="ob['branch_logical_condition']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Condition">
+                                                    </ng-select>
+                                                </div>
+                                                <div style="width: 10%;">
+                                                    <ng-select [items]="allModule" bindLabel="module_name" bindValue="module_cd" [multiple]="false" placeholder="Select Module" [(ngModel)]="ob['module_role']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Module">
+                                                    </ng-select>
+                                                </div>
+                                                <div style="width: 15%;">
+                                                    <ng-select [items]="allRoles" bindLabel="role_name" bindValue="role_cd" [multiple]="false" placeholder="Select Role" [(ngModel)]="ob['role_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Role">
+                                                    </ng-select>
+                                                </div>
+                                                <div style="width: 10%;">
+                                                    <ng-select [items]="roleFunction" bindLabel="value" bindValue="value" [multiple]="false" placeholder="Select Role Function" [(ngModel)]="ob['role_function']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Role">
+                                                    </ng-select>
+                                                </div>
+                                                <div style="width: 15%;">
+                                                    <ng-select [items]="successAction" bindLabel="value" bindValue="value" [multiple]="false" placeholder="Select Success Action" [(ngModel)]="ob['success_action']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Role">
+                                                    </ng-select>
+                                                </div>
+                                                <div style="width: 5%;" class="text-center">
+                                                    <mat-checkbox class="example-margin" [(ngModel)]="ob['condition_exists']" [(indeterminate)]="indeterminate" [labelPosition]="labelPosition" [disabled]="disabled">
+                                                    </mat-checkbox>
+                                                </div>
+                                                <div style="width: 5%;" class="text-center">
+                                                    <mat-checkbox class="example-margin" [(ngModel)]="ob['sent_to_vendor']" [(indeterminate)]="indeterminate" [labelPosition]="labelPosition" [disabled]="disabled">
+                                                    </mat-checkbox>
+                                                </div>
+                                                <div style="width: 5%;" class="text-center">
+                                                    <mat-checkbox class="example-margin" [(ngModel)]="ob['all_user_approval_req']" [(indeterminate)]="indeterminate" [labelPosition]="labelPosition" [disabled]="disabled">
+                                                    </mat-checkbox>
+                                                </div>
+                                                <div style="width: 15%;">
+                                                    <button class="btn btn-info" *ngIf="ob['branch']==1" (click)="addBranch(module['module'],lvl['level'])"><i
+                                                            class="fa fa-plus" aria-hidden="true"></i> Branch</button>
+                                                    <button *ngIf="ob['condition_exists']" class="btn btn-info" (click)="condtion(i,j)">Condtion</button>
+                                                    <!-- <button class="btn btn-danger" (click)="deleteRow(i,j)">DELETE</button> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <button mat-button mat-raised-button class="btn btn-danger" matStepperPrevious>Back</button>
+                                            <button mat-button mat-raised-button class="btn btn-primary" matStepperNext>Next</button>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </mat-step>
+                                <mat-step [stepControl]="third" label="Approval">
+                                    <div class="row">
+                                        <div class="col-12 text-right">
+                                            <button class="btn btn-info" (click)="addRowLevelForApprModule()"><i
+                                                    class="fa fa-plus" aria-hidden="true"></i> Level</button>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row" style="background-color: #1589FF;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                        <div style="width: 5%;">Level</div>
+                                        <div style="width: 5%;">Branch</div>
+                                        <div style="width: 10%;">Branch Logical Condition</div>
+                                        <div style="width: 10%;">Module</div>
+                                        <div style="width: 15%;">Role</div>
+                                        <div style="width: 10%;">Role Function</div>
+                                        <div style="width: 15%;">Success Action</div>
+                                        <div style="width: 10%;">Condition Exist</div>
+                                        <div style="width: 10%;">Vendor Approval Required </div>
+                                        <div style="width: 10%;">All User Approval Required </div>
+                                    </div>
+
+
+                                    <div *ngFor="let lvl of Apprmoduledata; let i = index">
+                                        <br>
+
+                                        <div *ngFor="let ob of lvl['branch_data']; let j = index" class="row">
+
+                                            <div style="width: 5%;">
+                                                <input type="number" placeholder="Enter Level" class="form-control" [(ngModel)]="ob['level']">
+                                            </div>
+
+                                            <div style="width: 5%;">
+                                                <input type="number" placeholder="Enter Branch" class="form-control" [(ngModel)]="ob['branch']">
+                                            </div>
+                                            <div style="width: 10%;">
+                                                <ng-select [items]="logicalCondition" bindLabel="value" bindValue="value" [multiple]="false" placeholder="Select Condition" [(ngModel)]="ob['branch_logical_condition']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Condition">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 10%;">
+                                                <ng-select [items]="Module" bindLabel="module_name" bindValue="module_cd" [multiple]="false" placeholder="Select Module" [(ngModel)]="ob['module_role']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Module">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 15%;">
+                                                <ng-select [items]="roles" bindLabel="role_name" bindValue="role_cd" [multiple]="false" placeholder="Select Role" [(ngModel)]="ob['role_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Role">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 10%;">
+                                                <ng-select [items]="roleFunction" bindLabel="value" bindValue="value" [multiple]="false" placeholder="Select Role Function" [(ngModel)]="ob['role_function']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Role">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 15%;">
+                                                <ng-select [items]="successAction" bindLabel="value" bindValue="value" [multiple]="false" placeholder="Select Success Action" [(ngModel)]="ob['success_action']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Role">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 10%;" class="text-center">
+                                                <mat-checkbox class="example-margin" [(ngModel)]="ob['condition_exists']" [(indeterminate)]="indeterminate" [labelPosition]="labelPosition" [disabled]="disabled">
+
+                                                </mat-checkbox>
+                                                <button *ngIf="ob['condition_exists']" class="btn btn-info" (click)="condtion(i,j)">Condtion</button>
+
+                                            </div>
+                                            <div style="width: 10%;" class="text-center">
+                                                <mat-checkbox class="example-margin" [(ngModel)]="ob['sent_to_vendor']" [(indeterminate)]="indeterminate" [labelPosition]="labelPosition" [disabled]="disabled">
+
+                                                </mat-checkbox>
+                                            </div>
+                                            <div style="width: 10%;" class="text-center">
+                                                <mat-checkbox class="example-margin" [(ngModel)]="ob['all_user_approval_req']" [(indeterminate)]="indeterminate" [labelPosition]="labelPosition" [disabled]="disabled">
+                                                </mat-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <button mat-button mat-raised-button class="btn btn-danger" matStepperPrevious>Back</button>
+                                            <button class="btn btn-primary" (click)="Update()">Update</button>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </mat-step>
+                            </mat-horizontal-stepper>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ngx-spinner>Loading....</ngx-spinner>
+
+
+
+</div>
+
+<div class="modal" id="condtion">
+    <div class="modal-dialog  modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Create Condition</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" style="padding-left: 15%">
+                <br>
+                <div class="row">
+                    <div class="col-12 text-right">
+                        <button class="btn btn-info" (click)="addConditionRow()">ADD</button>
+                    </div>
+                </div>
+                <br>
+                <table style="width: 100%;">
+                    <tr>
+                        <th class="r">S No.</th>
+                        <th class="r">Select Field</th>
+                        <th class="r">Select operator</th>
+                        <th class="r">Enter Value</th>
+                        <th class="r">Action</th>
+                    </tr>
+                    <tr *ngFor="let ob of updateData; let i = index">
+                        <td class="r">
+                            <h6>{{i+1}}</h6>
+
+                        </td>
+                        <td class="r">
+                            <ng-select [items]="conditionField" bindLabel="value" bindValue="value" [multiple]="false" placeholder="Select Field" [(ngModel)]="ob['selected_field']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Field">
+                            </ng-select>
+                        </td>
+                        <td class="r">
+                            <ng-select [items]="oprater" bindLabel="value" bindValue="value" [multiple]="false" placeholder="Select oprater" [(ngModel)]="ob['selected_oprater']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="Field">
+                            </ng-select>
+                        </td>
+                        <td class="r">
+                            <input type="number" placeholder="Enter value" class="form-control" [(ngModel)]="ob['value']">
+                        </td>
+                        <td class="r">
+                            <button class="btn btn-danger" (click)="deleteConditionRow(i)">DELETE</button>
+                        </td>
+                    </tr>
+
+                </table>
+
+                <br>
+
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-info" (click)="saveCondition()">Save</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal" id="workflow">
+    <div class="modal-xl">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">WorkFlow</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="container">
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Level</th>
+                                <th>Branch</th>
+                                <th>Branch Logical Condition</th>
+                                <th>Module</th>
+                                <th>Role</th>
+                                <th>Role Function</th>
+                                <th>Success Action</th>
+                                <th>Condition Exist</th>
+                                <th>Vendor Approval Required </th>
+                                <th>All User Approval Required </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of viewData">
+                                <td>{{item['level']}}</td>
+                                <td>{{item['branch']}}</td>
+                                <td>{{item['branch_logical_condition']}}</td>
+                                <td>{{item['module_cd']}}</td>
+                                <td>{{item['role_cd']}}</td>
+                                <td>{{item['role_function']}}</td>
+                                <td>{{item['success_action']}}</td>
+                                <td>{{item['condition_exists']}}</td>
+                                <td>{{item['sent_to_vendor']}}</td>
+                                <td>{{item['all_user_approval_req']}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>

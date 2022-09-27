@@ -1,0 +1,1536 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title" href="#tab-1" data-toggle="tab">
+                        {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account1']}}
+                        <!-- Manage Chart Of Account -->
+                    </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item" *ngIf="list_flag==true">
+                            <a class="nav-link active"><i class="ti-bar-chart"></i>
+                                {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account2']}}
+                                <!-- All Chart Of Account List -->
+                            </a>
+                        </li>
+
+                        <li class="nav-item" *ngIf="create_flag==true">
+                            <a class="nav-link" (click)="refresh()">
+                                <i class="fa fa-plus-circle"></i>
+                                Create Chart Of Account
+                            </a>
+                        </li>
+                        <li class="nav-item" *ngIf="update_flag==true">
+                            <a class="nav-link" (click)="refresh()">
+                                <i class="ti-settings"></i>
+                                Update Chart Of Account
+                            </a>
+                        </li>
+                        <li class="nav-item" *ngIf="upload_flag==true">
+                            <a class="nav-link" (click)="refresh()">
+                                <i class="fa fa-upload"></i>
+                                Upload File Of Chart Of Account
+                            </a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" *ngIf="list_flag==true" id="tab-1">
+
+                            <br>
+
+                            <div class="row">
+
+
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left:2%;">
+                                        <input matInput (keyup)="applyFilter($event.target.value)"
+                                            placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Project_Hierarchy8']}}">
+                                        <!-- Filter -->
+                                    </mat-form-field>
+
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                                <div class="col-4" style="text-align: right;">
+                                    <button style="margin-right: 5px" class="btn btn-primary" href="#tab-2"
+                                        data-toggle="tab" (click)="createNew()">Create New</button>
+                                    <button class="btn btn-primary" href="#tab-4" data-toggle="tab"
+                                        (click)="uploaded()">Upload</button>
+                                </div>
+
+                            </div>
+
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>
+                                            {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account7']}}
+                                            <!-- ID -->
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.id }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="lvl1_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account8']}}
+                                            <!-- Level 1 Code -->
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl1_code }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl1_value">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account9']}}
+                                            <!-- Level 1 Value -->
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl1_value }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl2_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account10']}}
+                                            <!-- Level 2 Code -->
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl2_code }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl2_value">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account16']}}
+                                            <!-- Level 2 Value -->
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl2_value }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl3_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account11']}}
+                                            <!-- Level 3 Code -->
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl3_code }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl3_value">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account17']}}
+                                            <!-- Level 3 Value -->
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl3_value }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl4_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account12']}}
+                                            <!-- Level 4 Code -->
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl4_code }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl4_value">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account18']}}
+                                            <!-- Level 4 Value -->
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl4_value }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl5_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account13']}}
+                                            <!-- Level 5 Code -->
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl5_code }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl5_value">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account19']}}
+                                            <!-- Level 5 Value -->
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl5_value }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl6_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account14']}}
+                                            <!-- Level 6 Code -->
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl6_code }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl6_value">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account20']}}
+                                            <!-- Level 6 Value -->
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl6_value }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl7_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account15']}}
+                                            <!-- Level 7 Code -->
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl7_code }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl7_value">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account21']}}
+                                            <!-- Level 7 Value -->
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl7_value }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="is_leaf">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Is_leaf
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <p *ngIf="element['is_leaf'] ==1">LEAF</p>
+                                            <p *ngIf="element['is_leaf'] ==0">NODE</p>
+
+                                        </td>
+
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="leaf_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account22']}}
+                                            <!-- Leaf Code -->
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <p *ngIf="element['is_leaf'] ==1"> {{ element.leaf_code }} </p>
+                                            <p *ngIf="element['is_leaf'] ==0"></p>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="leaf_value">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account23']}}
+                                            <!-- Leaf Value -->
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <p *ngIf="element['is_leaf'] ==1"> {{ element.leaf_value}} </p>
+                                            <p *ngIf="element['is_leaf'] ==0"></p>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account24']}}
+                                            <!-- Action -->
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary" (click)="open_update(element)"
+                                                href="#tab-3"
+                                                data-toggle="tab">{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account25']}}
+                                                <!-- Update -->
+                                            </button>
+                                            <button class="btn btn-outline-danger"
+                                                (click)="delete(element)">{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account26']}}
+                                                <!-- Delete -->
+                                            </button>
+                                            <button *ngIf="element['leaf_code'] !=element['lvl1_code']"
+                                                class="btn btn-outline-warning"
+                                                (click)="openMove(element)">Move</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[5,10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+
+                        <div class="tab-pane fade" *ngIf="create_flag==true" id="tab-2">
+
+
+
+                            <br>
+                            <div class="row">
+
+                                <div class="col-12 text-right">
+
+                                    <button class="btn btn-primary" (click)="listfunc()">Back to list</button>
+
+                                </div>
+
+                                <div class="col-3 text-center">
+
+
+                                </div>
+                                <div class="col-3 text-center"
+                                    style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                    <h6><b>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account27']}}
+                                            <!-- Code -->
+                                        </b></h6>
+
+
+                                </div>
+                                <div class="col-3 text-center"
+                                    style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                    <h6><b>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account28']}}
+                                            <!--  Value -->
+                                        </b></h6>
+
+
+                                </div>
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account29']}}
+                                    <!-- Level 1 -->:
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl1_type']!='text'">
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl1_code']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl1_type']=='text'">
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl1_code']"
+                                        (change)="makingLeafValues()">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl1_type']!='text'">
+                                    <ng-select [items]="level1" bindLabel="lvl1_value" bindValue="lvl1_code"
+                                        (change)="onChangeLvl1()" [multiple]="false"
+                                        placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account36']}} "
+                                        [(ngModel)]="obj['lvl1_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl1_value">
+                                        <!-- Select Level 1 -->
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl1_type']=='text'">
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl1_value']"
+                                        (change)="makingLeafValues()">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('1')"
+                                    *ngIf="obj['lvl1_type']!=text && level1.length==0"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account43']}}
+                                                <!-- Add New -->
+                                            </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl1_type']==text && level1.length==0"
+                                    (click)="addNew('1')" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account44']}}
+                                                <!-- Select -->
+                                            </u></b></h6>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account30']}}
+                                    <!-- Level 2 --> :
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl2_type']!='text'">
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl2_code']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl2_type']=='text'">
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl2_code']"
+                                        (change)="makingLeafValues()">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl2_type']!='text'">
+                                    <ng-select [items]="level2" bindLabel="lvl2_value" bindValue="lvl2_code"
+                                        (change)="onChangeLvl2()" [multiple]="false"
+                                        placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account37']}}"
+                                        [(ngModel)]="obj['lvl2_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl2_value">
+                                        <!-- Select Level 2 -->
+                                    </ng-select>
+                                </div>
+
+                                <div class="col-3" *ngIf="obj['lvl2_type']=='text'">
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl2_value']"
+                                        (change)="makingLeafValues()">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('2')" *ngIf="obj['lvl2_type']!='text'"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account43']}}
+                                                <!-- Add New -->
+                                            </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl2_type']=='text'" (click)="addNew('2')"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account44']}}
+                                                <!-- Select -->
+                                            </u></b></h6>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+
+                                <div class="col-3 text-right">
+                                    <h6> {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account31']}}
+                                        <!-- Level 3 --> :
+                                    </h6>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl3_type']!='text'">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl3_code']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl3_type']=='text'">
+
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl3_code']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl3_type']!='text'">
+                                    <ng-select [items]="level3" bindLabel="lvl3_value" bindValue="lvl3_code"
+                                        (change)="onChangeLvl3()" [multiple]="false"
+                                        placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account38']}}"
+                                        [(ngModel)]="obj['lvl3_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl3_value">
+                                        <!-- Select Level 3 -->
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl3_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl3_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('3')" *ngIf="obj['lvl3_type']!='text'"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account43']}}
+                                                <!-- Add New -->
+                                            </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl3_type']=='text'" (click)="addNew('3')"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account44']}}
+                                                <!-- Select -->
+                                            </u></b></h6>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+
+                                <div class="col-3 text-right">
+                                    <h6> {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account32']}}
+                                        <!-- Level 4 --> :
+                                    </h6>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl4_type']!='text'">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl4_code']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl4_type']=='text'">
+
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl4_code']">
+
+                                </div>
+
+                                <div class="col-3" *ngIf="obj['lvl4_type']!='text'">
+                                    <ng-select [items]="level4" bindLabel="lvl4_value" bindValue="lvl4_code"
+                                        (change)="onChangeLvl4()" [multiple]="false"
+                                        placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account39']}}"
+                                        [(ngModel)]="obj['lvl4_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl4_value">
+                                        <!-- Select Level 4 -->
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl4_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl4_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('4')" *ngIf="obj['lvl4_type']!='text'"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account43']}}
+                                                <!-- Add New -->
+                                            </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl4_type']=='text'" (click)="addNew('4')"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account44']}}
+                                                <!-- Select -->
+                                            </u></b></h6>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+
+                                <div class="col-3 text-right">
+                                    <h6> {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account33']}}
+                                        <!-- Level 5 --> :
+                                    </h6>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl5_type']!='text'">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl5_code']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl5_type']=='text'">
+
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl5_code']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl5_type']!='text'">
+
+                                    <ng-select [items]="level5" bindLabel="lvl5_value" bindValue="lvl5_code"
+                                        (change)="onChangeLvl5()" [multiple]="false"
+                                        placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account40']}}"
+                                        [(ngModel)]="obj['lvl5_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl5_value">
+                                        <!-- Select Level 5 -->
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl5_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl5_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('5')" *ngIf="obj['lvl5_type']!='text'"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account43']}}
+                                                <!-- Add New -->
+                                            </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl5_type']=='text'" (click)="addNew('5')"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account44']}}
+                                                <!-- Select -->
+                                            </u></b></h6>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+
+                                <div class="col-3 text-right">
+                                    <h6> {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account34']}}
+                                        <!-- Level 6 --> :
+                                    </h6>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl6_type']!='text'">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl6_code']" disabled>
+
+                                </div>
+
+                                <div class="col-3" *ngIf="obj['lvl6_type']=='text'">
+
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl6_code']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl6_type']!='text'">
+
+                                    <ng-select [items]="level6" bindLabel="lvl6_value" bindValue="lvl6_code"
+                                        (change)="onChangeLvl6()" [multiple]="false"
+                                        placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account41']}}"
+                                        [(ngModel)]="obj['lvl6_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl6_value">
+                                        <!-- Select Level 6 -->
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl6_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl6_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('6')" *ngIf="obj['lvl6_type']!='text'"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account43']}}
+                                                <!-- Add New -->
+                                            </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl6_type']=='text'" (click)="addNew('6')"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account44']}}
+                                                <!-- Select -->
+                                            </u></b></h6>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+
+                                <div class="col-3 text-right">
+                                    <h6>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account35']}}
+                                        <!--  Level 7 --> :
+                                    </h6>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl7_type']!='text'">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl7_code']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl7_type']=='text'">
+
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl7_code']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl7_type']!='text'">
+
+                                    <ng-select [items]="level7" (change)="onChangeLvl7()" bindLabel="lvl7_value"
+                                        bindValue="lvl7_code" [multiple]="false"
+                                        placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account42']}}"
+                                        [(ngModel)]="obj['lvl7_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl7_value">
+                                        <!-- Select Level 7 -->
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl7_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl7_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('7')" *ngIf="obj['lvl7_type']!='text'"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account43']}}
+                                                <!-- Add New -->
+                                            </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl7_type']=='text'" (click)="addNew('7')"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account44']}}
+                                                <!-- Select -->
+                                            </u></b></h6>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row">
+
+                                <div class="col-3 text-right">
+                                    <h6> {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account45']}}
+                                        <!-- Leaf --> :
+                                    </h6>
+                                </div>
+                                <div class="col-3">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['leaf_code']" disabled>
+
+                                </div>
+
+                                <div class="col-3">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['leaf_value']" disabled>
+
+                                </div>
+                            </div>
+                            <br>
+
+
+
+
+
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary"
+                                        (click)="save()">{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account46']}}
+                                        <!-- Submit -->
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="tab-pane fade" *ngIf="update_flag==true" id="tab-3">
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-primary" (click)="listfunc()">Back to list</button>
+                                </div>
+                                <div class="col-3 text-center">
+
+
+                                </div>
+                                <div class="col-3 text-center"
+                                    style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                    <h6><b>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account27']}}
+                                            <!-- Code -->
+                                        </b></h6>
+
+
+                                </div>
+                                <div class="col-3 text-center"
+                                    style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                    <h6><b> {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account28']}}
+                                            <!-- Value -->
+                                        </b></h6>
+
+
+                                </div>
+
+
+                            </div>
+                            <br>
+                            <div class="row" *ngIf="1==updateLevel">
+                                <div class="col-3 text-right">
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account29']}}
+                                    <!-- Level 1 -->:
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl1_type']!='text' ">
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl1_code']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl1_type']=='text' && obj['lvl1_code']==undefined">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl1_code']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl1_type']!='text'">
+                                    <ng-select [items]="level1" bindLabel="lvl1_value" bindValue="lvl1_code"
+                                        (change)="onChangeLvl1()" [multiple]="false"
+                                        placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account36']}} "
+                                        [(ngModel)]="obj['lvl1_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl1_value">
+                                        <!-- Select Level 1 -->
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl1_type']=='text' && obj['lvl1_code']==undefined">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl1_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('1')"
+                                    *ngIf="obj['lvl1_type']!='text' && obj['lvl1_code']==undefined"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account43']}}
+                                                <!-- Add New -->
+                                            </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3"
+                                    *ngIf="obj['lvl1_type']=='text' && obj['lvl1_code']==undefined"
+                                    (click)="addNew('1')" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account44']}}
+                                                <!-- Select -->
+                                            </u></b></h6>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="1!=updateLevel">
+                                <div class="col-3 text-right">
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account29']}}
+                                    <!-- Level 1 -->:
+                                </div>
+
+                                <div class="col-3">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl1_code']" disabled>
+
+                                </div>
+
+                                <div class="col-3">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl1_value']" disabled>
+
+                                </div>
+
+
+                                <!-- Select  -->
+
+                            </div>
+                            <br>
+
+                            <div class="row" *ngIf="2==updateLevel">
+                                <div class="col-3 text-right">
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account30']}}
+                                    <!-- Level 2 --> :
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl2_type']!='text'">
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl2_code']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl2_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl2_code']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl2_type']!='text'">
+                                    <ng-select [items]="level2" bindLabel="lvl2_value" bindValue="lvl2_code"
+                                        (change)="onChangeLvl2()" [multiple]="false"
+                                        placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account37']}}"
+                                        [(ngModel)]="obj['lvl2_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl2_value">
+                                        <!-- Select Level 2 -->
+                                    </ng-select>
+                                </div>
+
+                                <div class="col-3" *ngIf="obj['lvl2_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl2_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('2')" *ngIf="obj['lvl2_type']!='text'"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account43']}}
+                                                <!-- Add New -->
+                                            </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl2_type']=='text'" (click)="addNew('2')"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account44']}}
+                                                <!-- Select -->
+                                            </u></b></h6>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="2!=updateLevel">
+                                <div class="col-3 text-right">
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account30']}}
+                                    <!-- Level 1 -->:
+                                </div>
+
+                                <div class="col-3">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl2_code']" disabled>
+
+                                </div>
+
+                                <div class="col-3">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl2_value']" disabled>
+
+                                </div>
+
+
+                                <!-- Select  -->
+
+                            </div>
+                            <br>
+
+                            <div class="row" *ngIf="3==updateLevel">
+
+                                <div class="col-3 text-right">
+                                    <h6> {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account31']}}
+                                        <!-- Level 3 --> :
+                                    </h6>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl3_type']!='text'">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl3_code']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl3_type']=='text'">
+
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl3_code']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl3_type']!='text'">
+                                    <ng-select [items]="level3" bindLabel="lvl3_value" bindValue="lvl3_code"
+                                        (change)="onChangeLvl3()" [multiple]="false"
+                                        placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account38']}}"
+                                        [(ngModel)]="obj['lvl3_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl3_value">
+                                        <!-- Select Level 3 -->
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl3_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl3_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('3')" *ngIf="obj['lvl3_type']!='text'"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account43']}}
+                                                <!-- Add New -->
+                                            </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl3_type']=='text'" (click)="addNew('3')"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account44']}}
+                                                <!-- Select -->
+                                            </u></b></h6>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="3!=updateLevel">
+                                <div class="col-3 text-right">
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account30']}}
+                                    <!-- Level 1 -->:
+                                </div>
+
+                                <div class="col-3">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl3_code']" disabled>
+
+                                </div>
+
+                                <div class="col-3">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl3_value']" disabled>
+
+                                </div>
+
+
+                                <!-- Select  -->
+
+                            </div>
+
+                            <br>
+
+                            <div class="row" *ngIf="4==updateLevel">
+
+                                <div class="col-3 text-right">
+                                    <h6> {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account32']}}
+                                        <!-- Level 4 --> :
+                                    </h6>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl4_type']!='text'">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl4_code']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl4_type']=='text'">
+
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl4_code']">
+
+                                </div>
+
+                                <div class="col-3" *ngIf="obj['lvl4_type']!='text'">
+                                    <ng-select [items]="level4" bindLabel="lvl4_value" bindValue="lvl4_code"
+                                        (change)="onChangeLvl4()" [multiple]="false"
+                                        placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account39']}}"
+                                        [(ngModel)]="obj['lvl4_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl4_value">
+                                        <!-- Select Level 4 -->
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl4_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl4_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('4')" *ngIf="obj['lvl4_type']!='text'"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account43']}}
+                                                <!-- Add New -->
+                                            </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl4_type']=='text'" (click)="addNew('4')"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account44']}}
+                                                <!-- Select -->
+                                            </u></b></h6>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="4!=updateLevel">
+                                <div class="col-3 text-right">
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account30']}}
+                                    <!-- Level 1 -->:
+                                </div>
+
+                                <div class="col-3">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl4_code']" disabled>
+
+                                </div>
+
+                                <div class="col-3">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl4_value']" disabled>
+
+                                </div>
+
+
+                                <!-- Select  -->
+
+                            </div>
+                            <br>
+
+                            <div class="row" *ngIf="5==updateLevel">
+
+                                <div class="col-3 text-right">
+                                    <h6> {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account33']}}
+                                        <!-- Level 5 --> :
+                                    </h6>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl5_type']!='text'">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl5_code']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl5_type']=='text'">
+
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl5_code']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl5_type']!='text'">
+
+                                    <ng-select [items]="level5" bindLabel="lvl5_value" bindValue="lvl5_code"
+                                        (change)="onChangeLvl5()" [multiple]="false"
+                                        placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account40']}}"
+                                        [(ngModel)]="obj['lvl5_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl5_value">
+                                        <!-- Select Level 5 -->
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl5_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl5_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('5')" *ngIf="obj['lvl5_type']!='text'"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account43']}}
+                                                <!-- Add New -->
+                                            </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl5_type']=='text'" (click)="addNew('5')"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account44']}}
+                                                <!-- Select -->
+                                            </u></b></h6>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="5!=updateLevel">
+                                <div class="col-3 text-right">
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account30']}}
+                                    <!-- Level 1 -->:
+                                </div>
+
+                                <div class="col-3">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl5_code']" disabled>
+
+                                </div>
+
+                                <div class="col-3">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl5_value']" disabled>
+
+                                </div>
+
+
+                                <!-- Select  -->
+
+                            </div>
+                            <br>
+
+                            <div class="row" *ngIf="6==updateLevel">
+
+                                <div class="col-3 text-right">
+                                    <h6> {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account34']}}
+                                        <!-- Level 6 --> :
+                                    </h6>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl6_type']!='text'">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl6_code']" disabled>
+
+                                </div>
+
+                                <div class="col-3" *ngIf="obj['lvl6_type']=='text'">
+
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl6_code']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl6_type']!='text'">
+
+                                    <ng-select [items]="level6" bindLabel="lvl6_value" bindValue="lvl6_code"
+                                        (change)="onChangeLvl6()" [multiple]="false"
+                                        placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account41']}}"
+                                        [(ngModel)]="obj['lvl6_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl6_value">
+                                        <!-- Select Level 6 -->
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl6_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl6_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('6')" *ngIf="obj['lvl6_type']!='text'"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account43']}}
+                                                <!-- Add New -->
+                                            </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl6_type']=='text'" (click)="addNew('6')"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account44']}}
+                                                <!-- Select -->
+                                            </u></b></h6>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="6!=updateLevel">
+                                <div class="col-3 text-right">
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account30']}}
+                                    <!-- Level 1 -->:
+                                </div>
+
+                                <div class="col-3">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl6_code']" disabled>
+
+                                </div>
+
+                                <div class="col-3">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl6_value']" disabled>
+
+                                </div>
+
+
+                                <!-- Select  -->
+
+                            </div>
+                            <br>
+
+                            <div class="row" *ngIf="7==updateLevel">
+
+                                <div class="col-3 text-right">
+                                    <h6> {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account35']}}
+                                        <!-- Level 7 --> :
+                                    </h6>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl7_type']!='text'">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl7_code']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl7_type']=='text'">
+
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl7_code']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl7_type']!='text'">
+
+                                    <ng-select [items]="level7" bindLabel="lvl7_value" (change)="onChangeLvl7()"
+                                        bindValue="lvl7_code" [multiple]="false"
+                                        placeholder="{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account42']}}"
+                                        [(ngModel)]="obj['lvl7_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl7_value">
+                                        <!-- Select Level 7 -->
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl7_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl7_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('7')" *ngIf="obj['lvl7_type']!='text'"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account43']}}
+                                                <!-- Add New  -->
+                                            </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl7_type']=='text'" (click)="addNew('7')"
+                                    style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account44']}}
+                                                <!-- Select -->
+                                            </u></b></h6>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="7!=updateLevel">
+                                <div class="col-3 text-right">
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account30']}}
+                                    <!-- Level 1 -->:
+                                </div>
+
+                                <div class="col-3">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl7_code']" disabled>
+
+                                </div>
+
+                                <div class="col-3">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()"
+                                        [(ngModel)]="obj['lvl7_value']" disabled>
+
+                                </div>
+
+
+                                <!-- Select  -->
+
+                            </div>
+
+                            <br>
+
+                            <div class="row">
+
+                                <div class="col-3 text-right">
+                                    <h6> {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account27']}}
+                                        <!-- Code --> :
+                                    </h6>
+                                </div>
+                                <div class="col-3">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['leaf_code']" disabled>
+
+                                </div>
+
+                                <div class="col-3">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['leaf_value']" disabled>
+
+                                </div>
+                            </div>
+                            <br>
+
+
+
+
+
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary"
+                                        (click)="update()">{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account25']}}
+                                        <!-- Update -->
+                                    </button>
+
+
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+                        </div>
+
+
+                        <div class="tab-pane fade" *ngIf="upload_flag==true" id="tab-4">
+                            <br>
+                            <div class="col-12 text-right">
+
+                                <button class="btn btn-primary" (click)="listfunc()">Back to list</button>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account47']}}
+                                    <!-- Download Template -->:
+                                </div>
+                                <div class="col-4">
+                                    <button class="btn btn-success"
+                                        (click)="exportTemplate()">{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account48']}}
+                                        <!-- Download -->
+                                    </button>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="row">
+
+                                <div class="col-4 text-right">
+                                    {{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account49']}}
+                                    <!-- Upload File -->:
+                                </div>
+                                <div class="col-4 text-center">
+                                    <input #file type="file" name="pimage" ng2FileSelect [uploader]="uploader"
+                                        class="form-control" style="border-color: black"
+                                        (change)="onFileUpload($event,file.files)">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button type="button" [disabled]="!uploader.getNotUploadedItems().length"
+                                        class="btn btn-info" (click)='upload()'><i class="fa fa-upload"
+                                            aria-hidden="true">&nbsp;</i>{{mainService.allLableShowObj[mainService.language_cd+'Chart_Of_Account50']}}
+                                        <!-- Upload -->
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal" id="selectCreate">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> Select Node :</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <br>
+                <div class="row">
+                    <div class="col-3 text-center">
+
+
+                    </div>
+                    <div class="col-3 text-center"
+                        style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                        <h6><b>Code</b></h6>
+
+
+                    </div>
+                    <div class="col-3 text-center"
+                        style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                        <h6><b> Value</b></h6>
+
+
+                    </div>
+
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Level 1:
+                    </div>
+                    <div class="col-3">
+                        <input type="text" class="form-control" [(ngModel)]="obj['lvl1_code']" disabled>
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select [items]="level1" bindLabel="lvl1_value" bindValue="lvl1_code"
+                            (change)="onChangeLvl1()" [multiple]="false" placeholder="Select Level 1 "
+                            [(ngModel)]="obj['lvl1_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                            [closeOnSelect]="true" name="lvl1_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Level 2 :
+                    </div>
+                    <div class="col-3">
+                        <input type="text" class="form-control" [(ngModel)]="obj['lvl2_code']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select [items]="level2" bindLabel="lvl2_value" bindValue="lvl2_code"
+                            (change)="onChangeLvl2()" [multiple]="false" placeholder="Select Level 2"
+                            [(ngModel)]="obj['lvl2_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                            [closeOnSelect]="true" name="lvl2_value">
+                        </ng-select>
+                    </div>
+
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 3 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="obj['lvl3_code']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select [items]="level3" bindLabel="lvl3_value" bindValue="lvl3_code"
+                            (change)="onChangeLvl3()" [multiple]="false" placeholder="Select Level 3"
+                            [(ngModel)]="obj['lvl3_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                            [closeOnSelect]="true" name="lvl3_value">
+                        </ng-select>
+                    </div>
+
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 4 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="obj['lvl4_code']" disabled>
+
+                    </div>
+
+
+                    <div class="col-3">
+                        <ng-select [items]="level4" bindLabel="lvl4_value" bindValue="lvl4_code"
+                            (change)="onChangeLvl4()" [multiple]="false" placeholder="Select Level 4"
+                            [(ngModel)]="obj['lvl4_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                            [closeOnSelect]="true" name="lvl4_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 5 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="obj['lvl5_code']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <ng-select [items]="level5" bindLabel="lvl5_value" bindValue="lvl5_code"
+                            (change)="onChangeLvl5()" [multiple]="false" placeholder="Select Level 5"
+                            [(ngModel)]="obj['lvl5_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                            [closeOnSelect]="true" name="lvl5_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 6 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="obj['lvl6_code']" disabled>
+
+                    </div>
+
+
+                    <div class="col-3">
+
+                        <ng-select [items]="level6" bindLabel="lvl6_value" bindValue="lvl6_code"
+                            (change)="onChangeLvl6()" [multiple]="false" placeholder="Select Level 6"
+                            [(ngModel)]="obj['lvl6_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                            [closeOnSelect]="true" name="lvl6_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 7 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="obj['lvl7_code']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <ng-select [items]="level7" (change)="onChangeLvl7()" bindLabel="lvl7_value"
+                            bindValue="lvl7_code" [multiple]="false" placeholder="Select Level 7"
+                            [(ngModel)]="obj['lvl7_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                            [closeOnSelect]="true" name="lvl7_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Leaf :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="obj['leaf_code']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="obj['leaf_value']" disabled>
+
+                    </div>
+                </div>
+                <br>
+
+
+
+
+
+
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary" data-dismiss="modal"
+                            (click)="SubmitListHierforMove()">Move</button>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-spinner>Loading....</ngx-spinner>

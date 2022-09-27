@@ -1,0 +1,87 @@
+<div style="margin-left:1%;margin-top: 5px; margin-bottom: 5px;" class="admin-block d-flex">
+    <div style="background:white; border-radius: 20px 0px 0px 20px;">
+        <img [src]="portal_main.Info2ImageUrl" class="img-circle" width="50px" style="max-width: 75%;padding-left: 3px;padding-top: 2px" />
+    </div>
+    <div class="admin-info" style="background: white; border-radius: 0px 10px 10px 0px;width:170px;">
+        <div class="font-strong" style="padding-right: 20px;"> {{portal_main.info2['name']}}</div>
+        <small>{{portal_main.info2['designation_cd']}}</small>
+    </div>
+</div>
+
+<div style=" margin-left: 28px; margin-top: 5px; margin-bottom: 5px;" class="admin-block d-flex">
+    <div style="background:white; border-radius: 20px 0px 0px 20px;">
+        <img [src]="portal_main.Info1ImageUrl" class="img-circle" width="50px" style="max-width: 75%;padding-left: 3px;padding-top: 2px" />
+    </div>
+    <div class="admin-info" style="background:white; border-radius: 0px 10px 10px 0px; width:170px">
+        <div class="font-strong" style="padding-right: 20px;"> {{portal_main.info1['name']}}</div>
+        <small>{{portal_main.info1['designation_cd']}}</small>
+    </div>
+</div>
+
+<div style="margin-left:2%; margin-top: 5px; margin-bottom: 5px;" class="admin-block d-flex">
+    <div style=" border-radius: 20px 0px 0px 20px;">
+        <img [src]="portal_main.accountImageUrl" class="img-circle" width="50px" style="max-width: 75%;padding-left: 3px;padding-top: 2px" />
+    </div>
+    <div class="admin-info" style="color: white;  border-radius: 0px 10px 10px 0px;width:230px;">
+        <div class="font-strong" style="text-align: center;color: white;">{{portal_main.accInfo['account_name']}}</div>
+        <div style="text-align: center;"> Online Management System </div>
+    </div>
+</div>
+
+<div class="flexbox flex-1">
+    <!-- START TOP-LEFT TOOLBAR-->
+    <ul class="nav navbar-toolbar">
+    </ul>
+    <!-- END TOP-LEFT TOOLBAR-->
+
+    <!-- START TOP-RIGHT TOOLBAR-->
+    <ul class="nav navbar-toolbar">
+        <li style="color: white; margin-right: 10px;">
+            {{mainService.allLableShowObj[mainService.language_cd+'PROFILE1']}} -:
+        </li>
+        <li>
+            <ng-select [multiple]="false" placeholder="Select Language" [items]="auth.allLanguage" bindLabel="language_desc" bindValue="language_cd" [selectableGroup]="true" [selectableGroupAsModel]="false" aria-placeholder="Select Language Code" [closeOnSelect]="false"
+                name="language_cd" [(ngModel)]="auth.language_cd" (change)="changeLanguage()" style="width:150px ;">
+            </ng-select>
+        </li>
+        <li class="dropdown dropdown-inbox">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope-o"></i>
+                <span class="badge badge-primary envelope-badge">{{mainService.count}}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media">
+                <li class="dropdown-menu-header">
+                    <div>
+                        <span><strong><!-- {{mainService.allLableShowObj[mainService.language_cd+'AC_Header5']}} -->{{mainService.count}} New<!-- 0 New --></strong> {{mainService.allLableShowObj[mainService.language_cd+'AC_Header6']}}<!-- Messages --></span>
+                        <a class="pull-right" [routerLink]="['/task']">{{mainService.allLableShowObj[mainService.language_cd+'AC_Header7']}}<!-- view all --></a>
+                    </div>
+                </li>
+            </ul>
+        </li>
+        <!-- <li class="dropdown dropdown-notification">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell-o rel"><span
+                        class="notify-signal"></span></i></a>
+            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media">
+                <li class="dropdown-menu-header">
+                    <div>
+                        <span><strong>{{mainService.allLableShowObj[mainService.language_cd+'AC_Header5']}}</strong> {{mainService.allLableShowObj[mainService.language_cd+'AC_Header8']}}</span>
+                        <a class="pull-right" href="javascript:;">{{mainService.allLableShowObj[mainService.language_cd+'AC_Header7']}}</a>
+                    </div>
+                </li>
+              
+            </ul>
+        </li> -->
+        <li class="dropdown dropdown-user">
+            <a class="nav-link dropdown-toggle link" data-toggle="dropdown">
+                <img [src]="portal_main.profileImageUrl" />
+                <span></span>{{this.erpUser['party_name']}}<i class="fa fa-angle-down m-l-5"></i></a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" [routerLink]="['/profile']" routerLinkActive="router-link-active"><i
+                        class="fa fa-user"></i>{{mainService.allLableShowObj[mainService.language_cd+'AC_Header10']}}<!-- Profile --></a>
+                <li class="dropdown-divider"></li>
+                <a class="dropdown-item" [routerLink]="['/login']" routerLinkActive="router-link-active"><i
+                        class="fa fa-power-off"></i>{{mainService.allLableShowObj[mainService.language_cd+'AC_Header11']}}<!-- Logout --></a>
+            </ul>
+        </li>
+    </ul>
+    <!-- END TOP-RIGHT TOOLBAR-->
+</div>

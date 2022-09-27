@@ -1,0 +1,270 @@
+<!-- <div style="background-image: url('./assets/img/vns.jpg');" class="c page-content fade-in-up"> -->
+
+<div class="c_page-content_fade-in-up">
+    <div class="row">
+        <div class="col-6"></div>
+        <div class="col-3 text-right">
+            {{auth.allLableShowObj[auth.language_cd+'LOGIN13']}} -:
+        </div>
+        <div class="col-2">
+            <ng-select [multiple]="false" placeholder="Select Language" [items]="auth.allLanguage" bindLabel="language_desc" bindValue="language_cd" [selectableGroup]="true" [selectableGroupAsModel]="false" aria-placeholder="Select Language Code" [closeOnSelect]="false"
+                name="language_cd" [(ngModel)]="auth.language_cd" (change)="auth.changeLanguage()">
+            </ng-select>
+        </div>
+    </div>
+    <br>
+    <!-- <br> -->
+    <div class="login-form">
+
+        <form action="/examples/actions/confirmation.php" method="post">
+            <div class="content-center">
+                <div class="container">
+                    <div class="title-brand">
+                        <div class="angular-logo">
+                            <!-- <img src="assets/img/erp.jpeg" style="width: 1000px; height: 80px;" alt="Error Loading Image"> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <!-- <h2 class="login-title">Varanasi Development Authority Login</h2> -->
+            <div class="row ">
+                <div class="col-12 text-right ">
+                    <!-- <a class="color-blue" (click)="forgetPassWord()" type="submit">Forgot Password ?</a> -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6" *ngIf="login_with_otp">
+                    <br>
+                    <div class="text-center">
+                        <!-- <h6> LOGIN WITH OTP</h6> -->
+                        <h6> {{auth.allLableShowObj[auth.language_cd+'LOGIN1']}}</h6>
+                    </div>
+                    <br>
+
+                    <div class="form-group" class="row">
+                        <div class="col-3">
+
+                            {{auth.allLableShowObj[auth.language_cd+'LOGIN6']}}:
+                            <!-- Enter Mobile Number: -->
+                        </div>
+                        <div class="col-6">
+                            <input class="form-control" type="number" name="mobile_number" (change)="allowLoginValidate()" placeholder="{{auth.allLableShowObj[auth.language_cd+'LOGIN6']}}" autocomplete="off" [(ngModel)]="mobile_number">
+
+                            <!--   {{auth.allLableShowObj[auth.language_cd+'LOGIN6']}}
+                        </div>
+                        <div class="col-6">
+                            <input class="form-control" type="number" name="mobile_number" (change)="allowLoginValidate()" placeholder="{{auth.allLableShowObj[auth.language_cd+'LOGIN7']}}" autocomplete="off" [(ngModel)]="mobile_number">
+                            -->
+                            <!--      Enter Mobile Number:
+                        </div>
+                        <div class="col-6">
+                            <input class="form-control" type="number" name="mobile_number" (change)="allowLoginValidate()" placeholder="Enter Mobile Number" autocomplete="off" [(ngModel)]="mobile_number">
+                           -->
+                        </div>
+                        <div class="col-3">
+                            <button class="btn btn-info " (click)="sendOtp()" type="submit">{{auth.allLableShowObj[auth.language_cd+'LOGIN10']}}</button>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="form-group" class="row" *ngIf="otp_flag">
+                        <div class="col-3">
+                            Enter Otp:
+                        </div>
+                        <div class="col-6">
+                            <input class="form-control" id="text" type="password" name="otp" placeholder="{{auth.allLableShowObj[auth.language_cd+'LOGIN12']}}" [(ngModel)]="otp_no">
+                        </div>
+                        <div class="col-3">
+                            <button class="btn btn-info " (click)="sendOtp()" type="submit">{{auth.allLableShowObj[auth.language_cd+'LOGIN11']}}</button>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <button class="btn btn-info btn-block" (click)="LoginWithOtp()" type="submit">{{auth.allLableShowObj[auth.language_cd+'LOGIN7']}}</button>
+                    </div>
+
+                </div>
+                <div class="vl"></div>
+                <!--  -->
+                 <div class="col-5" style="margin-left:3%;" *ngIf="login_with_password">
+                    <br>
+                    <div class="text-center">
+                        <h6> {{auth.allLableShowObj[auth.language_cd+'LOGIN2']}}</h6>
+                    </div>
+                    <br> {{auth.allLableShowObj[auth.language_cd+'LOGIN3']}}: <input type="checkbox" style="margin-right:5%;" name="test" [checked]="currentlyChecked === check_box_type.APPLY_FOR_JOB" (click)="selectCheckBox(check_box_type.APPLY_FOR_JOB)">                    {{auth.allLableShowObj[auth.language_cd+'LOGIN4']}}: <input type="checkbox" name="test" [checked]="currentlyChecked === check_box_type.MODIFY_A_JOB" (click)="selectCheckBox(check_box_type.MODIFY_A_JOB)">
+                    <br>
+                    <br>
+                    <div class="form-group" *ngIf="currentlyChecked==0">
+                        <input class="form-control" type="email" name="email" placeholder="Enter mobile number" autocomplete="off" [(ngModel)]="obj.email">
+                    </div>
+                    <div class="form-group" *ngIf="currentlyChecked!=0">
+                        <input class="form-control" type="email" name="email" placeholder="Enter email" autocomplete="off" [(ngModel)]="obj.email">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" id="password" type="password" name="password" placeholder="{{auth.allLableShowObj[auth.language_cd+'LOGIN9']}}" [(ngModel)]="obj.password">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-info btn-block" (click)="login()" type="submit">{{auth.allLableShowObj[auth.language_cd+'LOGIN7']}}</button>
+                    </div>
+                </div>  
+
+                <!--  -->
+
+                <div class="col-5">
+                    <br>
+                    <div class="row" *ngIf="login_with_google_oath">
+                        <div class="col text-center">
+
+                            <!-- <h6>LOG IN USING YOUR GOOGLE ACCOUNT</h6> -->
+                            <h6>
+                                {{auth.allLableShowObj[auth.language_cd+'LOGIN5']}}
+                            </h6>
+                            <!-- =======
+                            <h6> {{auth.allLableShowObj[auth.language_cd+'LOGIN5']}}</h6>
+        >>>>>>> Stashed changes
+        ======= -->
+                            <!--         <h6>LOG IN USING YOUR GOOGLE ACCOUNT</h6>
+        >>>>>>> parent of 13e0c01 (Change) -->
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col text-center">
+                            <a class="btn btn-social-icon btn-google m-r-5" (click)="socialSignIn('google')"> <img src="assets/img/google_img.png" alt="Error Loading Image"></a>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+
+            </div>
+            <hr>
+            <br>
+
+        </form>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>
+
+<div class="modal" id="forget">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> Forgot Password:</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-4 text-right">
+                        Enter Phone Number:
+                    </div>
+                    <div class="col-6 text-center">
+                        <input class="form-control" type="number" [(ngModel)]="phone_no" name="phone_no" />
+                    </div>
+
+                </div>
+                <br *ngIf="your_password_flag">
+                <div class="row" *ngIf="your_password_flag">
+
+                    <div class="col-4 text-right">
+                        Your Password:
+                    </div>
+                    <div class="col-6 text-center">
+                        {{your_password}}
+                    </div>
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary" (click)="SubmitForgetPassword()">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="close()" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="multi_account">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> {{auth.allLableShowObj[auth.language_cd+'LOGIN14']}}:</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-4 text-right">
+                        {{auth.allLableShowObj[auth.language_cd+'LOGIN14']}} :
+                    </div>
+                    <div class="col-6 text-center">
+                        <ng-select [items]="AllAccountData" bindLabel="acct_desc" bindValue="b_acct_id" [multiple]="false" placeholder="{{auth.allLableShowObj[auth.language_cd+'LOGIN14']}}" [(ngModel)]="b_account_id" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                            [closeOnSelect]="true" name="b_acct_id">
+                        </ng-select>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary" (click)="submitAccount()">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <div class="modal" id="multi_role">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+           
+            <div class="modal-header">
+                <h4 class="modal-title"> Select Your Role Info:</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+           
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-4 text-right">
+                        Select Your Role :
+                    </div>
+                    <div class="col-6 text-center">
+                        <ng-select [items]="AllRoleZone" bindLabel="desc" bindValue="id" [multiple]="false" placeholder="Select Role" [(ngModel)]="data_auth_id" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="b_acct_id">
+                        </ng-select>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary" (click)="submitRoleAndZone()">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="close()" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div> -->

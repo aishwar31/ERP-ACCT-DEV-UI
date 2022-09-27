@@ -1,0 +1,29 @@
+node('buildagent'){
+   stage('pull from git'){
+    git branch:'HR+ACCOUNT+EMB-UI' , url:'git@github.com:Svayamtech/New-ERP-UI.git'
+   }
+     stage('install node module'){
+      sh 'npm i'
+      sh 'npm i socket.io'
+     sh 'sed -i "s/erp.upda.co.in/erpdev.upda.co.in/" src/app/authentication.service.ts'
+     sh 'sed -i "s/preprod.upda.co.in/erpdev.upda.co.in/" src/app/authentication.service.ts'
+     sh 'sed -i "s/erpuat.upda.co.in/erpdev.upda.co.in/" src/app/authentication.service.ts'
+
+
+     
+   }
+     stage('build'){
+      sh 'node --max_old_space_size=12288 node_modules/@angular/cli/bin/ng build --prod --base-href="/"'
+    }
+   dir('/home/jenkins/buildagents/workspace/dev_ui_deployment/dist/') {
+   stash 'build'
+  }
+}
+node('erpdev') {
+  dir('/home/jenkins/workspace/dev_build/') {
+  unstash 'build'
+  }
+  stage('deploy'){
+    sh 'cp -r /home/jenkins/workspace/dev_build/* /var/www/html/'
+    }
+}

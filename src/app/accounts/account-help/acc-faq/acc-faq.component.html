@@ -1,0 +1,76 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">        {{mainService.allLableShowObj[mainService.language_cd+'ACC_FAQ1']}}<!-- FAQ --></div>
+                </div>
+                <div class="ibox-body">
+                    <br>
+                    <!-- <div class="row">
+                        <div class="col-4">
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="example-container">
+
+                        <table mat-table [dataSource]="dataSource" matSort #sortCol3="matSort">
+
+                            <ng-container matColumnDef="s_no">
+                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>S. No.
+
+
+                                </th>
+                                <td mat-cell flex-stretch *matCellDef="let element;let i = index" class="left">
+                                    {{ i+1}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="question">
+                                <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Question
+                                </th>
+                                <td mat-cell flex-stretch *matCellDef="let element" class="left">
+                                    {{element['question']}}
+                                </td>
+                            </ng-container>
+
+
+
+                            <ng-container matColumnDef="answer">
+                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Answer
+                                </th>
+                                <td mat-cell flex-stretch *matCellDef="let element" class="left">
+                                    {{ element.answer}} </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns_for_FAQ"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns_for_FAQ;">
+                            </tr>
+                        </table>
+                        <mat-paginator #paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons>
+                        </mat-paginator>
+                    </div> -->
+
+
+                    <mat-accordion *ngFor="let ln of AllFAQ; let i = index;">
+                        <mat-expansion-panel (opened)="panelOpenState1 = true" (closed)="panelOpenState1 = false">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    {{ln['question']}}
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>{{ln['answer']}}</p>
+                        </mat-expansion-panel>
+                        <br>
+                    </mat-accordion>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

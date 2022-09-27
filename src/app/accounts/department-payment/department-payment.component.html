@@ -1,0 +1,240 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">
+                        <!-- Deviation -->Department Payment
+                    </div>
+                    <!-- <button class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">About</button> -->
+
+
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-7-1" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-line-chart"></i> <!-- All Deviation List -->Department Payment List</a>
+                        </li>
+
+
+                        <td>
+
+                        </td>
+
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-7-1">
+                            <br>
+                            <!--  <div class="row">
+
+                                <div class="col-4 text-right">
+                                    <h6> Select Project :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="filterService.filterObj['project']" bindLabel="desc" bindValue="code" [multiple]="false" placeholder="Select Project" [(ngModel)]="selectedProject" (change)="changeProject()" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        [closeOnSelect]="true" name="project_cd">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br> -->
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>
+                                        <!-- Select Work -->Select Module:
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="moduleArr" bindLabel="module_cd" bindValue="module_cd"
+                                        [multiple]="false" placeholder="Select Module"
+                                        [(ngModel)]="ListObj['module_cd']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="status">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+
+                                <div class="col-4 text-right">
+                                    <h6>
+                                        <!-- Select Deviation Number -->Select Status:
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="statusArr" bindLabel="value" bindValue="value"
+                                        [multiple]="false" placeholder="Select Status" [(ngModel)]="ListObj['status']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="status">
+                                    </ng-select>
+                                </div>
+
+
+                            </div><br>
+                            <div class="row">
+                                <div class="col-4">
+
+                                </div>
+                                <div class="col-4 text-center">
+                                    <button class="btn btn-primary" (click)="submit()">
+                                        <!-- Print -->Submit
+                                    </button>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="example-container">
+
+                                <table mat-table [dataSource]="datasource" matSort>
+
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>ID
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.id}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="local_doc_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Local
+                                            Document No
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element['local_doc_no']}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="module_doc_type">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Local
+                                            Document Type
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element['module_doc_type']}}
+                                        </td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="desc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            Description
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <!-- {{ element.dev_dt}}  -->
+                                            {{element['local_doc_desc']}}
+
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="doc_type">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Document
+                                            Type
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.doc_type}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="amt">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Amount
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.total_amt}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <!-- <button class="btn btn-success"   (click)="download(element)">View</button> &nbsp; -->
+
+                                            <button class="btn btn-primary" (click)="view(element)">
+                                                <!-- Print -->View Events
+                                            </button>&nbsp;
+                                            <button class="btn btn-info" *ngIf="element['status']=='APPROVED'"
+                                                (click)="process(element)">
+                                                <!-- Print -->Process
+                                            </button>&nbsp;
+                                            <button class="btn btn-danger" *ngIf="element['status']=='APPROVED'"
+                                                (click)="reject(element)">
+                                                <!-- Print -->Reject
+                                            </button>&nbsp;
+
+                                        </td>
+                                    </ng-container>
+
+
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator #paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons>
+                                </mat-paginator>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="modal" id="A">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Events</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <mat-form-field style="margin-left: 2%">
+                        <input matInput (keyup)="applyFilter2($event.target.value)" placeholder="Filter">
+                    </mat-form-field>
+                </div>
+
+            </div>
+
+            <div class="modal-body">
+                <div class="example-container">
+
+                    <table mat-table [dataSource]="datasource1" matSort #sortCol2="matSort">
+
+                        <ng-container matColumnDef="{{col}}" *ngFor="let col of displayedColumns1">
+                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                {{fieldTechNameTOBusinessName[col]}}
+                            </th>
+                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                {{element[col]}}
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns1;">
+                        </tr>
+                    </table>
+                    <mat-paginator #paginator1 [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

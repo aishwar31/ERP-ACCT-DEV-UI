@@ -1,0 +1,299 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Users1']}}
+                        <!-- Users -->
+                    </div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-7-1" (click)="refresh()" data-toggle="tab"><i
+                                    class="fa fa-line-chart"></i>
+                                {{mainServices.allLableShowObj[mainServices.language_cd+'AC_Users3']}}
+                                <!-- User List -->
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-2" (click)="refresh()" data-toggle="tab"><i
+                                    class="fa fa-plus-circle" aria-hidden="true"> </i>
+                                {{mainServices.allLableShowObj[mainServices.language_cd+'AC_Users2']}}
+                                <!-- Create User -->
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-3" data-toggle="tab"><i class="ti-settings"
+                                    aria-hidden="true"> </i> Update User
+                            </a>
+                        </li> -->
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-7-1">
+                            <br>
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)"
+                                            placeholder="{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Users4']}}">
+                                        <!-- Filter -->
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-4">
+                                </div>
+                                <div class="col-4">
+                                    <!-- <button class="btn btn-danger" (click)="deleteAll()">Delete All</button> -->
+                                </div>
+                            </div>
+
+
+                            <div class="example-container">
+
+                                <table mat-table [dataSource]="datasource" matSort>
+
+
+
+                                    <ng-container matColumnDef="user_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainServices.allLableShowObj[mainServices.language_cd+'AC_Users1']}}
+                                            <!-- User ID -->
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.user_id }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainServices.allLableShowObj[mainServices.language_cd+'AC_Users6']}}
+                                            <!-- User Name -->
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.party_name }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="phone_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainServices.allLableShowObj[mainServices.language_cd+'AC_Users7']}}
+                                            <!-- Phone No -->
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.phone_no }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="email">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainServices.allLableShowObj[mainServices.language_cd+'AC_Users8']}}
+                                            <!-- Email -->
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.contact_email}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="role_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            {{mainServices.allLableShowObj[mainServices.language_cd+'AC_Users10']}}
+                                            <!-- Role Description -->
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.role_name}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button (click)="modalOpen(element)" class="btn btn-danger">Delete</button>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-7-2">
+                            <br>
+
+                            <!-- <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3">
+                                    <h6 style="margin-left: 2%;">
+                                        Enter Mobile Number : <span style="color: red;">*</span></h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="email" placeholder="Enter Mobile Number" class="form-control" [(ngModel)]="Obj['credential']">
+                                </div>
+                                <div class="col-3"></div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button (click)="search()" class="btn btn-primary">Search</button>
+                                </div>
+                            </div>
+                            <br>
+                            <hr> -->
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3">
+                                    <h6 style="margin-left: 2%;">
+                                        {{mainServices.allLableShowObj[mainServices.language_cd+'AC_Users10']}}
+                                        <!-- Select Party --> : <span style="color: red;"> *</span>
+                                    </h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="allSearchableEmp" bindLabel="desc" bindValue="user_id"
+                                        [multiple]="false"
+                                        placeholder="{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Users10']}}"
+                                        [(ngModel)]="Obj['user_id']" [selectableGroup]="true" (change)="setDetails()"
+                                        [selectableGroupAsModel]="true" name="chart_of_account0">res
+                                    </ng-select><!-- Select Party -->
+                                </div>
+                                <div class="col-3"></div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3">
+                                    <h6 style="margin-left: 2%;">
+                                        {{mainServices.allLableShowObj[mainServices.language_cd+'AC_Users13']}}
+                                        <!--  Select Role --> : <span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [multiple]="false"
+                                        placeholder="{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Users13']}}"
+                                        [items]="current_role" bindLabel="role_name" bindValue="role_cd"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        aria-placeholder="Select Role" [closeOnSelect]="true" name="hierarchy"
+                                        [(ngModel)]="Obj['role_cd']">
+                                        <!-- Select Role -->
+                                    </ng-select>
+                                </div>
+                                <div class="col-3"></div>
+
+
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary"
+                                        (click)="submit()">{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Users14']}}
+                                        <!-- Submit -->
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-7-3">
+                            <div class="row">
+                                <div class="col-4">
+                                    <h6 style="margin-left: 2%;">
+                                        {{mainServices.allLableShowObj[mainServices.language_cd+'AC_Users15']}}
+                                        <!-- Enter Email --> :
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="email"
+                                        placeholder="{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Users15']}}"
+                                        class="form-control" [(ngModel)]="Obj['email']"><!-- Enter Email -->
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4">
+                                    <h6 style="margin-left: 2%;">
+                                        {{mainServices.allLableShowObj[mainServices.language_cd+'AC_Users12']}}
+                                        <!-- Enter Phone Number --> : <span style="color: red;">*</span>
+                                    </h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="number"
+                                        placeholder="{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Users12']}}"
+                                        class="form-control" [(ngModel)]="Obj['phone_no']"><!-- Enter phone number -->
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary"
+                                        (click)="update()">{{mainServices.allLableShowObj[mainServices.language_cd+'AC_Users17']}}
+                                        <!-- Update -->
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>Loading....</ngx-spinner>
+<div class="modal" id="myModal1">
+    <div class="modal-dialog modal-lg" style="max-width: 80%;">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title" style="font: bold; ">All Roles</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="card">
+                    <div style="margin: 2%;">
+                        <table class="table table-borederd" style="width: 80%; margin-left: 10%;">
+                            <thead>
+                                <tr>
+                                    <th>S No.</th>
+                                    <th>Role Description</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of single_users_role,let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td>{{item['role_desc']}}</td>
+                                    <td>
+                                        <button class="btn btn-danger"
+                                            *ngIf="single_users_role.length==1 && item['role_cd']=='ACCT_EMP'"
+                                            (click)="delete(item)">Delete</button>
+                                            <button class="btn btn-danger"
+                                            *ngIf="single_users_role.length==1 && item['role_cd']!='ACCT_EMP'"
+                                            (click)="delete(item)">Delete</button>
+                                        <button class="btn btn-danger"
+                                            *ngIf="single_users_role.length!=1 && item['role_cd']!='ACCT_EMP'"
+                                            (click)="delete(item)">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

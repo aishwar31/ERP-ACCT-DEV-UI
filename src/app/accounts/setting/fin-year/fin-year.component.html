@@ -1,0 +1,275 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Financial Year Manage</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" ><i
+                                    class="ti-bar-chart"></i>
+                                All Financial Year List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" ><i
+                                    class="ti-settings"></i> Create Financial Year</a>
+                        </li>
+
+
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-9">
+                                    <h5><b>Current Fiscal Year</b></h5>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-10">
+                                    <table>
+                                        <tr>
+                                            <th>Fiscal Year</th>
+                                            <th>Calendar</th>
+                                            <th>Start</th>
+                                            <th>End</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+    
+                                        </tr>
+                                        <tr>
+                                            <td>{{openFinYear['fin_year']}}</td>
+                                            <td>{{openFinYear['calender']}}</td>
+                                            <td>{{openFinYear['start_date']}}</td>
+                                            <td>{{openFinYear['end_date']}}</td>
+                                            <td>{{openFinYear['status']}}</td>
+    
+                                            <td><button class="btn btn-success">Close Year</button></td>
+    
+                                        </tr>
+                                    </table>
+                                </div>
+                             
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-7">
+                                    <h5><b>Future Fiscal Year</b></h5>
+                                </div>
+                                <div class="col-1"><button class="btn btn-primary">Add Next</button></div>
+
+                                
+                            </div>
+
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-8"><table>
+                                    <tr>
+                                        <th>Fiscal Year</th>
+                                        <th>Calendar</th>
+                                        <th>Start</th>
+                                        <th>End</th>
+                                        <th>Status</th>
+
+                                    </tr>
+                                    <tr *ngFor="let futureObj of futureFinYear">
+                                        <td>{{futureObj['fin_year']}}</td>
+                                        <td>{{futureObj['calender']}}</td>
+                                        <td>{{futureObj['start_date']}}</td>
+                                        <td>{{futureObj['end_date']}}</td>
+                                        <td>{{futureObj['status']}}</td>
+
+
+                                    </tr>
+                                </table>
+                            </div>
+
+                                
+                            </div>
+                            <br>
+                            
+                            <br>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-8">
+                                    <h5><b>Closed Fiscal Year</b></h5>
+                                </div>
+
+                                
+                            </div>
+
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-8"><table>
+                                    <tr>
+                                        <th>Fiscal Year</th>
+                                        <th>Calendar</th>
+                                        <th>Start</th>
+                                        <th>End</th>
+                                        <th>Status</th>
+
+                                    </tr>
+                                    <tr *ngFor="let closedObj of closedFinYear">
+                                        <td>{{closedObj['fin_year']}}</td>
+                                        <td>{{closedObj['calender']}}</td>
+                                        <td>{{closedObj['start_date']}}</td>
+                                        <td>{{closedObj['end_date']}}</td>
+                                        <td>{{closedObj['status']}}</td>
+
+
+                                    </tr>
+                                </table>
+                            </div>
+
+                                
+                            </div>
+                            <!-- <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element.id }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="fin_year">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Financial Year
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.fin_year }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Status
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.status }} </td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary" *ngIf="element.status=='INACTIVE'" (click)="active(element)">Active</button>
+                                            <button class="btn btn-outline-danger" *ngIf="element.status=='ACTIVE'" (click)="deactive(element)">Deactive</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div> -->
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Select Fiscal Calendar :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="calender" bindLabel="code" bindValue="code" [multiple]="false"
+                                        placeholder="Select Fiscal Calendar" [(ngModel)]="obj['calender']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="calender" (change)="calenderChange()">
+                                        <!-- Select chart of account -->
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2">
+
+                                </div>
+                                <div class="col-8" style=" border-style: groove ;">
+
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-4 text-right">
+                                            <h6>Fiscal Year </h6>
+
+                                        </div>
+                                        <div class="col-4">
+                                            <input disabled type="text" [(ngModel)]="obj['fin_year']" class="form-control">
+
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4 text-right">
+                                            <h6> Fiscal Year Start Date</h6>
+
+                                        </div>
+                                        <div class="col-4">
+                                            <input disabled type="text" [(ngModel)]="obj['start_date']" class="form-control">
+
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4 text-right">
+                                            <h6>Fiscal Year End Date</h6>
+
+                                        </div>
+                                        <div class="col-4">
+                                            <input disabled type="text" [(ngModel)]="obj['end_date']" class="form-control">
+
+
+                                        </div>
+                                    </div>
+                                    <br>
+
+                                </div>
+                                <div class="col-2">
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="addNewRow()">Submit</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>
